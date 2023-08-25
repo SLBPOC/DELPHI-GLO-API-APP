@@ -1,0 +1,68 @@
+[
+  {
+    "WellName": "Well2",
+    "CustomAlertName": "ee",
+    "NotificationType": "Email",
+    "Priority": "Medium",
+    "Category": "Current SPM",
+    "Operator": "<",
+    "Value": "Min load",
+    "IsActive": false,
+    "Id": 8
+  },
+  {
+    "WellName": "Well2",
+    "CustomAlertName": "rr",
+    "NotificationType": "Email",
+    "Priority": "Low",
+    "Category": "Current PF",
+    "Operator": "<",
+    "Value": "Max load",
+    "IsActive": true,
+    "Id": 11
+  },
+  {
+    "WellName": "Well3",
+    "CustomAlertName": "test",
+    "NotificationType": "Email",
+    "Priority": "Low",
+    "Category": "Current PF",
+    "Operator": "<>",
+    "Value": "Max load",
+    "IsActive": false,
+    "Id": 12
+  },
+  {
+    "WellName": "Well2",
+    "CustomAlertName": "xx",
+    "NotificationType": "Email",
+    "Priority": "High",
+    "Category": "Current SPM",
+    "Operator": "<>",
+    "Value": "Any numerical value",
+    "IsActive": false,
+    "Id": 13
+  },
+  {
+    "WellName": "Well3",
+    "CustomAlertName": "jj",
+    "NotificationType": "Text",
+    "Priority": "Low",
+    "Category": "Current SPM",
+    "Operator": "<",
+    "Value": "Min load",
+    "IsActive": true,
+    "Id": 14
+  },
+  {
+    "WellName": "Well3",
+    "CustomAlertName": "jj1",
+    "NotificationType": "Email",
+    "Priority": "High",
+    "Category": "Load",
+    "Operator": ">",
+    "Value": "Min load",
+    "IsActive": false,
+    "Id": 15
+  }
+]
