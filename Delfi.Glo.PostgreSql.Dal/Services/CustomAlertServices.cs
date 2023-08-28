@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Delfi.Glo.Entities;
 using Newtonsoft.Json;
-using Delfi.Glo.PostgreSql.Dal.Migrations;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {

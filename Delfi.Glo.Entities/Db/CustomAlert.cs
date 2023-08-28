@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Delfi.Glo.Entities.Db
 {
-    [Table("CustomAlert")]
+    //[Table("CustomAlert")]
     public class CustomAlert:DbBaseEntity
     {
         public string WellName { get;   set; }

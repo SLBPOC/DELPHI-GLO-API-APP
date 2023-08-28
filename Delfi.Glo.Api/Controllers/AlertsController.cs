@@ -10,7 +10,7 @@ namespace Delfi.Glo.Api.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class AlertsController : ControllerBase
+    public class AlertsController : Controller
     {
         private readonly ILogger<AlertsController> _logger;
         private readonly ICrudService<AlertsDto> _alertsService;
@@ -45,7 +45,6 @@ namespace Delfi.Glo.Api.Controllers
             return items;
         }
         [HttpPost("GetAlertsList")]
-
         public async Task<ActionResult> GetAlertsListByFilters(SearchCreteria creteria, DateTime? startDate, DateTime? endDate)
        {
             var alertssDto = new List<AlertsDto>();
@@ -56,7 +55,20 @@ namespace Delfi.Glo.Api.Controllers
 
             if (alerts != null)
             {
-                if(startDate!=null && endDate!=null)
+                foreach (var alert in alerts.Where(a => a.SnoozeFlag == true))
+                {
+                    var snInterval = (alert.SnoozeInterval == null || alert.SnoozeInterval == "" ? "0" : alert.SnoozeInterval);
+                    var snFlag = alert.SnoozeFlag;
+                    var snDateTime = alert.SnoozeDateTime;
+                    var s = Convert.ToDateTime(snDateTime).AddHours(Convert.ToInt32(snInterval));
+                    if (s < DateTime.Now)
+                        alert.SnoozeFlag = false;
+                    else
+                        alert.SnoozeFlag = true;
+                }
+                alerts = alerts.Where(a => a.SnoozeFlag == false);
+
+                if (startDate!=null && endDate!=null)
                 {
                     alerts = alerts.Where(c => c.TimeandDate >= startDate && c.TimeandDate <= endDate);
                 }
@@ -137,6 +149,46 @@ namespace Delfi.Glo.Api.Controllers
             }
             return Ok(JsonConvert.SerializeObject(new { success = true, data = alertssDto, totalCount = Count }));
 
+        }
+        [HttpPost("GetSnoozeByAlert")]
+        public async Task<ActionResult> GetSnoozeByAlert(int alertId, string snoozeBy)
+        {
+            int Count = 0;
+            int High = 0;
+            int Medium = 0;
+            int Low = 0;
+            int Cleared = 0; 
+            var filePath = @"D:\Delfi-glo\GLO-Back\GasLift\Delfi.Glo.Api\JSON\Alert.json";
+            var alertsList = await GetAllAlertListByJson();
+            alertsList.First(a => a.Id == alertId).SnoozeFlag = true;
+            alertsList.First(a => a.Id == alertId).SnoozeDateTime = DateTime.Now.ToString();
+            alertsList.First(a => a.Id == alertId).SnoozeInterval = snoozeBy;
+            var jsonData = JsonConvert.SerializeObject(alertsList, Formatting.Indented);
+            System.IO.File.WriteAllText(filePath, jsonData);
+            if (alertsList != null)
+            {
+                Count = alertsList.Count();
+                High = alertsList.Where(a => a.AlertLevel == "High").Count();
+                Medium = alertsList.Where(a => a.AlertLevel == "Medium").Count();
+                Low = alertsList.Where(a => a.AlertLevel == "Low").Count();
+                Cleared = alertsList.Where(a => a.AlertLevel == "Cleared").Count();
+            }
+            return Json(new { success = true, data = alertsList, totalCount = Count, totalHigh = High, totalMedium = Medium, totalLow = Low, totalCleared = Cleared });
+        }
+
+        [HttpPost("ClearAlert")]
+        public async Task<bool> SetClearAlert(int alertId, string comment)
+        {
+            var filePath = @"D:\Delfi-glo\GLO-Back\GasLift\Delfi.Glo.Api\JSON\Alert.json";
+            var alertsList = await GetAllAlertListByJson();
+            alertsList.First(a => a.Id == alertId).Comment = comment;
+            alertsList.First(a => a.Id == alertId).AlertLevel = "Cleared";
+
+
+
+            var jsonData = JsonConvert.SerializeObject(alertsList, Formatting.Indented);
+            System.IO.File.WriteAllText(filePath, jsonData);
+            return true;
         }
     }
 }

@@ -14,6 +14,10 @@ namespace Delfi.Glo.Entities.Dto
         public string AlertDescription { get;  set; }
         public string AlertType { get;  set; }
         public string AlertStatus { get;  set; }
+        public bool SnoozeFlag { get; set; }
+        public string? SnoozeDateTime { get; set; }
+        public string? SnoozeInterval { get; set; }
+        public string? Comment { get; set; }
         public string UserId { get; set; }
     }
 }
