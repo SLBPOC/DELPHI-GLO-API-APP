@@ -19,5 +19,8 @@ namespace Delfi.Glo.Entities.Dto
         public string Operator { get;  set; }
         public string Value { get;  set; }
         public bool IsActive { get;  set; }
+        public string? StartDate { get; set; }
+        public string? EndDate { get; set; }
+        
     }
 }

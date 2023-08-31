@@ -1,17 +1,14 @@
 ﻿using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
 using Delfi.Glo.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Delfi.Glo.Entities;
+//using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+//using System.Web.Mvc;
+using static Delfi.Glo.Entities.Dto.CustomAlertDto;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
-    public class CustomAlertServices : ICrudService<CustomAlertDto>
+    public class CustomAlertServices : ICustomAlertService<CustomAlertDto>
     {
         private readonly DbUnitWork _dbUnit;
 
@@ -58,11 +55,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             return true;
         }
 
-        public Task<bool> ExistsAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<IEnumerable<CustomAlertDto>> GetAllAsync()
         {
             var customalerts = _dbUnit.customalerts.GetAll().ToList();
@@ -83,11 +75,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 customalertsDto.Add(customalertDto);
             }
             return customalertsDto;
-        }
-
-        public Task<CustomAlertDto> GetAsync(int id)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<IEnumerable<CustomAlertDto>> GetFromJsonFile()
@@ -119,42 +106,36 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             return item;
         }
 
-        public async Task<CustomAlertDto> CreateAsyncAlertCustom(CustomAlertDto alertCustomDto)
+        public async Task<IEnumerable<CustomAlertDto>> CreateAsyncAlertCustom(CustomAlertDto alertCustom)
         {
-            var filePath = @"D:\Delfi-glo\GLO-Back\GasLift\Delfi.Glo.Api\JSON\AlertCustom.json";
-            // Read existing json data
+            var filePath = @"D:\GLO-GIT\GLO-BE\DELPHI-GLO-API-APP\Delfi.Glo.Api\JSON\AlertCustom.json";
             var jsonData = System.IO.File.ReadAllText(filePath);
-            // De-serialize to object or create new list
-            var alertCustomList = JsonConvert.DeserializeObject<List<CustomAlertDto>>(jsonData)
+            List<CustomAlertDto> alertCustomList = JsonConvert.DeserializeObject<List<CustomAlertDto>>(jsonData)
                                   ?? new List<CustomAlertDto>();
-            // Add any new employees
+            
             alertCustomList.Add(new CustomAlertDto()
             {
-                //Id = alertCustomList.Count() + 1,
                 Id = alertCustomList[alertCustomList.Count - 1].Id + 1,
-               // WellId = alertCustomDto.WellId,
-                WellName = alertCustomDto.WellName,
-                CustomAlertName = alertCustomDto.CustomAlertName,
-                Category = alertCustomDto.Category,
-                Priority = alertCustomDto.Priority,
-                NotificationType = alertCustomDto.NotificationType,
-                Operator = alertCustomDto.Operator,
-                Value = alertCustomDto.Value,
-                IsActive = alertCustomDto.IsActive
-                //DateAndTime = alertCustomDto.DateAndTime
+                WellName = alertCustom.WellName,
+                CustomAlertName = alertCustom.CustomAlertName,
+                Category = alertCustom.Category,
+                Priority = alertCustom.Priority,
+                NotificationType = alertCustom.NotificationType,
+                Operator = alertCustom.Operator,
+                Value = alertCustom.Value,
+                IsActive = alertCustom.IsActive,
+                StartDate = alertCustom.StartDate,
+                EndDate = alertCustom.EndDate
             });
 
-
-
-            // Update json data string
             jsonData = JsonConvert.SerializeObject(alertCustomList, Formatting.Indented);
             System.IO.File.WriteAllText(filePath, jsonData);
-            return alertCustomDto;
+            return alertCustomList;
         }
 
         public async Task<bool> DeleteAsyncAlertCustom(int id)
         {
-            var filePath = @"D:\Delfi-glo\GLO-Back\GasLift\Delfi.Glo.Api\JSON\AlertCustom.json";
+            var filePath = @"D:\GLO-GIT\GLO-BE\DELPHI-GLO-API-APP\Delfi.Glo.Api\JSON\AlertCustom.json";
             // Read existing json data
             var jsonData = System.IO.File.ReadAllText(filePath);
             // De-serialize to object or create new list
@@ -177,7 +158,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
         public async Task<bool> UpdateAsyncAlertCustom(int id, bool check)
         {
-            var filePath = @"D:\Delfi-glo\GLO-Back\GasLift\Delfi.Glo.Api\JSON\AlertCustom.json";
+            var filePath = @"D:\GLO-GIT\GLO-BE\DELPHI-GLO-API-APP\Delfi.Glo.Api\JSON\AlertCustom.json";
             
             var jsonData = System.IO.File.ReadAllText(filePath);
             

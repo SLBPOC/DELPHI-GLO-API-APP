@@ -8,6 +8,8 @@
     "Operator": "<",
     "Value": "Min load",
     "IsActive": false,
+    "StartDate": "2023-08-29T11:30:20.335Z",
+    "EndDate": "2023-08-30T11:30:20.335Z",
     "Id": 8
   },
   {
@@ -19,50 +21,73 @@
     "Operator": "<",
     "Value": "Max load",
     "IsActive": true,
+    "StartDate": "2023-08-29T11:30:20.335Z",
+    "EndDate": "2023-08-30T11:30:20.335Z",
     "Id": 11
   },
   {
-    "WellName": "Well3",
-    "CustomAlertName": "test",
-    "NotificationType": "Email",
-    "Priority": "Low",
-    "Category": "Current PF",
+    "WellName": "Well2",
+    "CustomAlertName": "tej",
+    "NotificationType": "Text",
+    "Priority": "High",
+    "Category": "Load",
     "Operator": "<>",
-    "Value": "Max load",
+    "Value": "Any numerical value",
+    "IsActive": true,
+    "StartDate": "2023-09-27T16:38:29.076Z",
+    "EndDate": "2023-09-29T16:38:29.076Z",
+    "Id": 37
+  },
+  {
+    "WellName": "Well1",
+    "CustomAlertName": "sh",
+    "NotificationType": "Text",
+    "Priority": "High",
+    "Category": "Fluid Pound Events",
+    "Operator": "=",
+    "Value": "Any numerical value",
+    "IsActive": true,
+    "StartDate": "2023-09-21T14:37:36.031Z",
+    "EndDate": "2023-09-25T14:37:36.031Z",
+    "Id": 38
+  },
+  {
+    "WellName": "Well1",
+    "CustomAlertName": "fd",
+    "NotificationType": "Text",
+    "Priority": "High",
+    "Category": "Load",
+    "Operator": "=",
+    "Value": "Any numerical value",
     "IsActive": false,
-    "Id": 12
+    "StartDate": "2023-08-29T16:40:26.935Z",
+    "EndDate": "2023-08-30T16:40:26.935Z",
+    "Id": 39
   },
   {
     "WellName": "Well2",
-    "CustomAlertName": "xx",
-    "NotificationType": "Email",
+    "CustomAlertName": "dd",
+    "NotificationType": "Text",
+    "Priority": "High",
+    "Category": "Current SPM",
+    "Operator": "=",
+    "Value": "Any numerical value",
+    "IsActive": true,
+    "StartDate": "2023-08-29T14:40:53.190Z",
+    "EndDate": "2023-08-31T14:40:53.190Z",
+    "Id": 40
+  },
+  {
+    "WellName": "Well2",
+    "CustomAlertName": "ghj",
+    "NotificationType": "Text",
     "Priority": "High",
     "Category": "Current SPM",
     "Operator": "<>",
     "Value": "Any numerical value",
-    "IsActive": false,
-    "Id": 13
-  },
-  {
-    "WellName": "Well3",
-    "CustomAlertName": "jj",
-    "NotificationType": "Text",
-    "Priority": "Low",
-    "Category": "Current SPM",
-    "Operator": "<",
-    "Value": "Min load",
     "IsActive": true,
-    "Id": 14
-  },
-  {
-    "WellName": "Well3",
-    "CustomAlertName": "jj1",
-    "NotificationType": "Email",
-    "Priority": "High",
-    "Category": "Load",
-    "Operator": ">",
-    "Value": "Min load",
-    "IsActive": false,
-    "Id": 15
+    "StartDate": "2023-08-30T14:45:49.496Z",
+    "EndDate": "2023-08-31T14:45:49.496Z",
+    "Id": 41
   }
 ]
