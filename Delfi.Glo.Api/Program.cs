@@ -9,6 +9,7 @@ using Delfi.Glo.PostgreSql.Dal.Services;
 using Delfi.Glo.Repository;
 using Serilog;
 using Delfi.Glo.Api.Extensions;
+using Delfi.Glo.Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,7 @@ builder.Services.ConfigureRepositoryWrapper();
 
 builder.Services.AddScoped<ICrudService<AlertsDto>, AlertsService>();
 builder.Services.AddScoped<ICustomAlertService<CustomAlertDto>, CustomAlertServices>();
+builder.Services.AddScoped<IFilterService<WellDto, SearchCreteria>, WellService>();
 
 builder.Services.AddCors(options =>
 {
