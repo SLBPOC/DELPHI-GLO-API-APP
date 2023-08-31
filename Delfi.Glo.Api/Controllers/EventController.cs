@@ -37,17 +37,7 @@ namespace Delfi.Glo.Api.Controllers
 
             return await _eventService.GetAsync(id);
         }
-        [HttpGet("GetAllEventListByJson")]
-        public async Task<IEnumerable<EventDto>> GetAllEventListByJson()
-        {
-            var items = new List<EventDto>();
-            using (StreamReader r = new StreamReader("JSON/Event.json"))
-            {
-                string json = r.ReadToEnd();
-                items = JsonConvert.DeserializeObject<List<EventDto>>(json);
-            }
-            return items;
-        }
+    
 
         [HttpPost("GetEventList")]
 
@@ -57,7 +47,7 @@ namespace Delfi.Glo.Api.Controllers
 
             int Count = 0;
 
-            var events = await GetAllEventListByJson();
+            var events = await _eventService.GetAllListByJson();
 
             if (events != null)
             {

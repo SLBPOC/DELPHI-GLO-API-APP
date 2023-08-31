@@ -12,7 +12,7 @@
                 DbConnectionString = Environment.GetEnvironmentVariable("connectionString");
 
             if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IsAuthenticationRequired")))
-                IsAuthenticationRequired = Boolean.Parse(Environment.GetEnvironmentVariable("IsAuthenticationRequired")!);
+                IsAuthenticationRequired = bool.Parse(Environment.GetEnvironmentVariable("IsAuthenticationRequired")!);
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
 using Delfi.Glo.Repository;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
@@ -51,7 +53,17 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         {
             throw new NotImplementedException();
         }
-
+   
+        public async Task<IEnumerable<EventDto>> GetAllListByJson()
+        {
+            var items = new List<EventDto>();
+            using (StreamReader r = new StreamReader("JSON/Event.json"))
+            {
+                string json = r.ReadToEnd();
+                items = JsonConvert.DeserializeObject<List<EventDto>>(json);
+            }
+            return items;
+        }
         public async Task<IEnumerable<EventDto>> GetAllAsync()
         {
             var events = _dbUnit.events.GetAll().ToList();

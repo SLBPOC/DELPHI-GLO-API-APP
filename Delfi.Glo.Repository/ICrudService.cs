@@ -13,6 +13,8 @@
         Task<bool> ExistsAsync(int id);        
         Task<bool> UpdateAsyncAlertCustom(int id, bool check);
         Task<T> GetAlertCustomByAlertId(int id);
-        
+
+        Task<IEnumerable<T>> GetAllListByJson();
+
     }
 }
