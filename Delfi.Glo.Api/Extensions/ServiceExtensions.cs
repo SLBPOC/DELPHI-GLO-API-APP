@@ -19,7 +19,7 @@ namespace Delfi.Glo.Api.Extensions
             //builder.Services.AddScoped<IWellService<GeneralInfoDto>, WellService>();
             services.AddScoped<ICrudService<EventDto>, EventService>();
             services.AddScoped<ICrudService<WellDto>, WellService>();
-            services.AddScoped<ICrudService<CustomAlertDto>, CustomAlertServices>();
+            services.AddScoped<ICustomAlertService<CustomAlertDto>, CustomAlertServices>();
         }
     }
 }

@@ -36,7 +36,7 @@ builder.Services.ConfigureRepositoryWrapper();
 
 
 builder.Services.AddScoped<ICrudService<AlertsDto>, AlertsService>();
-builder.Services.AddScoped<ICrudService<CustomAlertDto>, CustomAlertServices>();
+builder.Services.AddScoped<ICustomAlertService<CustomAlertDto>, CustomAlertServices>();
 
 builder.Services.AddCors(options =>
 {
