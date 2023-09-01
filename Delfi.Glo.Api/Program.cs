@@ -9,6 +9,9 @@ using Delfi.Glo.PostgreSql.Dal.Services;
 using Delfi.Glo.Repository;
 using Serilog;
 using Delfi.Glo.Api.Extensions;
+using Delfi.Glo.Api.Configuration;
+using NLog;
+using NLog.Web;
 using Delfi.Glo.Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 //configure Serilog
-builder.Services.AddLogging(logginBuilder => logginBuilder.AddSerilog());
+//builder.Services.AddLogging(logginBuilder => logginBuilder.AddSerilog());
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -32,14 +35,19 @@ builder.Services.AddSingleton(environmentVariables);
 builder.Services.AddDbContext<ApplicationContext>(option =>
     option.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSqlConnectionString")));
 
+GlobalDiagnosticsContext.Set("connectionString", builder.Configuration.GetConnectionString("PostgreSqlConnectionString"));
+// Add NLog for Logging
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
+
 builder.Services.ConfigureRepositoryWrapper();
 // TODO: add custom services to container
+builder.Services.AddCoreServices(builder.Configuration);
 
 
 builder.Services.AddScoped<ICrudService<AlertsDto>, AlertsService>();
 builder.Services.AddScoped<ICustomAlertService<CustomAlertDto>, CustomAlertServices>();
 builder.Services.AddScoped<IFilterService<WellDto, SearchCreteria>, WellService>();
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder => builder

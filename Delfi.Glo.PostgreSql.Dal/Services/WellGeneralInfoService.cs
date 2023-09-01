@@ -78,6 +78,11 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
         }
 
+        public Task<IEnumerable<WellGeneralInfoDto>> GetAllListByJson()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<WellGeneralInfoDto> GetAsync(int id)
         {
             var obj = _dbUnit.generalInfo.FirstOrDefault(x => x.Id == id);

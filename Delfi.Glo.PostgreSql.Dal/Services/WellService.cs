@@ -210,6 +210,12 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
             return wellsDto;
         }
+
+        public Task<IEnumerable<WellDto>> GetAllListByJson()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<WellDto> GetAsync(int id)
         {
             var wells = await GetFromJsonFile();

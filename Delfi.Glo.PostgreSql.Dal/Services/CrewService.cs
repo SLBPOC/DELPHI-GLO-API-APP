@@ -83,5 +83,10 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<CrewDto>> GetAllListByJson()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

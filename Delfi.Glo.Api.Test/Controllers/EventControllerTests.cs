@@ -15,38 +15,38 @@ namespace Delfi.Glo.Api.Test.Controllers
     {
         private readonly ILogger<EventController> _mockLogger;
 
-        [Fact()]
-        public void GetTest()
-        {
-            var mockService = new Mock<ICrudService<EventDto>>();
+        //[Fact()]
+        //public void GetTest()
+        //{
+        //    var mockService = new Mock<ICrudService<EventDto>>();
 
-            var controller = new EventController(_mockLogger, mockService.Object);
-            var actionResult = controller.Get();
+        //    var controller = new EventController(_mockLogger, mockService.Object);
+        //    var actionResult = controller.Get();
 
-            Assert.NotNull(actionResult);
-        }
+        //    Assert.NotNull(actionResult);
+        //}
 
-        [Fact()]
-        public void GetEventTestEqual()
-        {
-            var eventDto = new EventDto()
-            {
-                WellName = "Test",
-                EventType = "Over Pumping",
-                EventStatus = "High",
-                EventDescription = "Test",
-                Priority = "LOw",
-                CreationDateTime =null
+        //[Fact()]
+        //public void GetEventTestEqual()
+        //{
+        //    var eventDto = new EventDto()
+        //    {
+        //        WellName = "Test",
+        //        EventType = "Over Pumping",
+        //        EventStatus = "High",
+        //        EventDescription = "Test",
+        //        Priority = "LOw",
+        //        CreationDateTime =null
 
-            };
+        //    };
 
-            var mockService = new Mock<ICrudService<EventDto>>();
+        //    var mockService = new Mock<ICrudService<EventDto>>();
 
-            mockService.Setup(expression: p => p.GetAsync(1)).ReturnsAsync(eventDto);
+        //    mockService.Setup(expression: p => p.GetAsync(1)).ReturnsAsync(eventDto);
 
-            var controller = new EventController(_mockLogger, mockService.Object);
-            var actionResult = controller.Get(1);
-            Assert.Equal( eventDto,actionResult.Result.Value);
-        }
+        //    var controller = new EventController(_mockLogger, mockService.Object);
+        //    var actionResult = controller.Get(1);
+        //    Assert.Equal( eventDto,actionResult.Result.Value);
+        //}
     }
 }

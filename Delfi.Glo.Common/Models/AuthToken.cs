@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Delfi.Glo.PostgreSql.Dal.Services
+namespace Delfi.Glo.Common.Models
 {
     public class AuthToken
     {

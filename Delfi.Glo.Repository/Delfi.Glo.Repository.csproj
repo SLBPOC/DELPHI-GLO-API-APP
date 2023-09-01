@@ -14,4 +14,9 @@
 		<ProjectReference Include="..\Delfi.Glo.Entities\Delfi.Glo.Entities.csproj" />
 	</ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Delfi.Glo.Common\Delfi.Glo.Common.csproj" />
+    <ProjectReference Include="..\Delfi.Glo.Entities\Delfi.Glo.Entities.csproj" />
+  </ItemGroup>
+
 </Project>
