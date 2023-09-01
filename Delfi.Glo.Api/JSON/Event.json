@@ -2,7 +2,7 @@
   {
     "eventId": 1,
     "wellId": "W001",
-    "wellName": "Apache 24 FED 11",
+    "WellName": "Apache 24 FED 11",
     "Priority": "High",
     "CreationDateTime": "2023-07-09T11:30:20.335Z",
     "EventDescription": "Flatlining",
@@ -13,7 +13,7 @@
   {
     "eventId": 2,
     "wellId": "W001",
-    "wellName": "Apache 23 FED 11",
+    "WellName": "Apache 23 FED 11",
     "Priority": "Medium",
     "CreationDateTime": "2023-07-09T11:30:20.335Z",
     "EventDescription": "Flatlining",
@@ -23,10 +23,140 @@
   {
     "eventId": 3,
     "wellId": "W001",
-    "wellName": "Apache 22 FED 11",
+    "WellName": "Wpache 22 FED 11",
     "Priority": "High",
     "CreationDateTime": "2023-07-09T11:30:20.335Z",
     "EventDescription": "Flatlining",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 3,
+    "wellId": "W001",
+    "WellName": "Wpache 22 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "GloWell",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 4,
+    "wellId": "W004",
+    "WellName": "Wpache 14 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "New Well",
+    "EventStatus": "Inprogress",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 5,
+    "wellId": "W005",
+    "WellName": "Wpache 16 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "Flatlining",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 6,
+    "wellId": "W006",
+    "WellName": "Wpache 17 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "Flatlining",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 7,
+    "wellId": "W001",
+    "WellName": "Wpache 45 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "Flatlining",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 8,
+    "wellId": "W001",
+    "WellName": "Wpache 11 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "Flatlining",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 9,
+    "wellId": "W009",
+    "WellName": "Wpache 19 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "Flatlining",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 10,
+    "wellId": "W0010",
+    "WellName": "Wpache 10 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "Flatlining",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 11,
+    "wellId": "W0011",
+    "WellName": "Wpache 11 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "Flatlining",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 12,
+    "wellId": "W0012",
+    "WellName": "Wpache 12 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "Flatlining",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 13,
+    "wellId": "W0013",
+    "WellName": "Wpache 13 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "Flatlining",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 14,
+    "wellId": "W0014",
+    "WellName": "Wpache 14 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "Flatlining",
+    "EventStatus": "Completed",
+    "EventType": "Low"
+  },
+  {
+    "eventId": 15,
+    "wellId": "W0015",
+    "WellName": "Wpache 15 FED 11",
+    "Priority": "High",
+    "CreationDateTime": "2023-07-09T11:30:20.335Z",
+    "EventDescription": "Horizontol",
     "EventStatus": "Completed",
     "EventType": "Low"
   }
