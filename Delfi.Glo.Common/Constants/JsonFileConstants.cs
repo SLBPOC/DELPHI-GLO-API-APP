@@ -9,5 +9,8 @@ namespace Delfi.Glo.Common.Constants
     public class JsonFiles
     {
         public const string UNIVERSITIES = "JSON/Universities.json";
+
+        public const string events = "JSON/Event.json";
+
     }
 }

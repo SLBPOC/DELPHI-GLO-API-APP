@@ -67,6 +67,11 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             return alertsDto;
 }
 
+        public Task<IEnumerable<AlertsDto>> GetAllListByJson()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<AlertsDto> GetAsync(int id)
         {
             Alerts alert = _dbUnit.alertss.FirstOrDefault(x => x.Id == id);
