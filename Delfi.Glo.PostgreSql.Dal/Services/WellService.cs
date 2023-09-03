@@ -83,18 +83,19 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     {
                         searchwells = wells.Where(a => a.WellName.ToLower().Contains(search)
                         || a.PumpStatus.ToLower().Contains(search)
-                        || a.Wc.ToString().Contains(search)
-                        || a.GlInjectionSetPoint.ToString().Contains(search)
                         || a.CompressorUpTime.ToString().Contains(search)
                         || a.ProductionUpTime.ToString().Contains(search)
                         || a.DeviceUpTime.ToString().Contains(search)
                         || a.GLISetPoint.ToString().Contains(search)
                         || a.OLiq.ToString().Contains(search)
                         || a.QOil.ToString().Contains(search)
+                        || a.Og.ToString().Contains(search)
+                        || a.Ow.ToString().Contains(search)
+                        || a.Wc.ToString().Contains(search)
                         || a.CurrentGLISetpoint.ToString().Contains(search)
-                        || a.CycleStatus.ToLower().Contains(search)
-                        || a.ApprovalMode.ToLower().Contains(search)
-                        || a.ApprovalStatus.ToLower().Contains(search)
+                        || a.PreprocessorState.ToLower().Contains(search)
+                        || a.ModeOfOperation.ToLower().Contains(search)
+                        || a.CurrentCycleStatus.ToLower().Contains(search)
                          ).ToList();
 
                         Count = searchwells.Count();
@@ -153,20 +154,21 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     var wellDto = new WellDto();
                     wellDto.WellName = well.WellName;
                     wellDto.PumpStatus = well.PumpStatus;
+                    wellDto.GLISetPoint = well.GLISetPoint;
+                    wellDto.QOil = well.QOil;
+                    wellDto.OLiq = well.OLiq;
+                    wellDto.Og = well.Og;
+                    wellDto.Ow = well.Ow;
                     wellDto.Wc = well.Wc;
-                    wellDto.GlInjectionSetPoint = well.GlInjectionSetPoint;
                     wellDto.CompressorUpTime = well.CompressorUpTime;
                     wellDto.ProductionUpTime = well.ProductionUpTime;
                     wellDto.DeviceUpTime = well.DeviceUpTime;
-                    wellDto.TimeStamp = well.TimeStamp;
-                    wellDto.GLISetPoint = well.GLISetPoint;
-                    wellDto.OLiq = well.OLiq;
-                    wellDto.QOil = well.QOil;
                     wellDto.LastCycleStatus = well.LastCycleStatus;
+                    wellDto.TimeStamp = well.TimeStamp;
                     wellDto.CurrentGLISetpoint = well.CurrentGLISetpoint;
-                    wellDto.CycleStatus = well.CycleStatus;
-                    wellDto.ApprovalMode = well.ApprovalMode;
-                    wellDto.ApprovalStatus = well.ApprovalStatus;
+                    wellDto.PreprocessorState = well.PreprocessorState;
+                    wellDto.ModeOfOperation = well.ModeOfOperation;
+                    wellDto.CurrentCycleStatus = well.CurrentCycleStatus;
                     wellDto.UserId = well.UserId;
                     wellDto.NoOfAlerts = well.NoOfAlerts;
                     wellsDto.Add(wellDto);
@@ -187,61 +189,54 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 var wellDto = new WellDto();
                 wellDto.Id = well.Id;
                 wellDto.WellName = well.WellName;
-              //  wellDto.PumpingStatus = well.PumpStatus;
                 wellDto.PumpStatus = well.PumpStatus;
-                //wellDto.Qi = well.Qi;
-                //wellDto.Qw = well.Qw;
+                wellDto.GLISetPoint = well.GLISetPoint;
+                wellDto.QOil = well.QOil;
+                wellDto.OLiq = well.OLiq;
+                wellDto.Og = well.Og;
+                wellDto.Ow = well.Ow;
                 wellDto.Wc = well.Wc;
-                wellDto.GlInjectionSetPoint = well.GlInjectionSetPoint;
                 wellDto.CompressorUpTime = well.CompressorUpTime;
                 wellDto.ProductionUpTime = well.ProductionUpTime;
                 wellDto.DeviceUpTime = well.DeviceUpTime;
-                wellDto.TimeStamp = well.TimeStamp;
-                wellDto.GLISetPoint = well.GLISetPoint;
-                wellDto.OLiq = well.OLiq;
-                wellDto.QOil = well.QOil;
                 wellDto.LastCycleStatus = well.LastCycleStatus;
+                wellDto.TimeStamp = well.TimeStamp;
                 wellDto.CurrentGLISetpoint = well.CurrentGLISetpoint;
-                wellDto.CycleStatus = well.CycleStatus;
-                wellDto.ApprovalMode = well.ApprovalMode;
-                wellDto.ApprovalStatus = well.ApprovalStatus;
+                wellDto.PreprocessorState = well.PreprocessorState;
+                wellDto.ModeOfOperation = well.ModeOfOperation;
+                wellDto.CurrentCycleStatus = well.CurrentCycleStatus;
+                wellDto.UserId = well.UserId;
                 wellDto.NoOfAlerts = well.NoOfAlerts;
                 wellsDto.Add(wellDto);
             }
             return wellsDto;
         }
-
-        public Task<IEnumerable<WellDto>> GetAllListByJson()
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<WellDto> GetAsync(int id)
         {
             var wells = await GetFromJsonFile();
             WellDto well = wells.FirstOrDefault(x => x.Id == id);
-            //Well well = _dbUnit.wells.FirstOrDefault(x => x.Id == id);
             if (well == null) return null;
             var wellDto = new WellDto();
             wellDto.Id = well.Id;
             wellDto.WellName = well.WellName;
-           // wellDto.PumpingStatus = well.PumpStatus;
             wellDto.PumpStatus = well.PumpStatus;
-            //wellDto.Qi = well.Qi;
-            //wellDto.Qw = well.Qw;
-            wellDto.Wc = well.Wc;
-            wellDto.GlInjectionSetPoint = well.GlInjectionSetPoint;
-            wellDto.CompressorUpTime = well.CompressorUpTime;
-            wellDto.DeviceUpTime = well.DeviceUpTime;
-            wellDto.TimeStamp = well.TimeStamp;
             wellDto.GLISetPoint = well.GLISetPoint;
-            wellDto.OLiq = well.OLiq;
             wellDto.QOil = well.QOil;
+            wellDto.OLiq = well.OLiq;
+            wellDto.Og = well.Og;
+            wellDto.Ow = well.Ow;
+            wellDto.Wc = well.Wc;
+            wellDto.CompressorUpTime = well.CompressorUpTime;
+            wellDto.ProductionUpTime = well.ProductionUpTime;
+            wellDto.DeviceUpTime = well.DeviceUpTime;
             wellDto.LastCycleStatus = well.LastCycleStatus;
+            wellDto.TimeStamp = well.TimeStamp;
             wellDto.CurrentGLISetpoint = well.CurrentGLISetpoint;
-            wellDto.CycleStatus = well.CycleStatus;
-            wellDto.ApprovalMode = well.ApprovalMode;
-            wellDto.ApprovalStatus = well.ApprovalStatus;
+            wellDto.PreprocessorState = well.PreprocessorState;
+            wellDto.ModeOfOperation = well.ModeOfOperation;
+            wellDto.CurrentCycleStatus = well.CurrentCycleStatus;
+            wellDto.UserId = well.UserId;
+            wellDto.NoOfAlerts = well.NoOfAlerts;
             return wellDto;
         }
         public Task<WellDto> UpdateAsync(int id, WellDto item)
@@ -254,6 +249,9 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             throw new NotImplementedException();
         }
 
-       
+        public Task<IEnumerable<WellDto>> GetAllListByJson()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
