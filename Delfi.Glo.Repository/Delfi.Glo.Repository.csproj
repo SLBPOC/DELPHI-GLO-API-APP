@@ -16,4 +16,12 @@
     <ProjectReference Include="..\Delfi.Glo.Entities\Delfi.Glo.Entities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\velmuruganm\source\repos\SLBPOC\DELPHI-GLO-API-APP\Delfi.Glo.Repository\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\velmuruganm\source\repos\SLBPOC\DELPHI-GLO-API-APP\Delfi.Glo.Repository\.editorconfig" />
+  </ItemGroup>
+
 </Project>
