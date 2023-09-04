@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using Delfi.Glo.Api.Exceptions;
 using Delfi.Glo.Api.Extensions;
 using Delfi.Glo.Common;
 using Delfi.Glo.Common.Helpers;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Drawing.Printing;
 
 namespace Delfi.Glo.Api.Controllers
 {
@@ -46,7 +48,7 @@ namespace Delfi.Glo.Api.Controllers
         public async Task<ActionResult> GetWellListByFilters(SearchCreteria creteria)
         {
             Tuple<bool, IEnumerable<WellDto>, int, int, int, int> values = await _filterService.GetListByFilter(creteria);
-            return Ok(JsonConvert.SerializeObject(new { success = values.Item1, data = values.Item2, totalCount = values.Item3, totalOverpumping = values.Item4, totalOptimalPumping = values.Item5, totalUnderpumping = values.Item6 }));
+            return Ok(JsonConvert.SerializeObject(new { success = values.Item1, data = values.Item2, totalCount = values.Item3, totalWellPriorityHigh = values.Item4, totalWellPriorityMedium = values.Item5, totalWellPriorityLow = values.Item6 }));
 
         }
     }

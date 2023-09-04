@@ -26,19 +26,18 @@ namespace Delfi.Glo.Api.Test.Controllers
               var wellDto = new WellDto()
             {
                 WellName="Test",          
-                PumpStatus="Good",  
+                WellPriority="High",  
                 Wc=1,
                 GLISetPoint = 1,
                 CompressorUpTime=1,
                 DeviceUpTime=1,
                 TimeStamp= Convert.ToDateTime( "2023-08-04 00:00:00+05:30"),
-                OLiq=1,
+                QLiq=1,
                 QOil=1,
                 LastCycleStatus="Good",
                 CurrentGLISetpoint=1,
                 CurrentCycleStatus = "Good",
-                ModeOfOperation = "Approved",
-                PreprocessorState = "Approved",
+                ApprovalStatus = "Approved"
             };
             var mockFilterService = new Mock<IFilterService<WellDto, SearchCreteria>>();
             var mockService = new Mock<ICrudService<WellDto>>();

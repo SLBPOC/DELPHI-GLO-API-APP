@@ -62,17 +62,17 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         {
             var wellsDto = new List<WellDto>();
             int Count = 0;
-            int OverPumping = 0;
-            int OptimalPumping = 0;
-            int UnderPumping = 0;
+            int WellPriorityHigh = 0;
+            int WellPriorityMedium = 0;
+            int WellPriorityLow = 0;
 
             var wells = await GetFromJsonFile();
 
             if (wells != null)
             {
-                OverPumping = wells.Where(a => a.PumpStatus == "Over Pumping").Count();
-                OptimalPumping = wells.Where(a => a.PumpStatus == "Optimum Pumping").Count();
-                UnderPumping = wells.Where(a => a.PumpStatus == "Under Pumping").Count();
+                WellPriorityHigh = wells.Where(a => a.WellPriority == "High").Count();
+                WellPriorityMedium = wells.Where(a => a.WellPriority == "Medium").Count();
+                WellPriorityLow = wells.Where(a => a.WellPriority == "Low").Count();
                 Count = wells.Count();
 
                 if (creteria != null)
@@ -82,20 +82,21 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     if (creteria.searchString.Length > 0)
                     {
                         searchwells = wells.Where(a => a.WellName.ToLower().Contains(search)
-                        || a.PumpStatus.ToLower().Contains(search)
+                        || a.WellPriority.ToLower().Contains(search)
                         || a.CompressorUpTime.ToString().Contains(search)
                         || a.ProductionUpTime.ToString().Contains(search)
                         || a.DeviceUpTime.ToString().Contains(search)
                         || a.GLISetPoint.ToString().Contains(search)
-                        || a.OLiq.ToString().Contains(search)
+                        || a.QLiq.ToString().Contains(search)
                         || a.QOil.ToString().Contains(search)
-                        || a.Og.ToString().Contains(search)
-                        || a.Ow.ToString().Contains(search)
+                        || a.Qg.ToString().Contains(search)
+                        || a.Qw.ToString().Contains(search)
                         || a.Wc.ToString().Contains(search)
                         || a.CurrentGLISetpoint.ToString().Contains(search)
-                        || a.PreprocessorState.ToLower().Contains(search)
-                        || a.ModeOfOperation.ToLower().Contains(search)
                         || a.CurrentCycleStatus.ToLower().Contains(search)
+                        || a.ApprovalMode.ToLower().Contains(search)
+                        || a.ApprovalStatus.ToLower().Contains(search)
+
                          ).ToList();
 
                         Count = searchwells.Count();
@@ -104,7 +105,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
                     if (creteria.Status.Length > 0)
                     {
-                        searchwells = searchwells.Where(a => a.PumpStatus == creteria.Status).ToList();
+                        searchwells = searchwells.Where(a => a.WellPriority == creteria.Status).ToList();
                         wells = searchwells;
                     }
 
@@ -153,12 +154,12 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     var wellDto = new WellDto();
                     wellDto.WellName = well.WellName;
-                    wellDto.PumpStatus = well.PumpStatus;
+                    wellDto.WellPriority = well.WellPriority;
                     wellDto.GLISetPoint = well.GLISetPoint;
                     wellDto.QOil = well.QOil;
-                    wellDto.OLiq = well.OLiq;
-                    wellDto.Og = well.Og;
-                    wellDto.Ow = well.Ow;
+                    wellDto.QLiq = well.QLiq;
+                    wellDto.Qg = well.Qg;
+                    wellDto.Qw = well.Qw;
                     wellDto.Wc = well.Wc;
                     wellDto.CompressorUpTime = well.CompressorUpTime;
                     wellDto.ProductionUpTime = well.ProductionUpTime;
@@ -166,15 +167,15 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     wellDto.LastCycleStatus = well.LastCycleStatus;
                     wellDto.TimeStamp = well.TimeStamp;
                     wellDto.CurrentGLISetpoint = well.CurrentGLISetpoint;
-                    wellDto.PreprocessorState = well.PreprocessorState;
-                    wellDto.ModeOfOperation = well.ModeOfOperation;
                     wellDto.CurrentCycleStatus = well.CurrentCycleStatus;
+                    wellDto.ApprovalMode = well.ApprovalMode;
+                    wellDto.ApprovalStatus = well.ApprovalStatus;
                     wellDto.UserId = well.UserId;
                     wellDto.NoOfAlerts = well.NoOfAlerts;
                     wellsDto.Add(wellDto);
                 }
             }
-            return new Tuple<bool, IEnumerable<WellDto>, int, int, int, int>(true, wellsDto, Count, OverPumping, OptimalPumping, UnderPumping);
+            return new Tuple<bool, IEnumerable<WellDto>, int, int, int, int>(true, wellsDto, Count, WellPriorityHigh, WellPriorityMedium, WellPriorityLow);
 
         }
      
@@ -189,12 +190,12 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 var wellDto = new WellDto();
                 wellDto.Id = well.Id;
                 wellDto.WellName = well.WellName;
-                wellDto.PumpStatus = well.PumpStatus;
+                wellDto.WellPriority = well.WellPriority;
                 wellDto.GLISetPoint = well.GLISetPoint;
                 wellDto.QOil = well.QOil;
-                wellDto.OLiq = well.OLiq;
-                wellDto.Og = well.Og;
-                wellDto.Ow = well.Ow;
+                wellDto.QLiq = well.QLiq;
+                wellDto.Qg = well.Qg;
+                wellDto.Qw = well.Qw;
                 wellDto.Wc = well.Wc;
                 wellDto.CompressorUpTime = well.CompressorUpTime;
                 wellDto.ProductionUpTime = well.ProductionUpTime;
@@ -202,9 +203,9 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 wellDto.LastCycleStatus = well.LastCycleStatus;
                 wellDto.TimeStamp = well.TimeStamp;
                 wellDto.CurrentGLISetpoint = well.CurrentGLISetpoint;
-                wellDto.PreprocessorState = well.PreprocessorState;
-                wellDto.ModeOfOperation = well.ModeOfOperation;
                 wellDto.CurrentCycleStatus = well.CurrentCycleStatus;
+                wellDto.ApprovalMode = well.ApprovalMode;
+                wellDto.ApprovalStatus = well.ApprovalStatus;
                 wellDto.UserId = well.UserId;
                 wellDto.NoOfAlerts = well.NoOfAlerts;
                 wellsDto.Add(wellDto);
@@ -219,12 +220,12 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             var wellDto = new WellDto();
             wellDto.Id = well.Id;
             wellDto.WellName = well.WellName;
-            wellDto.PumpStatus = well.PumpStatus;
+            wellDto.WellPriority = well.WellPriority;
             wellDto.GLISetPoint = well.GLISetPoint;
             wellDto.QOil = well.QOil;
-            wellDto.OLiq = well.OLiq;
-            wellDto.Og = well.Og;
-            wellDto.Ow = well.Ow;
+            wellDto.QLiq = well.QLiq;
+            wellDto.Qg = well.Qg;
+            wellDto.Qw = well.Qw;
             wellDto.Wc = well.Wc;
             wellDto.CompressorUpTime = well.CompressorUpTime;
             wellDto.ProductionUpTime = well.ProductionUpTime;
@@ -232,9 +233,9 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             wellDto.LastCycleStatus = well.LastCycleStatus;
             wellDto.TimeStamp = well.TimeStamp;
             wellDto.CurrentGLISetpoint = well.CurrentGLISetpoint;
-            wellDto.PreprocessorState = well.PreprocessorState;
-            wellDto.ModeOfOperation = well.ModeOfOperation;
             wellDto.CurrentCycleStatus = well.CurrentCycleStatus;
+            wellDto.ApprovalMode = well.ApprovalMode;
+            wellDto.ApprovalStatus = well.ApprovalStatus;
             wellDto.UserId = well.UserId;
             wellDto.NoOfAlerts = well.NoOfAlerts;
             return wellDto;
