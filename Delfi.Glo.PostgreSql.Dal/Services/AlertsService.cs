@@ -5,14 +5,15 @@ using Delfi.Glo.Entities.Dto;
 using Delfi.Glo.PostgreSql.Dal.Migrations;
 using Delfi.Glo.PostgreSql.Dal.Specifications;
 using Delfi.Glo.Repository;
+using Microsoft.AspNetCore.Hosting.Server;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.WebPages;
+
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
@@ -85,7 +86,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     alerts = alerts.Where(c => c.TimeandDate >= startDate && c.TimeandDate <= endDate);
                 }
-                var result = alerts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                var result = alerts.Skip(pageIndex-1 * pageSize).Take(pageSize).ToList();
 
                 return result;
             }
@@ -98,8 +99,10 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             int Medium = 0;
             int Low = 0;
             int Cleared = 0;
-            var filePath = @"D:\Delfi-glo\GLO-Back\GasLift\Delfi.Glo.Api\JSON\Alert.json";
-
+        
+            string fileName = @"Alert.json";
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string[] fullFilePath = Directory.GetFiles(currentDirectory, fileName, SearchOption.AllDirectories);
 
             var alertsList = UtilityService.Read<List<AlertsDto>>
                                          (JsonFiles.alerts).AsQueryable();
@@ -107,7 +110,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             alertsList.First(a => a.Id == alertId).SnoozeDateTime = DateTime.Now.ToString();
             alertsList.First(a => a.Id == alertId).SnoozeInterval = snoozeBy;
             var jsonData = JsonConvert.SerializeObject(alertsList, Formatting.Indented);
-            System.IO.File.WriteAllText(filePath, jsonData);
+            System.IO.File.WriteAllText(fullFilePath[0], jsonData);
             if (alertsList != null)
             {
                 Count = alertsList.Count();
@@ -123,14 +126,18 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
         public async Task<bool> SetClearAlert(int alertId, string comment)
         {
-            var filePath = @"D:\Delfi-glo\GLO-Back\GasLift\Delfi.Glo.Api\JSON\Alert.json";
+  
+            string fileName = @"Alert.json";
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string[] fullFilePath = Directory.GetFiles(currentDirectory, fileName, SearchOption.AllDirectories);
+
             var alertsList = UtilityService.Read<List<AlertsDto>>
                                           (JsonFiles.alerts).AsQueryable();
             alertsList.First(a => a.Id == alertId).Comment = comment;
             alertsList.First(a => a.Id == alertId).AlertLevel = "Cleared";
 
             var jsonData = JsonConvert.SerializeObject(alertsList, Formatting.Indented);
-            System.IO.File.WriteAllText(filePath, jsonData);
+            System.IO.File.WriteAllText(fullFilePath[0], jsonData);
             return true;
         }
 
