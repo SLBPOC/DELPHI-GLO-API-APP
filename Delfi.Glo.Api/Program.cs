@@ -12,6 +12,8 @@ using Delfi.Glo.Api.Extensions;
 using Delfi.Glo.Api.Configuration;
 using NLog;
 using NLog.Web;
+using Delfi.Glo.Common.Helpers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -43,6 +45,9 @@ builder.Services.ConfigureRepositoryWrapper();
 builder.Services.AddCoreServices(builder.Configuration);
 
 
+builder.Services.AddScoped<ICrudService<AlertsDto>, AlertsService>();
+builder.Services.AddScoped<ICustomAlertService<CustomAlertDto>, CustomAlertServices>();
+builder.Services.AddScoped<IFilterService<WellDto, SearchCreteria>, WellService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder => builder
