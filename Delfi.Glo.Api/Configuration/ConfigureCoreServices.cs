@@ -19,7 +19,7 @@ namespace Delfi.Glo.Api.Configuration
             services.AddScoped<DbUnitWork>();
             services.AddScoped<ICrudService<CrewDto>, CrewService>();
             services.AddScoped<ICrudService<WellGeneralInfoDto>, WellGeneralInfoService>();
-
+            services.AddScoped<IAlertService<AlertsDto>, AlertsService>();
             //builder.Services.AddScoped<IWellService<GeneralInfoDto>, WellService>();
             services.AddScoped<IEventService<EventDto>, EventService>();
             services.AddScoped<ICrudService<WellDto>, WellService>();

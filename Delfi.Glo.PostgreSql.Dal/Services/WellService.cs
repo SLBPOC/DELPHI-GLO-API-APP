@@ -4,7 +4,10 @@ using Delfi.Glo.Common.Helpers;
 using Delfi.Glo.Common.Services;
 using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
+using Delfi.Glo.PostgreSql.Dal.Specifications;
 using Delfi.Glo.Repository;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
-    public class WellService : ICrudService<WellDto>, IFilterService<WellDto,SearchCreteria>
+    public class WellService : ICrudService<WellDto>, IFilterService<WellDto>
     {
         private readonly DbUnitWork _dbUnit;
 
@@ -54,130 +57,49 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         }
         public async Task<IEnumerable<WellDto>> GetFromJsonFile()
         {
-            var wellsInJson = UtilityService.Read<List<WellDto>>
-                                                   (JsonFileConstants.Wells).AsQueryable();
+            var wellsInJson = UtilityService.Read<List<WellDto>> (JsonFiles.Wells).AsQueryable();
             return wellsInJson;
         }
-        public async Task<Tuple<bool, IEnumerable<WellDto>, int, int, int, int>> GetListByFilter(SearchCreteria creteria)
+        public async Task<Tuple<bool, IEnumerable<WellDto>, int, int, int, int>> GetListByFilter(int page, int pageSize, string? searchString, List<SortExpression> sortExpression)
         {
-            var wellsDto = new List<WellDto>();
-            int Count = 0;
-            int WellPriorityHigh = 0;
-            int WellPriorityMedium = 0;
-            int WellPriorityLow = 0;
+                var wellsDto = new List<WellDto>();
+                int Count = 0;
+                int WellPriorityHigh = 0;
+                int WellPriorityMedium = 0;
+                int WellPriorityLow = 0;
 
-            var wells = await GetFromJsonFile();
-
-            if (wells != null)
-            {
-                WellPriorityHigh = wells.Where(a => a.WellPriority == "High").Count();
-                WellPriorityMedium = wells.Where(a => a.WellPriority == "Medium").Count();
-                WellPriorityLow = wells.Where(a => a.WellPriority == "Low").Count();
-                Count = wells.Count();
-
-                if (creteria != null)
+                var wells = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
+                if (wells != null)
                 {
-                    var searchwells = wells;
-                    string search = creteria.searchString.ToLower();
-                    if (creteria.searchString.Length > 0)
+                    WellPriorityHigh = wells.Where(a => a.WellPriority == "High").Count();
+                    WellPriorityMedium = wells.Where(a => a.WellPriority == "Medium").Count();
+                    //WellPriorityLow = wells.Where(a => a.WellPriority == "Low").Count();
+                    Count = wells.Count();
+
+                if (searchString != null)
+                {
+                    string search = searchString.ToLower();
+                    if (searchString.Length > 0)
                     {
-                        searchwells = wells.Where(a => a.WellName.ToLower().Contains(search)
-                        || a.WellPriority.ToLower().Contains(search)
-                        || a.CompressorUpTime.ToString().Contains(search)
-                        || a.ProductionUpTime.ToString().Contains(search)
-                        || a.DeviceUpTime.ToString().Contains(search)
-                        || a.GLISetPoint.ToString().Contains(search)
-                        || a.QLiq.ToString().Contains(search)
-                        || a.QOil.ToString().Contains(search)
-                        || a.Qg.ToString().Contains(search)
-                        || a.Qw.ToString().Contains(search)
-                        || a.Wc.ToString().Contains(search)
-                        || a.CurrentGLISetpoint.ToString().Contains(search)
-                        || a.CurrentCycleStatus.ToLower().Contains(search)
-                        || a.ApprovalMode.ToLower().Contains(search)
-                        || a.ApprovalStatus.ToLower().Contains(search)
+                        var spec = new WellSpecification(search);
+                        var wellsList = wells.Where(spec.ToExpression());
+                        wellsList = DynamicSort.ApplyDynamicSort(wellsList, sortExpression);
+                        wellsDto = wellsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+                        Count = wellsDto.Count();
 
-                         ).ToList();
-
-                        Count = searchwells.Count();
-
-                    }
-
-                    if (creteria.Status.Length > 0)
-                    {
-                        searchwells = searchwells.Where(a => a.WellPriority == creteria.Status).ToList();
-                        wells = searchwells;
-                    }
-
-                    if (creteria.field != null && creteria.field != "" && creteria.field != null && creteria.dir != "")
-                    {
-                        //Sorting enabled
-                        if (wells.Count() > creteria.pageSize)
-                        {
-                            if (creteria.dir == "asc")
-                            {
-                                wells = searchwells.OrderBy(s => s.GetType().GetProperty(creteria.field).GetValue(s, null)).Skip(creteria.pageSize * (creteria.PageNumber - 1)).Take(creteria.pageSize).ToList();
-                            }
-                            else
-                            {
-                                wells = searchwells.OrderByDescending(s => s.GetType().GetProperty(creteria.field).GetValue(s, null)).Skip(creteria.pageSize * (creteria.PageNumber - 1)).Take(creteria.pageSize).ToList();
-                            }
-
-                        }
-                        else
-                        {
-                            if (creteria.dir == "asc")
-                            {
-                                wells = searchwells.OrderBy(s => s.GetType().GetProperty(creteria.field).GetValue(s, null)).Take(creteria.pageSize).ToList();
-                            }
-                            else
-                            {
-                                wells = searchwells.OrderByDescending(s => s.GetType().GetProperty(creteria.field).GetValue(s, null)).Take(creteria.pageSize).ToList();
-                            }
-                        }
-                    }
-                    else
-                    {
-                        //Default , no sorting enabled
-                        if (wells.Count() > creteria.pageSize)
-                        {
-                            wells = searchwells.Skip(creteria.pageSize * (creteria.PageNumber - 1)).Take(creteria.pageSize).ToList();
-                        }
-                        else
-                        {
-                            wells = searchwells.Take(creteria.pageSize).ToList();
-                        }
                     }
                 }
-
-                foreach (var well in wells)
+                else
                 {
-                    var wellDto = new WellDto();
-                    wellDto.WellName = well.WellName;
-                    wellDto.WellPriority = well.WellPriority;
-                    wellDto.GLISetPoint = well.GLISetPoint;
-                    wellDto.QOil = well.QOil;
-                    wellDto.QLiq = well.QLiq;
-                    wellDto.Qg = well.Qg;
-                    wellDto.Qw = well.Qw;
-                    wellDto.Wc = well.Wc;
-                    wellDto.CompressorUpTime = well.CompressorUpTime;
-                    wellDto.ProductionUpTime = well.ProductionUpTime;
-                    wellDto.DeviceUpTime = well.DeviceUpTime;
-                    wellDto.LastCycleStatus = well.LastCycleStatus;
-                    wellDto.TimeStamp = well.TimeStamp;
-                    wellDto.CurrentGLISetpoint = well.CurrentGLISetpoint;
-                    wellDto.CurrentCycleStatus = well.CurrentCycleStatus;
-                    wellDto.ApprovalMode = well.ApprovalMode;
-                    wellDto.ApprovalStatus = well.ApprovalStatus;
-                    wellDto.UserId = well.UserId;
-                    wellDto.NoOfAlerts = well.NoOfAlerts;
-                    wellsDto.Add(wellDto);
+                    var wellsList = DynamicSort.ApplyDynamicSort(wells, sortExpression);
+                    wellsDto = wellsList.Skip((page-1) * pageSize).Take(pageSize).ToList();
+                    Count = wellsDto.Count();
                 }
+
             }
-            return new Tuple<bool, IEnumerable<WellDto>, int, int, int, int>(true, wellsDto, Count, WellPriorityHigh, WellPriorityMedium, WellPriorityLow);
-
+                return new Tuple<bool, IEnumerable<WellDto>, int, int, int, int>(true, wellsDto, Count, WellPriorityHigh, WellPriorityMedium, WellPriorityLow);
         }
+       
      
         public async Task<IEnumerable<WellDto>> GetAllAsync()
         {
@@ -254,5 +176,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         {
             throw new NotImplementedException();
         }
+
     }
 }

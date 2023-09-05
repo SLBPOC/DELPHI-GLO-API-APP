@@ -2,13 +2,14 @@
 using Delfi.Glo.Common.Services;
 using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
+using Delfi.Glo.PostgreSql.Dal.Migrations;
 using Delfi.Glo.PostgreSql.Dal.Specifications;
 using Delfi.Glo.Repository;
 using Newtonsoft.Json;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
-    public class EventService : IEventService<EventDto>,ICrudService<EventDto>
+    public class EventService : IEventService<EventDto>
     {
         private readonly DbUnitWork _dbUnit;
 
@@ -16,54 +17,54 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         {
             _dbUnit = dbUnit;
         }
-        public Task<EventDto> CreateAsync(EventDto item)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<EventDto> CreateAsync(EventDto item)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Task<EventDto> CreateAsyncAlertCustom(EventDto item)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<EventDto> CreateAsyncAlertCustom(EventDto item)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Task<bool> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<bool> DeleteAsync(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Task<bool> DeleteAsyncAlertCustom(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<bool> DeleteAsyncAlertCustom(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Task<bool> ExistsAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<bool> ExistsAsync(Guid id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Task<bool> ExistsAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<bool> ExistsAsync(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Task<EventDto> GetAlertCustomByAlertId(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<EventDto> GetAlertCustomByAlertId(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public async Task<IEnumerable<EventDto>> GetAllListByJson()
-        {
-            var items = new List<EventDto>();
-            using (StreamReader r = new StreamReader("JSON/Event.json"))
-            {
-                string json = r.ReadToEnd();
-                items = JsonConvert.DeserializeObject<List<EventDto>>(json);
-            }
-            return items;
-        }
+        //public async Task<IEnumerable<EventDto>> GetAllListByJson()
+        //{
+        //    var items = new List<EventDto>();
+        //    using (StreamReader r = new StreamReader("JSON/Event.json"))
+        //    {
+        //        string json = r.ReadToEnd();
+        //        items = JsonConvert.DeserializeObject<List<EventDto>>(json);
+        //    }
+        //    return items;
+        //}
 
 
-        public async Task<IEnumerable<EventDto>> GetEvents(int page, int pageSize, string? searchString, List<SortExpression> sortExpression)
+        public async Task<IEnumerable<EventDto>> GetEvents(int page, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate, string? eventType, string? eventStatus)
         {
 
             var eventInJson = UtilityService.Read<List<EventDto>>
@@ -77,75 +78,102 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 var spec = new EventsSpecification(searchString);
 
                 var events = eventInJson.Where(spec.ToExpression());
+
+                if (startDate != null && endDate != null)
+                {
+                    events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
+                }
+                if (eventType != null && eventStatus != null)
+                {
+                    events = events.Where(c => c.EventType == eventType && c.EventStatus == eventStatus);
+                }
+
                 events = DynamicSort.ApplyDynamicSort(events, sortExpression);
-                var result = events.Skip(0).Take(pageSize).ToList();
+                var result = events.Skip((page-1)* pageSize).Take(pageSize).ToList();
 
                 return result;
             }
             else
             {
-              var  events = DynamicSort.ApplyDynamicSort(eventInJson, sortExpression);
-                var result = events.Skip(page * pageSize).Take(pageSize).ToList();
+
+             
+                var  events = DynamicSort.ApplyDynamicSort(eventInJson, sortExpression);
+                if (startDate != null && endDate != null)
+                {
+                    events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
+                }
+
+                if (eventType != null && eventStatus != null)
+                {
+                    events = events.Where(c => c.EventType == eventType && c.EventStatus == eventStatus);
+                }
+                var result = events.Skip((page-1) * pageSize).Take(pageSize).ToList();
+
 
                 return result;
             }
         }
-        public async Task<IEnumerable<EventDto>> GetAllAsync()
-        {
-            var events = _dbUnit.events.GetAll().ToList();
-            var eventsDto = new List<EventDto>();
-            foreach (var item in events)
-            {
-                var eventDto = new EventDto();
-                eventDto.Id = item.Id;
-                eventDto.WellName = item.WellName;
-                eventDto.EventType = item.EventType;
-                eventDto.EventStatus = item.EventStatus;
-                eventDto.EventDescription = item.EventDescription;
-                eventDto.CreationDateTime = item.CreationDateTime;
-                eventDto.Priority = item.Priority;
-                eventsDto.Add(eventDto);
-            }
-            return eventsDto;
-        }
+        //public async Task<IEnumerable<EventDto>> GetAllAsync()
+        //{
+        //    var events = _dbUnit.events.GetAll().ToList();
+        //    var eventsDto = new List<EventDto>();
+        //    foreach (var item in events)
+        //    {
+        //        var eventDto = new EventDto();
+        //        eventDto.Id = item.Id;
+        //        eventDto.WellName = item.WellName;
+        //        eventDto.EventType = item.EventType;
+        //        eventDto.EventStatus = item.EventStatus;
+        //        eventDto.EventDescription = item.EventDescription;
+        //        eventDto.CreationDateTime = item.CreationDateTime;
+        //        eventDto.Priority = item.Priority;
+        //        eventsDto.Add(eventDto);
+        //    }
+        //    return eventsDto;
+        //}
 
 
 
-        public async Task<EventDto> GetAsync(int id)
-        {
-            Event events = _dbUnit.events.FirstOrDefault(e => e.Id == id);
+        //public async Task<EventDto> GetAsync(int id)
+        //{
+        //    Event events = _dbUnit.events.FirstOrDefault(e => e.Id == id);
 
-            if (events == null) return null;
+        //    if (events == null) return null;
 
-            var eventDto = new EventDto();
-            eventDto.Id = events.Id;
-            eventDto.WellName = events.WellName;
-            eventDto.EventType = events.EventType;
-            eventDto.EventStatus = events.EventStatus;
-            eventDto.EventDescription = events.EventDescription;
+        //    var eventDto = new EventDto();
+        //    eventDto.Id = events.Id;
+        //    eventDto.WellName = events.WellName;
+        //    eventDto.EventType = events.EventType;
+        //    eventDto.EventStatus = events.EventStatus;
+        //    eventDto.EventDescription = events.EventDescription;
 
-            eventDto.Priority = events.Priority;
-            return eventDto;
-        }
+        //    eventDto.Priority = events.Priority;
+        //    return eventDto;
+        //}
 
-        public Task<IEnumerable<EventDto>> GetFromJsonFile()
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<IEnumerable<EventDto>> GetFromJsonFile()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Task<EventDto> UpdateAsync(Guid id, EventDto item)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<EventDto> UpdateAsync(Guid id, EventDto item)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Task<EventDto> UpdateAsync(int id, EventDto item)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<EventDto> UpdateAsync(int id, EventDto item)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Task<bool> UpdateAsyncAlertCustom(int id, bool check)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<bool> UpdateAsyncAlertCustom(int id, bool check)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Task<IEnumerable<EventDto>> GetEvents(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

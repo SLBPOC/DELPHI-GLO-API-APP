@@ -3,6 +3,7 @@ using Delfi.Glo.Api.Exceptions;
 using Delfi.Glo.Api.Extensions;
 using Delfi.Glo.Common;
 using Delfi.Glo.Common.Helpers;
+using Delfi.Glo.Common.Services;
 using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
 using Delfi.Glo.PostgreSql.Dal.Services;
@@ -21,10 +22,9 @@ namespace Delfi.Glo.Api.Controllers
     {
         private readonly ILogger<WellController> _logger;
         private readonly ICrudService<WellDto> _wellService;
-        private readonly IFilterService<WellDto,SearchCreteria> _filterService;
+        private readonly IFilterService<WellDto> _filterService;
 
-
-        public WellController(ILogger<WellController> logger, ICrudService<WellDto> wellService, IFilterService<WellDto, SearchCreteria> filterService)
+        public WellController(ILogger<WellController> logger, ICrudService<WellDto> wellService, IFilterService<WellDto> filterService)
         {
             _logger = logger;
             _wellService = wellService;
@@ -44,12 +44,22 @@ namespace Delfi.Glo.Api.Controllers
         {
                 return await _wellService.GetAsync(id);
         }
+        
         [HttpPost("GetWellList")]
-        public async Task<ActionResult> GetWellListByFilters(SearchCreteria creteria)
+        public async Task<ActionResult> Get(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression)
         {
-            Tuple<bool, IEnumerable<WellDto>, int, int, int, int> values = await _filterService.GetListByFilter(creteria);
+            Guard.Against.InvalidPageIndex(pageIndex);
+            Guard.Against.InvalidPageSize(pageSize);
+            Tuple<bool, IEnumerable<WellDto>, int, int, int, int> values = await _filterService.GetListByFilter(pageIndex, pageSize, searchString, sortExpression);
             return Ok(JsonConvert.SerializeObject(new { success = values.Item1, data = values.Item2, totalCount = values.Item3, totalWellPriorityHigh = values.Item4, totalWellPriorityMedium = values.Item5, totalWellPriorityLow = values.Item6 }));
 
         }
+        //[HttpPost("GetWellList1")]
+        //public async Task<ActionResult> GetWellListByFilters1(SearchCreteria creteria)
+        //{
+        //    Tuple<bool, IEnumerable<WellDto>, int, int, int, int> values = await _filterService.GetListByFilter(creteria);
+        //    return Ok(JsonConvert.SerializeObject(new { success = values.Item1, data = values.Item2, totalCount = values.Item3, totalWellPriorityHigh = values.Item4, totalWellPriorityMedium = values.Item5, totalWellPriorityLow = values.Item6 }));
+
+        //}
     }
 }
