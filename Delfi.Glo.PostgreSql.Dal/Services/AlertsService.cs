@@ -11,8 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.WebPages;
+
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
@@ -85,7 +84,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     alerts = alerts.Where(c => c.TimeandDate >= startDate && c.TimeandDate <= endDate);
                 }
-                var result = alerts.Skip(pageIndex * pageSize).Take(pageSize).ToList();
+                var result = alerts.Skip(pageIndex-1 * pageSize).Take(pageSize).ToList();
 
                 return result;
             }

@@ -13,7 +13,6 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
@@ -93,7 +92,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 }
 
                 events = DynamicSort.ApplyDynamicSort(events, sortExpression);
-                var result = events.Skip(0).Take(pageSize).ToList();
+                var result = events.Skip(page-1* pageSize).Take(pageSize).ToList();
 
                 return result;
             }
@@ -106,7 +105,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
                 }
-                var result = events.Skip(page * pageSize).Take(pageSize).ToList();
+                var result = events.Skip(page-1 * pageSize).Take(pageSize).ToList();
 
                 return result;
             }
