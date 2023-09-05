@@ -45,7 +45,6 @@ builder.Services.ConfigureRepositoryWrapper();
 builder.Services.AddCoreServices(builder.Configuration);
 
 
-builder.Services.AddScoped<ICrudService<AlertsDto>, AlertsService>();
 builder.Services.AddScoped<ICustomAlertService<CustomAlertDto>, CustomAlertServices>();
 builder.Services.AddScoped<IFilterService<WellDto>, WellService>();
 builder.Services.AddCors(options =>
