@@ -73,7 +73,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     WellPriorityHigh = wells.Where(a => a.WellPriority == "High").Count();
                     WellPriorityMedium = wells.Where(a => a.WellPriority == "Medium").Count();
-                    WellPriorityLow = wells.Where(a => a.WellPriority == "Low").Count();
+                    //WellPriorityLow = wells.Where(a => a.WellPriority == "Low").Count();
                     Count = wells.Count();
 
                 if (searchString != null)
