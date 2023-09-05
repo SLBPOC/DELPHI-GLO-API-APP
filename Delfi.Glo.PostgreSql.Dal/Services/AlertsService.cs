@@ -92,7 +92,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
         }
 
-        public async Task<IEnumerable<AlertsDto>> GetSnoozeByAlert(int alertId, string snoozeBy)
+        public async Task<IEnumerable<AlertsDto>> GetSnoozeByAlert(int alertId, int snoozeBy)
         {
             int Count = 0;
             int High = 0;

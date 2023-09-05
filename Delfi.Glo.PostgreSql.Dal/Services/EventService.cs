@@ -89,7 +89,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 }
 
                 events = DynamicSort.ApplyDynamicSort(events, sortExpression);
-                var result = events.Skip(page-1* pageSize).Take(pageSize).ToList();
+                var result = events.Skip((page-1)* pageSize).Take(pageSize).ToList();
 
                 return result;
             }
@@ -102,11 +102,13 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
                 }
+
                 if (eventType != null && eventStatus != null)
                 {
                     events = events.Where(c => c.EventType == eventType && c.EventStatus == eventStatus);
                 }
-                var result = events.Skip(page-1 * pageSize).Take(pageSize).ToList();
+                var result = events.Skip((page-1) * pageSize).Take(pageSize).ToList();
+
 
                 return result;
             }

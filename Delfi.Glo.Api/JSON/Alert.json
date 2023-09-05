@@ -6,9 +6,9 @@
     "AlertDescription": "Flatlining",
     "AlertType": "Low",
     "AlertStatus": "Completed",
-    "SnoozeFlag": false,
-    "SnoozeDateTime": "2023-07-09T11:30:20.335Z",
-    "SnoozeInterval": "2",
+    "SnoozeFlag": true,
+    "SnoozeDateTime": "05-09-2023 16:40:19",
+    "SnoozeInterval": 5,
     "Comment": "test1",
     "UserId": null,
     "Id": 1
@@ -20,9 +20,9 @@
     "AlertDescription": "Flatlining",
     "AlertType": "Low",
     "AlertStatus": "Completed",
-    "SnoozeFlag": false,
-    "SnoozeDateTime": "2023-07-09T11:30:20.335Z",
-    "SnoozeInterval": "2",
+    "SnoozeFlag": true,
+    "SnoozeDateTime": "05-09-2023 16:40:33",
+    "SnoozeInterval": 5,
     "Comment": "test",
     "UserId": null,
     "Id": 2
@@ -34,9 +34,9 @@
     "AlertDescription": "Alert Test",
     "AlertType": "Low",
     "AlertStatus": "Completed",
-    "SnoozeFlag": false,
-    "SnoozeDateTime": "2023-07-09T11:30:20.335Z",
-    "SnoozeInterval": "2",
+    "SnoozeFlag": true,
+    "SnoozeDateTime": "05-09-2023 16:34:05",
+    "SnoozeInterval": 5,
     "Comment": "test",
     "UserId": null,
     "Id": 3
@@ -50,7 +50,7 @@
     "AlertStatus": "Completed",
     "SnoozeFlag": false,
     "SnoozeDateTime": "2023-07-09T11:30:20.335Z",
-    "SnoozeInterval": "2",
+    "SnoozeInterval": 2,
     "Comment": "test",
     "UserId": null,
     "Id": 4
@@ -64,7 +64,7 @@
     "AlertStatus": "Completed",
     "SnoozeFlag": false,
     "SnoozeDateTime": "2023-07-09T11:30:20.335Z",
-    "SnoozeInterval": "2",
+    "SnoozeInterval": 2,
     "Comment": "test",
     "UserId": null,
     "Id": 5
@@ -78,7 +78,7 @@
     "AlertStatus": "Completed",
     "SnoozeFlag": false,
     "SnoozeDateTime": "2023-07-09T11:30:20.335Z",
-    "SnoozeInterval": "2",
+    "SnoozeInterval": 4,
     "Comment": "test",
     "UserId": null,
     "Id": 6
@@ -92,7 +92,7 @@
     "AlertStatus": "Completed",
     "SnoozeFlag": false,
     "SnoozeDateTime": "2023-07-09T11:30:20.335Z",
-    "SnoozeInterval": "2",
+    "SnoozeInterval": 1,
     "Comment": "test",
     "UserId": null,
     "Id": 7
@@ -106,7 +106,7 @@
     "AlertStatus": "Completed",
     "SnoozeFlag": false,
     "SnoozeDateTime": "2023-07-09T11:30:20.335Z",
-    "SnoozeInterval": "2",
+    "SnoozeInterval": 2,
     "Comment": "test",
     "UserId": null,
     "Id": 8
@@ -120,7 +120,7 @@
     "AlertStatus": "Completed",
     "SnoozeFlag": false,
     "SnoozeDateTime": "2023-07-09T11:30:20.335Z",
-    "SnoozeInterval": "2",
+    "SnoozeInterval": 2,
     "Comment": "",
     "UserId": null,
     "Id": 9
