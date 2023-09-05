@@ -12,6 +12,8 @@ namespace Delfi.Glo.Common.Constants
         public const string UNIVERSITIES = "JSON/Universities.json";
 
         public const string events = "JSON/Event.json";
+
+        public const string customAlert = "JSON/AlertCustom.json";
     }
 
     public class JsonFileConstants
