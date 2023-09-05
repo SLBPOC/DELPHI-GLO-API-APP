@@ -64,7 +64,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         //}
 
 
-        public async Task<IEnumerable<EventDto>> GetEvents(int page, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate)
+        public async Task<IEnumerable<EventDto>> GetEvents(int page, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate, string? eventType, string? eventStatus)
         {
 
             var eventInJson = UtilityService.Read<List<EventDto>>
@@ -83,6 +83,10 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
                 }
+                if (eventType != null && eventStatus != null)
+                {
+                    events = events.Where(c => c.EventType == eventType && c.EventStatus == eventStatus);
+                }
 
                 events = DynamicSort.ApplyDynamicSort(events, sortExpression);
                 var result = events.Skip(page-1* pageSize).Take(pageSize).ToList();
@@ -97,6 +101,10 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 if (startDate != null && endDate != null)
                 {
                     events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
+                }
+                if (eventType != null && eventStatus != null)
+                {
+                    events = events.Where(c => c.EventType == eventType && c.EventStatus == eventStatus);
                 }
                 var result = events.Skip(page-1 * pageSize).Take(pageSize).ToList();
 
