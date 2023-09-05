@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using Delfi.Glo.Entities.Dto;
+using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Delfi.Glo.Common.Services
 {
@@ -8,10 +10,15 @@ namespace Delfi.Glo.Common.Services
         public static T Read<T>(string filePath)
         {
             string text = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<T>(text);
+            return JsonConvert.DeserializeObject<T>(text);
         }
 
-
+        public static bool Write<T>(List<T> list, string filePath)
+        {
+           var jsonData = JsonConvert.SerializeObject(list, Formatting.Indented);
+           File.WriteAllText(filePath, jsonData);
+            return true;
+        }
 
     }
 }

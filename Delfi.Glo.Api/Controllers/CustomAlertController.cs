@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Delfi.Glo.Api.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
     [ApiController]
     [Route("[controller]")]
     public class CustomAlertController : ControllerBase
@@ -22,75 +20,38 @@ namespace Delfi.Glo.Api.Controllers
             _customalertService = customalertService;
 
         }
-        //[HttpGet()]
-        //public async Task<IEnumerable<CustomAlertDto>> Get()
-        //{
-
-        //    return await _customalertService.GetAllAsync();
-        //}
-
-        [Route("[action]")]
-        [HttpGet]
-        public async Task<IEnumerable<CustomAlertDto>> GetFromJFile()
+        
+        [HttpGet("Get")]
+        public async Task<IEnumerable<CustomAlertDto>> Get()
         {
-            return await _customalertService.GetFromJsonFile();
+            return await _customalertService.GetCustomAlert();
         }
 
-        [HttpPost("CreateAlertCustom")]
-        public async Task<ActionResult> CreateAlertCustom(CustomAlertDto customAlert)
+        [HttpPost("Create")]
+        public async Task<ActionResult> Post(CustomAlertDto customAlert)
         {
             if (customAlert == null)
                 return BadRequest();
 
-
-
-            return Ok(await _customalertService.CreateAsyncAlertCustom(customAlert));
-        }
-
-        //[HttpPost]
-        //[Route("[action]")]
-        //public async Task<ActionResult<CustomAlertDto>> Create([FromBody] CustomAlertDto customalert)
-        //{
-        //    if (customalert == null)
-        //        return BadRequest();
-        //    return await _customalertService.CreateAsync(customalert);
-
-      
-        //}
-        //[HttpPut]
-        //public async Task<ActionResult<CustomAlertDto>> Update(int id, CustomAlertDto customalert)
-        //{
-        //    if (customalert == null)
-        //        return BadRequest();
-
-        //    return await _customalertService.UpdateAsync(id, customalert);
-        //}
-
-        //[HttpDelete(RouteConstants.Id)]
-        //public async Task<ActionResult<bool>> Delete(int Id)
-        //{
-        //    return await _customalertService.DeleteAsync(Id);
-        //}
-
-        [HttpDelete()]
-        [Route("DeleteAlertCustom")]
-        public async Task<ActionResult<bool>> DeleteAlertCustom(int Id)
-        {
-            return await _customalertService.DeleteAsyncAlertCustom(Id);
+            return Ok(await _customalertService.CreateCustomAlert(customAlert));
         }
         
-        [HttpPut()]
-        [Route("IsActiveAlertCustom")]
-        public async Task<ActionResult<bool>> IsActiveAlertCustom(int id, bool IsActive)
+        [HttpDelete("Delete")]
+        public async Task<ActionResult<bool>> Delete(int Id)
         {
-            return await _customalertService.UpdateAsyncAlertCustom(id, IsActive);
+            return await _customalertService.DeleteCustomAlert(Id);
+        }
+        
+        [HttpPut("IsActive")]
+        public async Task<ActionResult<bool>> Put(int id, bool IsActive)
+        {
+            return await _customalertService.UpdateToggle(id, IsActive);
         }
 
-        [HttpGet()]
-        [Route("GetAlertCustom")]
-        public async Task<ActionResult<CustomAlertDto>> GetAlertCustom(int Id)
+        [HttpGet("GetById")]
+        public async Task<ActionResult<CustomAlertDto>> Get(int Id)
         {
-            return await _customalertService.GetAlertCustomByAlertId(Id);
+            return await _customalertService.GetCustomAlertByAlertId(Id);
         }
     }
 }
