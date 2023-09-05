@@ -11,7 +11,7 @@ namespace Delfi.Glo.Repository
     {
         Task<IEnumerable<T>> GetAlerts(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate);
 
-        Task<IEnumerable<T>> GetSnoozeByAlert(int alertId, string snoozeBy);
+        Task<IEnumerable<T>> GetSnoozeByAlert(int alertId, int snoozeBy);
         Task<bool> SetClearAlert(int alertId, string comment);
     }
 }

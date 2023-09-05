@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Drawing.Printing;
-using System.Web.WebPages;
+
 
 namespace Delfi.Glo.Api.Controllers
 {
@@ -160,7 +160,7 @@ namespace Delfi.Glo.Api.Controllers
         }
 
         [HttpPost("GetSnoozeByAlert")]
-        public async Task<ActionResult> GetSnoozeByAlert(int alertId, string snoozeBy)
+        public async Task<ActionResult> GetSnoozeByAlert(int alertId, int snoozeBy)
         {
             int Count = 0;
             int High = 0;
