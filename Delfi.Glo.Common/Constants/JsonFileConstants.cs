@@ -15,9 +15,7 @@ namespace Delfi.Glo.Common.Constants
         public const string alerts = "JSON/Alert.json";
 
 
-    public class JsonFileConstants
-    {
         public const string Wells = "JSON/Well.json";
-
     }
+
 }
