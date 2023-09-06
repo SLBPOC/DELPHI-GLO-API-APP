@@ -152,10 +152,10 @@ namespace Delfi.Glo.Api.Controllers
         {
             Guard.Against.InvalidPageIndex(pageIndex);
             Guard.Against.InvalidPageSize(pageSize);
-
+            int Count = 0;
             var result = await _alertsService.GetAlerts(pageIndex, pageSize, searchString, sortExpression, startDate, endDate);
-
-            if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result }));
+            Count = result.Count();
+            if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result, totalCount = Count }));
             else return NotFound($"No Alert found with name {searchString}");
         }
 

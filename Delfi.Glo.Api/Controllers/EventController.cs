@@ -10,6 +10,7 @@ using Delfi.Glo.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NodaTime;
 
@@ -48,10 +49,10 @@ namespace Delfi.Glo.Api.Controllers
         {
             Guard.Against.InvalidPageIndex(pageIndex);
             Guard.Against.InvalidPageSize(pageSize);
-
+            int Count = 0;
             var result = await _eventService.GetEvents(pageIndex, pageSize, searchString, sortExpression,startDate,endDate,eventType,eventStatus);
-
-            if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result }));
+            Count= result.Count();
+            if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result, totalCount = Count }));
             else return NotFound($"No Event found with name {searchString}");
         }
 
