@@ -62,6 +62,18 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             var alertInJson = UtilityService.Read<List<AlertsDto>>
                                               (JsonFiles.alerts).AsQueryable();
 
+            foreach (var alert in alertInJson.Where(a => a.SnoozeFlag == true))
+            {
+                var snInterval = (alert.SnoozeInterval == null || alert.SnoozeInterval ==null ? 0 : alert.SnoozeInterval);
+                var snFlag = alert.SnoozeFlag;
+                var snDateTime = alert.SnoozeDateTime;
+                var s = Convert.ToDateTime(snDateTime).AddHours(Convert.ToInt32(snInterval));
+                if (s < DateTime.Now)
+                    alert.SnoozeFlag = false;
+                else
+                    alert.SnoozeFlag = true;
+            }
+            alertInJson = alertInJson.Where(a => a.SnoozeFlag == false);
             if (searchString != null)
             {
                 var spec = new AlertsSpecification(searchString);
