@@ -44,12 +44,12 @@ namespace Delfi.Glo.Api.Controllers
 
 
         [HttpPost("GetEventList")]
-        public async Task<IActionResult> Get(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate)
+        public async Task<IActionResult> Get(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate,string ?eventType,string ? eventStatus)
         {
             Guard.Against.InvalidPageIndex(pageIndex);
             Guard.Against.InvalidPageSize(pageSize);
 
-            var result = await _eventService.GetEvents(pageIndex, pageSize, searchString, sortExpression,startDate,endDate);
+            var result = await _eventService.GetEvents(pageIndex, pageSize, searchString, sortExpression,startDate,endDate,eventType,eventStatus);
 
             if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result }));
             else return NotFound($"No Event found with name {searchString}");
