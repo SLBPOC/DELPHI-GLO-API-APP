@@ -6,6 +6,7 @@ using Delfi.Glo.PostgreSql.Dal.Migrations;
 using Delfi.Glo.PostgreSql.Dal.Specifications;
 using Delfi.Glo.Repository;
 using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -73,7 +74,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 }
 
                 alerts = DynamicSort.ApplyDynamicSort(alerts, sortExpression);
-                var result = alerts.Skip(0).Take(pageSize).ToList();
+                var result = alerts.Skip((pageIndex - 1)*pageSize).Take(pageSize).ToList();
 
                 return result;
             }
@@ -86,7 +87,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     alerts = alerts.Where(c => c.TimeandDate >= startDate && c.TimeandDate <= endDate);
                 }
-                var result = alerts.Skip(pageIndex-1 * pageSize).Take(pageSize).ToList();
+                var result = alerts.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
                 return result;
             }
