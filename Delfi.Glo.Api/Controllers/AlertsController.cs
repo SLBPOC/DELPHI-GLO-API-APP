@@ -159,7 +159,16 @@ namespace Delfi.Glo.Api.Controllers
                                               (JsonFiles.alerts).AsQueryable();
             var result = await _alertsService.GetAlerts(pageIndex, pageSize, searchString, sortExpression, startDate, endDate);
 
-            Count = alertInJson.Count();
+            var alertSonnoze = alertInJson.Where(a => a.SnoozeFlag == true);
+            if(alertSonnoze.Count() > 0) {
+                var snooze= alertInJson.Where(a => a.SnoozeFlag == false);
+                Count = snooze.Count();
+            }
+            else
+            {
+                Count = alertInJson.Count();
+            }
+      
             if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result, totalCount = Count }));
             else return NotFound($"No Alert found with name {searchString}");
         }
