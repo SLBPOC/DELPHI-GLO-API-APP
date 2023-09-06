@@ -69,12 +69,12 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 int WellPriorityLow = 0;
 
                 var wells = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
-                if (wells != null)
+                Count = wells.Count();
+            if (wells != null)
                 {
                     WellPriorityHigh = wells.Where(a => a.WellPriority == "High").Count();
                     WellPriorityMedium = wells.Where(a => a.WellPriority == "Medium").Count();
-                    //WellPriorityLow = wells.Where(a => a.WellPriority == "Low").Count();
-                    Count = wells.Count();
+                    WellPriorityLow = wells.Where(a => a.WellPriority == "Low").Count();
 
                 if (searchString != null)
                 {
@@ -85,7 +85,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                         var wellsList = wells.Where(spec.ToExpression());
                         wellsList = DynamicSort.ApplyDynamicSort(wellsList, sortExpression);
                         wellsDto = wellsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-                        Count = wellsDto.Count();
+                     
 
                     }
                 }
@@ -93,7 +93,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     var wellsList = DynamicSort.ApplyDynamicSort(wells, sortExpression);
                     wellsDto = wellsList.Skip((page-1) * pageSize).Take(pageSize).ToList();
-                    Count = wellsDto.Count();
                 }
 
             }
