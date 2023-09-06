@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Delfi.Glo.Api.Exceptions;
+using Delfi.Glo.Common.Constants;
 using Delfi.Glo.Common.Helpers;
 using Delfi.Glo.Common.Services;
 using Delfi.Glo.Entities.Dto;
@@ -153,8 +154,12 @@ namespace Delfi.Glo.Api.Controllers
             Guard.Against.InvalidPageIndex(pageIndex);
             Guard.Against.InvalidPageSize(pageSize);
             int Count = 0;
+
+            var alertInJson = UtilityService.Read<List<AlertsDto>>
+                                              (JsonFiles.alerts).AsQueryable();
             var result = await _alertsService.GetAlerts(pageIndex, pageSize, searchString, sortExpression, startDate, endDate);
-            Count = result.Count();
+
+            Count = alertInJson.Count();
             if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result, totalCount = Count }));
             else return NotFound($"No Alert found with name {searchString}");
         }
@@ -167,9 +172,11 @@ namespace Delfi.Glo.Api.Controllers
             int Medium = 0;
             int Low = 0;
             int Cleared = 0;
+            var alertsList = UtilityService.Read<List<AlertsDto>>
+                                      (JsonFiles.alerts).AsQueryable();
             var result = await _alertsService.GetSnoozeByAlert(alertId, snoozeBy);
             if(result!=null && result?.Count() > 0) {
-                Count = result.Count();
+                Count = alertsList.Count();
                 High = result.Where(a => a.AlertLevel == "High").Count();
                 Medium = result.Where(a => a.AlertLevel == "Medium").Count();
                 Low = result.Where(a => a.AlertLevel == "Low").Count();

@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Delfi.Glo.Api.Exceptions;
+using Delfi.Glo.Common.Constants;
 using Delfi.Glo.Common.Helpers;
 using Delfi.Glo.Common.Services;
 using Delfi.Glo.Entities.Db;
@@ -51,7 +52,9 @@ namespace Delfi.Glo.Api.Controllers
             Guard.Against.InvalidPageSize(pageSize);
             int Count = 0;
             var result = await _eventService.GetEvents(pageIndex, pageSize, searchString, sortExpression,startDate,endDate,eventType,eventStatus);
-            Count= result.Count();
+            var eventInJson = UtilityService.Read<List<EventDto>>
+                                                 (JsonFiles.events).AsQueryable();
+            Count = eventInJson.Count();
             if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result, totalCount = Count }));
             else return NotFound($"No Event found with name {searchString}");
         }
