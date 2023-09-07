@@ -60,7 +60,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             var wellsInJson = UtilityService.Read<List<WellDto>> (JsonFiles.Wells).AsQueryable();
             return wellsInJson;
         }
-        public async Task<Tuple<bool, IEnumerable<WellDto>, int, int, int, int>> GetListByFilter(int page, int pageSize, string? searchString, List<SortExpression> sortExpression)
+        public async Task<Tuple<bool, IEnumerable<WellDto>, int, int, int, int>> GetListByFilter(int page, int pageSize, string? searchString, string? ApprovalStatus, string? ApprovalMode, List<SortExpression> sortExpression)
         {
                 var wellsDto = new List<WellDto>();
                 int Count = 0;
@@ -69,13 +69,13 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 int WellPriorityLow = 0;
 
                 var wells = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
-                if (wells != null)
+                Count = wells.Count();
+               if (wells != null)
                 {
                     WellPriorityHigh = wells.Where(a => a.WellPriority == "High").Count();
                     WellPriorityMedium = wells.Where(a => a.WellPriority == "Medium").Count();
-                    //WellPriorityLow = wells.Where(a => a.WellPriority == "Low").Count();
-                    Count = wells.Count();
-
+                    WellPriorityLow = wells.Where(a => a.WellPriority == "Low").Count();
+         
                 if (searchString != null)
                 {
                     string search = searchString.ToLower();
@@ -83,17 +83,46 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     {
                         var spec = new WellSpecification(search);
                         var wellsList = wells.Where(spec.ToExpression());
+
+                        if (ApprovalStatus != null && ApprovalMode != null)
+                        //    if (ApprovalStatus != null)
+                        {
+                            wellsList = wells.Where(c => c.ApprovalStatus.ToLower() == ApprovalStatus.ToLower() && c.ApprovalMode.ToLower() == ApprovalMode.ToLower());
+                        }
+                        else if (ApprovalStatus != null && ApprovalMode == null)
+                        {
+                            wellsList = wells.Where(c => c.ApprovalStatus.ToLower() == ApprovalStatus.ToLower());
+                        }
+                        else if (ApprovalStatus == null && ApprovalMode != null)
+                        {
+                            wellsList = wells.Where(c => c.ApprovalMode.ToLower() == ApprovalMode.ToLower());
+                        }
+
                         wellsList = DynamicSort.ApplyDynamicSort(wellsList, sortExpression);
                         wellsDto = wellsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-                        Count = wellsDto.Count();
+
 
                     }
                 }
                 else
                 {
-                    var wellsList = DynamicSort.ApplyDynamicSort(wells, sortExpression);
+                    var wellsList = wells;
+                    if (ApprovalStatus != null && ApprovalMode != null)
+                    //    if (ApprovalStatus != null)
+                    {
+                        wellsList = wells.Where(c => c.ApprovalStatus.ToLower() == ApprovalStatus.ToLower() && c.ApprovalMode.ToLower() == ApprovalMode.ToLower());
+                    }
+                    else if (ApprovalStatus != null && ApprovalMode == null)
+                    {
+                        wellsList = wells.Where(c => c.ApprovalStatus.ToLower() == ApprovalStatus.ToLower()); 
+                    }
+                    else if (ApprovalStatus == null && ApprovalMode != null)
+                    {
+                        wellsList = wells.Where(c => c.ApprovalMode.ToLower() == ApprovalMode.ToLower());
+                    }
+                    wellsList = DynamicSort.ApplyDynamicSort(wellsList, sortExpression);
                     wellsDto = wellsList.Skip((page-1) * pageSize).Take(pageSize).ToList();
-                    Count = wellsDto.Count();
+
                 }
 
             }

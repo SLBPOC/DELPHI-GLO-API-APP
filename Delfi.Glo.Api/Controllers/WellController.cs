@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Drawing.Printing;
 
 namespace Delfi.Glo.Api.Controllers
@@ -46,20 +47,13 @@ namespace Delfi.Glo.Api.Controllers
         }
         
         [HttpPost("GetWellList")]
-        public async Task<ActionResult> Get(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression)
+        public async Task<ActionResult> GetWellList(int pageIndex, int pageSize, string? searchString, string? ApprovalStatus, string? ApprovalMode, List<SortExpression> sortExpression)
         {
+            //List<SortExpression> sortExpressions1 = JsonConvert.DeserializeObject<List<SortExpression>>(sortExpression);
             Guard.Against.InvalidPageIndex(pageIndex);
             Guard.Against.InvalidPageSize(pageSize);
-            Tuple<bool, IEnumerable<WellDto>, int, int, int, int> values = await _filterService.GetListByFilter(pageIndex, pageSize, searchString, sortExpression);
+            Tuple<bool, IEnumerable<WellDto>, int, int, int, int> values = await _filterService.GetListByFilter(pageIndex, pageSize, searchString, ApprovalStatus, ApprovalMode, sortExpression);
             return Ok(JsonConvert.SerializeObject(new { success = values.Item1, data = values.Item2, totalCount = values.Item3, totalWellPriorityHigh = values.Item4, totalWellPriorityMedium = values.Item5, totalWellPriorityLow = values.Item6 }));
-
         }
-        //[HttpPost("GetWellList1")]
-        //public async Task<ActionResult> GetWellListByFilters1(SearchCreteria creteria)
-        //{
-        //    Tuple<bool, IEnumerable<WellDto>, int, int, int, int> values = await _filterService.GetListByFilter(creteria);
-        //    return Ok(JsonConvert.SerializeObject(new { success = values.Item1, data = values.Item2, totalCount = values.Item3, totalWellPriorityHigh = values.Item4, totalWellPriorityMedium = values.Item5, totalWellPriorityLow = values.Item6 }));
-
-        //}
     }
 }
