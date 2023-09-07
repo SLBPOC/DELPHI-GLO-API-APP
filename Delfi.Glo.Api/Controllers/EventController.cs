@@ -13,7 +13,9 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NodaTime;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Delfi.Glo.Api.Controllers
 {
@@ -50,13 +52,13 @@ namespace Delfi.Glo.Api.Controllers
         {
             Guard.Against.InvalidPageIndex(pageIndex);
             Guard.Against.InvalidPageSize(pageSize);
-            int Count = 0;
-            var result = await _eventService.GetEvents(pageIndex, pageSize, searchString, sortExpression,startDate,endDate,eventType,eventStatus);
-            var eventInJson = UtilityService.Read<List<EventDto>>
-                                                 (JsonFiles.events).AsQueryable();
-            Count = eventInJson.Count();
-            if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result, totalCount = Count }));
-            else return NotFound($"No Event found with name {searchString}");
+
+            Tuple<bool, IEnumerable<EventDto>, int> result = await _eventService.GetEvents(pageIndex, pageSize, searchString, sortExpression,startDate,endDate,eventType,eventStatus);
+            //var eventInJson = UtilityService.Read<List<EventDto>>
+            //                                     (JsonFiles.events).AsQueryable();
+            return Ok(JsonConvert.SerializeObject(new { success = result.Item1, data = result.Item2, totalCount = result.Item3 }));
+            //if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result, totalCount = Count }));
+            //else return NotFound($"No Event found with name {searchString}");
         }
 
         //[HttpPost("GetEventList")]
