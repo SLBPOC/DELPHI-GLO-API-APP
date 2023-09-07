@@ -5,6 +5,7 @@ using Delfi.Glo.Entities.Dto;
 using Delfi.Glo.PostgreSql.Dal.Migrations;
 using Delfi.Glo.PostgreSql.Dal.Specifications;
 using Delfi.Glo.Repository;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
@@ -64,15 +65,18 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         //}
 
 
-        public async Task<IEnumerable<EventDto>> GetEvents(int page, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate, string? eventType, string? eventStatus)
+        //public async Task<IEnumerable<EventDto>> GetEvents(int page, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate, string? eventType, string? eventStatus)
+        //{
+
+        
+        //}
+
+         async Task<Tuple<bool, IEnumerable<EventDto>, int>> IEventService<EventDto>.GetEvents(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate, string? eventType, string? eventStatus)
         {
-
             var eventInJson = UtilityService.Read<List<EventDto>>
-                                                    (JsonFiles.events).AsQueryable();
-
-            //universitiesInJson = universitiesInJson.Search(v => v.Name, v => v.Country, v => v.AlphaTwoCode
-            //    ).Containing(universityByName);
-
+                                                   (JsonFiles.events).AsQueryable();
+            int Count = 0;
+            Count=eventInJson.Count();
             if (searchString != null)
             {
                 var spec = new EventsSpecification(searchString);
@@ -82,51 +86,59 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 if (startDate != null && endDate != null)
                 {
                     events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
+                    Count= events.Count();
                 }
                 if (eventType != null && eventStatus == null)
                 {
-                    events = events.Where(c => c.EventType == eventType );
+                    events = events.Where(c => c.EventType == eventType);
+                    Count = events.Count();
                 }
                 if (eventType == null && eventStatus != null)
                 {
                     events = events.Where(c => c.EventStatus == eventStatus);
+                    Count = events.Count();
                 }
                 if (eventType != null && eventStatus != null)
                 {
                     events = events.Where(c => c.EventType == eventType && c.EventStatus == eventStatus);
+                    Count = events.Count();
                 }
 
                 events = DynamicSort.ApplyDynamicSort(events, sortExpression);
-                var result = events.Skip((page-1)* pageSize).Take(pageSize).ToList();
-
-                return result;
+                var result = events.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                Count = events.Count();
+                return await  Task.FromResult(new Tuple<bool, IEnumerable<EventDto>, int>(true, result, Count));
             }
             else
             {
 
-             
-                var  events = DynamicSort.ApplyDynamicSort(eventInJson, sortExpression);
+
+                var events = DynamicSort.ApplyDynamicSort(eventInJson, sortExpression);
                 if (startDate != null && endDate != null)
                 {
                     events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
+                    Count = events.Count();
                 }
 
                 if (eventType != null && eventStatus == null)
                 {
                     events = events.Where(c => c.EventType == eventType);
+                    Count = events.Count();
                 }
                 if (eventType == null && eventStatus != null)
                 {
                     events = events.Where(c => c.EventStatus == eventStatus);
+                    Count = events.Count();
                 }
                 if (eventType != null && eventStatus != null)
                 {
                     events = events.Where(c => c.EventType == eventType && c.EventStatus == eventStatus);
+                    Count = events.Count();
                 }
-                var result = events.Skip((page-1) * pageSize).Take(pageSize).ToList();
-
-
-                return result;
+                var result = events.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+                Count = events.Count();
+                return await  Task.FromResult(new Tuple<bool, IEnumerable<EventDto>, int>(true, result, Count));
+               
             }
         }
         //public async Task<IEnumerable<EventDto>> GetAllAsync()
