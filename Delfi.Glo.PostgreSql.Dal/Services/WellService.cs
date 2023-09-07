@@ -4,6 +4,7 @@ using Delfi.Glo.Common.Helpers;
 using Delfi.Glo.Common.Services;
 using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
+using Delfi.Glo.PostgreSql.Dal.Migrations;
 using Delfi.Glo.PostgreSql.Dal.Specifications;
 using Delfi.Glo.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -223,6 +224,15 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             //var spec = new CustomAlertSpecification();
             //var obj = eventInJson.FirstOrDefault(spec.ToExpression());
             return Item;
+        }
+
+        public async Task<IEnumerable<WellDto>> GetWellDetailsInfoById(int WellId)
+        {
+            var wellsListJson = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
+            var wellDetailsInfoSpecification = new WellDetailInfoSpecification(WellId);
+            var well  = wellsListJson.Where(wellDetailsInfoSpecification.ToExpression());
+            return well;
+
         }
     }
 }

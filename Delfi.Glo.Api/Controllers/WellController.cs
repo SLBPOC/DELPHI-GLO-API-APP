@@ -9,9 +9,11 @@ using Delfi.Glo.Entities.Dto;
 using Delfi.Glo.PostgreSql.Dal.Services;
 using Delfi.Glo.Repository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Drawing.Printing;
 
@@ -49,9 +51,10 @@ namespace Delfi.Glo.Api.Controllers
         [HttpGet("Id")]
         public async Task<ActionResult<WellDto>> Get(int id)
         {
-                return await _wellService.GetAsync(id);
+            var result = await _filterService.GetWellDetailsInfoById(id);
+            if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result }));
+            else return NotFound($"No Well found with id {id}");
         }
-        
         [HttpPost("GetWellList")]
         public async Task<ActionResult> GetWellList(int pageIndex, int pageSize, string? searchString, string? ApprovalStatus, string? ApprovalMode, List<SortExpression> sortExpression)
         {
