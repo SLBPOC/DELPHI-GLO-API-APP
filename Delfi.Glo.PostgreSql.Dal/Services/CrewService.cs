@@ -88,5 +88,10 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<IEnumerable<CrewDto>> GetWells()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -113,6 +113,11 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<WellGeneralInfoDto>> GetWells()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<WellGeneralInfoDto> UpdateAsync(int id, WellGeneralInfoDto item)
         {
             throw new NotImplementedException();
