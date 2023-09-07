@@ -16,5 +16,7 @@
 
         Task<IEnumerable<T>> GetAllListByJson();
 
+        Task<IEnumerable<T>> GetWells();
+
     }
 }

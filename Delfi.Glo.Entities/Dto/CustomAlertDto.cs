@@ -17,7 +17,7 @@ namespace Delfi.Glo.Entities.Dto
         public string Priority { get;  set; }
         public string Category { get;  set; }
         public string Operator { get;  set; }
-        public string Value { get;  set; }
+        public int Value { get;  set; }
         public bool IsActive { get;  set; }
         public string? StartDate { get; set; }
         public string? EndDate { get; set; }

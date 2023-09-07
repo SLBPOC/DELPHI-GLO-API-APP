@@ -31,6 +31,12 @@ namespace Delfi.Glo.Api.Controllers
             _filterService = filterService;
         }
 
+        [HttpGet("GetWellName")]
+        public async Task<IEnumerable<WellDto>> GetWellName()
+        {
+
+            return await _wellService.GetWells();
+        }
 
         [HttpGet()]
         public async Task<IEnumerable<WellDto>> Get()

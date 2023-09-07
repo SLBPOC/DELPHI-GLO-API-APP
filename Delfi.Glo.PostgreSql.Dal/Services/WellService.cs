@@ -177,5 +177,22 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<WellDto>> GetWells()
+        {
+            var wellsInJson = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
+            List<WellDto> alertCustomList = wellsInJson.ToList();
+            //var spec = new WellNameSpecification();
+            //var obj = wellsInJson.Select(spec.ToExpression());
+            //var items = alertCustomList.Select(m => new { m.Id, m.WellName });
+            List<WellDto> Item = alertCustomList.Select(m => new WellDto
+            {
+                Id = m.Id,
+                WellName = m.WellName
+            }).Distinct().ToList();
+            //var Item = alertCustomList.Select(m => new { m.Id, m.WellName }).ToList();
+            //var spec = new CustomAlertSpecification();
+            //var obj = eventInJson.FirstOrDefault(spec.ToExpression());
+            return Item;
+        }
     }
 }
