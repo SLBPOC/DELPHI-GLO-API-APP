@@ -57,11 +57,15 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         //}
  
 
-        public async Task<IEnumerable<AlertsDto>> GetAlerts(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate)
-        {
+        //public async Task<IEnumerable<AlertsDto>> GetAlerts(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate)
+            public async Task<Tuple<IEnumerable<AlertsDto>, int>> GetAlerts(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate)
+            {
+            
+            var alertsDto = new List<AlertsDto>();
+            int Count = 0;
             var alertInJson = UtilityService.Read<List<AlertsDto>>
                                               (JsonFiles.alerts).AsQueryable();
-
+            Count= alertInJson.Count();
             foreach (var alert in alertInJson.Where(a => a.SnoozeFlag == true))
             {
                 var snInterval = (alert.SnoozeInterval == null || alert.SnoozeInterval ==null ? 0 : alert.SnoozeInterval);
@@ -74,6 +78,18 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     alert.SnoozeFlag = true;
             }
             alertInJson = alertInJson.Where(a => a.SnoozeFlag == false);
+            
+            //var alertSonnoze = alertInJson.Where(a => a.SnoozeFlag == true);
+            //if (alertSonnoze.Count() > 0)
+            //{
+            //    var snooze = alertInJson.Where(a => a.SnoozeFlag == false);
+            //    Count = snooze.Count();
+            //}
+            //else
+            //{
+            //    Count = alertInJson.Count();
+            //}
+
             if (searchString != null)
             {
                 var spec = new AlertsSpecification(searchString);
@@ -86,23 +102,24 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 }
 
                 alerts = DynamicSort.ApplyDynamicSort(alerts, sortExpression);
-                var result = alerts.Skip((pageIndex - 1)*pageSize).Take(pageSize).ToList();
+                alertsDto = alerts.Skip((pageIndex - 1)*pageSize).Take(pageSize).ToList();
+                Count = alertsDto.Count();
 
-                return result;
             }
             else
             {
 
-
-                var alerts = DynamicSort.ApplyDynamicSort(alertInJson, sortExpression);
+                var alerts = alertInJson;
                 if (startDate != null && endDate != null)
                 {
                     alerts = alerts.Where(c => c.TimeandDate >= startDate && c.TimeandDate <= endDate);
                 }
-                var result = alerts.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-
-                return result;
+                alerts = DynamicSort.ApplyDynamicSort(alerts, sortExpression);
+                Count = alerts.Count();
+                alertsDto = alerts.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+               
             }
+            return new Tuple<IEnumerable<AlertsDto>, int>(alertsDto, Count);
         }
 
         public async Task<IEnumerable<AlertsDto>> GetSnoozeByAlert(int alertId, int snoozeBy)
@@ -122,6 +139,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             alertsList.First(a => a.Id == alertId).SnoozeFlag = true;
             alertsList.First(a => a.Id == alertId).SnoozeDateTime = DateTime.Now.ToString();
             alertsList.First(a => a.Id == alertId).SnoozeInterval = snoozeBy;
+            alertsList.First(a => a.Id == alertId).Comment = "";
             var jsonData = JsonConvert.SerializeObject(alertsList, Formatting.Indented);
             System.IO.File.WriteAllText(fullFilePath[0], jsonData);
             if (alertsList != null)
@@ -148,7 +166,11 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                                           (JsonFiles.alerts).AsQueryable();
             alertsList.First(a => a.Id == alertId).Comment = comment;
             alertsList.First(a => a.Id == alertId).AlertLevel = "Cleared";
+            alertsList.First(a => a.Id == alertId).AlertStatus = "Cleared";
+            alertsList.First(a => a.Id == alertId).SnoozeFlag = false;
 
+            alertsList.First(a => a.Id == alertId).SnoozeDateTime = "";
+            alertsList.First(a => a.Id == alertId).SnoozeInterval = 0;
             var jsonData = JsonConvert.SerializeObject(alertsList, Formatting.Indented);
             System.IO.File.WriteAllText(fullFilePath[0], jsonData);
             return true;

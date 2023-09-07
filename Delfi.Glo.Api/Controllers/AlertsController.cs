@@ -153,23 +153,12 @@ namespace Delfi.Glo.Api.Controllers
         {
             Guard.Against.InvalidPageIndex(pageIndex);
             Guard.Against.InvalidPageSize(pageSize);
-            int Count = 0;
 
             var alertInJson = UtilityService.Read<List<AlertsDto>>
                                               (JsonFiles.alerts).AsQueryable();
-            var result = await _alertsService.GetAlerts(pageIndex, pageSize, searchString, sortExpression, startDate, endDate);
+            Tuple<IEnumerable<AlertsDto>, int> values = await _alertsService.GetAlerts(pageIndex, pageSize, searchString, sortExpression, startDate, endDate);
 
-            var alertSonnoze = alertInJson.Where(a => a.SnoozeFlag == true);
-            if(alertSonnoze.Count() > 0) {
-                var snooze= alertInJson.Where(a => a.SnoozeFlag == false);
-                Count = snooze.Count();
-            }
-            else
-            {
-                Count = alertInJson.Count();
-            }
-      
-            if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result, totalCount = Count }));
+             if (values.Item1 != null && values.Item1?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = values.Item1, totalCount = values.Item2 }));
             else return NotFound($"No Alert found with name {searchString}");
         }
 
