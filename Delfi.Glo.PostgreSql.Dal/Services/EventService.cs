@@ -85,8 +85,15 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
                 if (startDate != null && endDate != null)
                 {
-                    events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
-                    Count= events.Count();
+                    events = events.Where(c => c.CreationDateTime.Value.Year >= startDate.Value.Year
+                                            && c.CreationDateTime.Value.Month >= startDate.Value.Month
+                                            && c.CreationDateTime.Value.Day >= startDate.Value.Day
+
+                  && c.CreationDateTime.Value.Year <= endDate.Value.Year
+                                            && c.CreationDateTime.Value.Month <= endDate.Value.Month
+                                            && c.CreationDateTime.Value.Day <= endDate.Value.Day);
+
+                    Count = events.Count();
                 }
                 if (eventType != null && eventStatus == null)
                 {
@@ -116,7 +123,13 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 var events = DynamicSort.ApplyDynamicSort(eventInJson, sortExpression);
                 if (startDate != null && endDate != null)
                 {
-                    events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
+                    events = events.Where(c => c.CreationDateTime.Value.Year >= startDate.Value.Year
+                                            && c.CreationDateTime.Value.Month >= startDate.Value.Month
+                                            && c.CreationDateTime.Value.Day >= startDate.Value.Day
+
+                  && c.CreationDateTime.Value.Year <= endDate.Value.Year
+                                            && c.CreationDateTime.Value.Month <= endDate.Value.Month
+                                            && c.CreationDateTime.Value.Day <= endDate.Value.Day);
                     Count = events.Count();
                 }
 

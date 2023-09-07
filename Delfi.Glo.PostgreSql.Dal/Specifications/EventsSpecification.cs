@@ -20,7 +20,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Specifications
         }
         public override Expression<Func<EventDto, bool>> ToExpression()
         {
-            return evetns => evetns.WellName.Contains(searchstring) || evetns.EventStatus.Contains(searchstring) || evetns.EventType.Contains(searchstring) || evetns.EventDescription.Contains(searchstring);
+            return evetns => evetns.WellName.ToLower().Contains(searchstring) || evetns.EventStatus.ToLower().Contains(searchstring) || evetns.EventType.ToLower().Contains(searchstring) || evetns.EventDescription.ToLower().Contains(searchstring);
      
         }
     }

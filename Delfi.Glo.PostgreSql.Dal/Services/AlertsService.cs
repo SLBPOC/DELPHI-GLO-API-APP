@@ -14,6 +14,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
@@ -55,12 +56,12 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         //{
         //    throw new NotImplementedException();
         //}
- 
+
 
         //public async Task<IEnumerable<AlertsDto>> GetAlerts(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate)
-            public async Task<Tuple<IEnumerable<AlertsDto>, int>> GetAlerts(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate)
-            {
-            
+        public async Task<Tuple<IEnumerable<AlertsDto>, int>> GetAlerts(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate)
+        {
+
             var alertsDto = new List<AlertsDto>();
             int Count = 0;
             var alertInJson = UtilityService.Read<List<AlertsDto>>
@@ -92,13 +93,21 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
             if (searchString != null)
             {
-                var spec = new AlertsSpecification(searchString);
+                var Search = searchString.ToLower();
+                var spec = new AlertsSpecification(Search);
 
                 var alerts = alertInJson.Where(spec.ToExpression());
 
                 if (startDate != null && endDate != null)
                 {
-                    alerts = alerts.Where(c => c.TimeandDate >= startDate && c.TimeandDate <= endDate);
+                    alerts = alerts.Where(c => c.TimeandDate.Value.Year >= startDate.Value.Year 
+                                              && c.TimeandDate.Value.Month >= startDate.Value.Month
+                                              && c.TimeandDate.Value.Day >= startDate.Value.Day
+
+                    && c.TimeandDate.Value.Year <= endDate.Value.Year
+                                              && c.TimeandDate.Value.Month <= endDate.Value.Month
+                                              && c.TimeandDate.Value.Day <= endDate.Value.Day);
+
                 }
 
                 alerts = DynamicSort.ApplyDynamicSort(alerts, sortExpression);
@@ -112,7 +121,14 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 var alerts = alertInJson;
                 if (startDate != null && endDate != null)
                 {
-                    alerts = alerts.Where(c => c.TimeandDate >= startDate && c.TimeandDate <= endDate);
+                    //alerts = alerts.Where(c => c.TimeandDate >= startDate && c.TimeandDate <= endDate);
+                    alerts = alerts.Where(c => c.TimeandDate.Value.Year >= startDate.Value.Year
+                                               && c.TimeandDate.Value.Month >= startDate.Value.Month
+                                               && c.TimeandDate.Value.Day >= startDate.Value.Day
+
+                     && c.TimeandDate.Value.Year <= endDate.Value.Year
+                                               && c.TimeandDate.Value.Month <= endDate.Value.Month
+                                               && c.TimeandDate.Value.Day <= endDate.Value.Day);
                 }
                 alerts = DynamicSort.ApplyDynamicSort(alerts, sortExpression);
                 Count = alerts.Count();
