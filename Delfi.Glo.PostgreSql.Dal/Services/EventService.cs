@@ -83,6 +83,14 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
                 }
+                if (eventType != null && eventStatus == null)
+                {
+                    events = events.Where(c => c.EventType == eventType );
+                }
+                if (eventType == null && eventStatus != null)
+                {
+                    events = events.Where(c => c.EventStatus == eventStatus);
+                }
                 if (eventType != null && eventStatus != null)
                 {
                     events = events.Where(c => c.EventType == eventType && c.EventStatus == eventStatus);
@@ -103,6 +111,14 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     events = events.Where(c => c.CreationDateTime >= startDate && c.CreationDateTime <= endDate);
                 }
 
+                if (eventType != null && eventStatus == null)
+                {
+                    events = events.Where(c => c.EventType == eventType);
+                }
+                if (eventType == null && eventStatus != null)
+                {
+                    events = events.Where(c => c.EventStatus == eventStatus);
+                }
                 if (eventType != null && eventStatus != null)
                 {
                     events = events.Where(c => c.EventType == eventType && c.EventStatus == eventStatus);
