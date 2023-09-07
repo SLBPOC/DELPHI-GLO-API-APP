@@ -18,7 +18,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Specifications
         }
         public override Expression<Func<AlertsDto, bool>> ToExpression()
         {
-            return evetns => evetns.WellName.Contains(searchstring) || evetns.AlertStatus.Contains(searchstring) || evetns.AlertType.Contains(searchstring) || evetns.AlertDescription.Contains(searchstring);
+            return evetns => evetns.WellName.ToLower().Contains(searchstring) || evetns.AlertStatus.ToLower().Contains(searchstring) || evetns.AlertType.ToLower().Contains(searchstring) || evetns.AlertDescription.ToLower().Contains(searchstring);
 
         }
     }
