@@ -100,7 +100,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
                         wellsList = DynamicSort.ApplyDynamicSort(wellsList, sortExpression);
                         wellsDto = wellsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
-
+                        Count = wellsDto.Count();
 
                     }
                 }
@@ -121,8 +121,9 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                         wellsList = wells.Where(c => c.ApprovalMode.ToLower() == ApprovalMode.ToLower());
                     }
                     wellsList = DynamicSort.ApplyDynamicSort(wellsList, sortExpression);
+                    Count = wellsList.Count();
                     wellsDto = wellsList.Skip((page-1) * pageSize).Take(pageSize).ToList();
-
+                    
                 }
 
             }
