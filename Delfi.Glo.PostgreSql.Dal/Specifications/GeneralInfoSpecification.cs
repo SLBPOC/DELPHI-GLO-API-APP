@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Delfi.Glo.PostgreSql.Dal.Specifications
 {
-    public sealed class GeneralInfoSpecification : Specification<WellDto>
+    public sealed class GeneralInfoSpecification : Specification<WellGeneralInfoDto>
     {
         private readonly int id;
 
@@ -18,7 +18,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Specifications
             this.id = _id;
             //this._list = customAlertDtos;
         }
-        public override Expression<Func<WellDto, bool>> ToExpression()
+        public override Expression<Func<WellGeneralInfoDto, bool>> ToExpression()
         {
             return x => x.Id == id;
         }

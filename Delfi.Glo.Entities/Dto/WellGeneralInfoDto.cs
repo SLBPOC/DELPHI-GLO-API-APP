@@ -6,22 +6,27 @@ using System.Threading.Tasks;
 
 namespace Delfi.Glo.Entities.Dto
 {
-    public class WellGeneralInfoDto:DtoBaseEntity
+    public class WellGeneralInfoDto : DtoBaseEntity
     {
-        public decimal Qo { get; set; }
-        public decimal Ql { get; set; }
-        public decimal Qw { get; set; }
-        public decimal Qg { get; set; }
+        public string WellName { get; set; }
+        public string WellPriority { get; set; }
+        public int GLISetPoint { get; set; }
+        public int QOil { get; set; }
+        public int QLiq { get; set; }
+        public int Qg { get; set; }
+        public int Qw { get; set; }
         public decimal Wc { get; set; }
-        public decimal GlInjectionSetPoint { get; set; }
         public decimal CompressorUpTime { get; set; }
+        public decimal ProductionUpTime { get; set; }
         public decimal DeviceUpTime { get; set; }
-        public string ProcessorState { get; set; }
+        public string LastCycleStatus { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public int CurrentGLISetpoint { get; set; }
+        public string CurrentCycleStatus { get; set; }
         public string ApprovalMode { get; set; }
-        public string WellViewComment1 { get; set; }
-        public string WellViewComment2 { get; set; }
-        public string WellViewComment3 { get; set; }
-        public string WellViewComment4 { get; set; }
-        
+        public string ApprovalStatus { get; set; }
+        public string UserId { get; set; }
+        public int NoOfAlerts { get; set; }
+
     }
 }
