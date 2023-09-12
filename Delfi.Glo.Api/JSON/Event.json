@@ -1,5 +1,6 @@
 [
   {
+    "Id": 1,
     "WellId": 1,
     "WellName": "Apache 24 FED 11",
     "EventType": "Type1",
@@ -8,10 +9,11 @@
     "Priority": "High",
     "CreationDateTime": "2023-09-07T11:30:20.335Z",
     "UserTracking": null,
-    "UpdatedBy": "001",
-    "Id": 1
+    "UpdatedBy": "001"
+
   },
   {
+    "Id": 2,
     "WellId": 1,
     "WellName": "Apache 24 FED 11",
     "EventType": "Alert",
@@ -20,10 +22,11 @@
     "Priority": "High",
     "CreationDateTime": "2023-09-12T16:57:04.2516423+05:30",
     "UserTracking": null,
-    "UpdatedBy": "001",
-    "Id": 2
+    "UpdatedBy": "001"
+
   },
   {
+    "Id": 3,
     "WellId": 1,
     "WellName": "Apache 24 FED 11",
     "EventType": "Alert",
@@ -32,10 +35,11 @@
     "Priority": "High",
     "CreationDateTime": "2023-09-12T17:12:13.898216+05:30",
     "UserTracking": null,
-    "UpdatedBy": "001",
-    "Id": 3
+    "UpdatedBy": "001"
+
   },
   {
+    "Id": 4,
     "WellId": 3,
     "WellName": "Apache 22 FED 11",
     "EventType": "Alert",
@@ -44,10 +48,11 @@
     "Priority": "High",
     "CreationDateTime": "2023-09-06T17:14:48.6263402+05:30",
     "UserTracking": null,
-    "UpdatedBy": "001",
-    "Id": 4
+    "UpdatedBy": "001"
+
   },
   {
+    "Id": 5,
     "WellId": 5,
     "WellName": "Apache 20 FED 11",
     "EventType": "Alert",
@@ -56,7 +61,7 @@
     "Priority": "High",
     "CreationDateTime": "2023-09-12T17:23:26.5840285+05:30",
     "UserTracking": null,
-    "UpdatedBy": "001",
-    "Id": 5
+    "UpdatedBy": "001"
+
   }
 ]
