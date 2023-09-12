@@ -19,7 +19,7 @@
     "ApprovalMode": "Manual",
     "ApprovalStatus": "Approve",
     "UserId": "U001",
-    "NoOfAlerts": 5
+    "NoOfAlerts": 1
   },
 
   {
@@ -86,7 +86,7 @@
     "ApprovalMode": "Auto",
     "ApprovalStatus": "Approve",
     "UserId": "U001",
-    "NoOfAlerts": 7
+    "NoOfAlerts": 4
   },
   {
     "Id": 5,
@@ -108,7 +108,7 @@
     "ApprovalMode": "Auto",
     "ApprovalStatus": "Override",
     "UserId": "U001",
-    "NoOfAlerts": 2
+    "NoOfAlerts": 5
   },
 
   {
@@ -131,7 +131,7 @@
     "ApprovalMode": "Auto",
     "ApprovalStatus": "Discard",
     "UserId": "U001",
-    "NoOfAlerts": 1
+    "NoOfAlerts": 6
   },
   {
     "Id": 7,
@@ -150,9 +150,9 @@
     "TimeStamp": "2023-03-09T11:30:20.335Z",
     "CurrentGLISetpoint": 20,
     "CurrentCycleStatus": "override",
-    "ApprovalMode": "Manual",
+    "ApprovalMode": "Auto",
     "ApprovalStatus": "Discard",
     "UserId": "U001",
-    "NoOfAlerts": 3
+    "NoOfAlerts": 7
   }
 ]

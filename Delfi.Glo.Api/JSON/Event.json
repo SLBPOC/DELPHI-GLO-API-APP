@@ -1,163 +1,62 @@
 [
   {
-    "eventId": 1,
-    "wellId": "W001",
+    "WellId": 1,
     "WellName": "Apache 24 FED 11",
-    "Priority": "High",
-    "CreationDateTime": "2023-09-01T11:30:20.335Z",
+    "EventType": "Type1",
+    "EventStatus": "Completed",
     "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type1"
-
-  },
-  {
-    "eventId": 2,
-    "wellId": "W001",
-    "WellName": "Apache 23 FED 11",
-    "Priority": "Medium",
-    "CreationDateTime": "2023-09-05T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type2"
-  },
-  {
-    "eventId": 3,
-    "wellId": "W001",
-    "WellName": "Wpache 22 FED 11",
-    "Priority": "High",
-    "CreationDateTime": "2023-09-03T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type1"
-  },
-  {
-    "eventId": 3,
-    "wellId": "W001",
-    "WellName": "Wpache 22 FED 11",
-    "Priority": "High",
-    "CreationDateTime": "2023-07-09T11:30:20.335Z",
-    "EventDescription": "GloWell",
-    "EventStatus": "Completed",
-    "EventType": "Type1"
-  },
-  {
-    "eventId": 4,
-    "wellId": "W004",
-    "WellName": "Wpache 14 FED 11",
     "Priority": "High",
     "CreationDateTime": "2023-09-07T11:30:20.335Z",
-    "EventDescription": "New Well",
-    "EventStatus": "Inprogress",
-    "EventType": "Type3"
+    "UserTracking": null,
+    "UpdatedBy": "001",
+    "Id": 1
   },
   {
-    "eventId": 5,
-    "wellId": "W005",
-    "WellName": "Wpache 16 FED 11",
+    "WellId": 1,
+    "WellName": "Apache 24 FED 11",
+    "EventType": "Alert",
+    "EventStatus": "Cleared",
+    "EventDescription": "Alert due to issue in Apache 24 FED 11 - Cleared by ravindra on 12-09",
     "Priority": "High",
-    "CreationDateTime": "2023-09-02T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type7"
+    "CreationDateTime": "2023-09-12T16:57:04.2516423+05:30",
+    "UserTracking": null,
+    "UpdatedBy": "001",
+    "Id": 2
   },
   {
-    "eventId": 6,
-    "wellId": "W006",
-    "WellName": "Wpache 17 FED 11",
+    "WellId": 1,
+    "WellName": "Apache 24 FED 11",
+    "EventType": "Alert",
+    "EventStatus": "Cleared",
+    "EventDescription": "Alert due to issue in Apache 24 FED 11 - Cleare by ravindra",
     "Priority": "High",
-    "CreationDateTime": "2023-07-09T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type4"
+    "CreationDateTime": "2023-09-12T17:12:13.898216+05:30",
+    "UserTracking": null,
+    "UpdatedBy": "001",
+    "Id": 3
   },
   {
-    "eventId": 7,
-    "wellId": "W001",
-    "WellName": "Wpache 45 FED 11",
+    "WellId": 3,
+    "WellName": "Apache 22 FED 11",
+    "EventType": "Alert",
+    "EventStatus": "Cleared",
+    "EventDescription": "Custom Alert Custom alert 3 - Cleared by ravindra 17:14",
     "Priority": "High",
-    "CreationDateTime": "2023-07-09T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type10"
+    "CreationDateTime": "2023-09-06T17:14:48.6263402+05:30",
+    "UserTracking": null,
+    "UpdatedBy": "001",
+    "Id": 4
   },
   {
-    "eventId": 8,
-    "wellId": "W001",
-    "WellName": "Wpache 11 FED 11",
+    "WellId": 5,
+    "WellName": "Apache 20 FED 11",
+    "EventType": "Alert",
+    "EventStatus": "Cleared",
+    "EventDescription": "Custom Alert Custom alert 2 - Custom Alert Custom alert 2",
     "Priority": "High",
-    "CreationDateTime": "2023-07-09T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type11"
-  },
-  {
-    "eventId": 9,
-    "wellId": "W009",
-    "WellName": "Wpache 19 FED 11",
-    "Priority": "High",
-    "CreationDateTime": "2023-07-09T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type12"
-  },
-  {
-    "eventId": 10,
-    "wellId": "W0010",
-    "WellName": "Wpache 10 FED 11",
-    "Priority": "High",
-    "CreationDateTime": "2023-07-09T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type13"
-  },
-  {
-    "eventId": 11,
-    "wellId": "W0011",
-    "WellName": "Wpache 11 FED 11",
-    "Priority": "High",
-    "CreationDateTime": "2023-07-09T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type14"
-  },
-  {
-    "eventId": 12,
-    "wellId": "W0012",
-    "WellName": "Wpache 12 FED 11",
-    "Priority": "High",
-    "CreationDateTime": "2023-04-13T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type15"
-  },
-  {
-    "eventId": 13,
-    "wellId": "W0013",
-    "WellName": "Wpache 13 FED 11",
-    "Priority": "High",
-    "CreationDateTime": "2023-04-09T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type16"
-  },
-  {
-    "eventId": 14,
-    "wellId": "W0014",
-    "WellName": "Wpache 14 FED 11",
-    "Priority": "High",
-    "CreationDateTime": "2023-07-07T11:30:20.335Z",
-    "EventDescription": "Flatlining",
-    "EventStatus": "Completed",
-    "EventType": "Type17"
-  },
-  {
-    "eventId": 15,
-    "wellId": "W0015",
-    "WellName": "Wpache 15 FED 11",
-    "Priority": "High",
-    "CreationDateTime": "2023-06-09T11:30:20.335Z",
-    "EventDescription": "Horizontol",
-    "EventStatus": "Completed",
-    "EventType": "Type18"
+    "CreationDateTime": "2023-09-12T17:23:26.5840285+05:30",
+    "UserTracking": null,
+    "UpdatedBy": "001",
+    "Id": 5
   }
 ]

@@ -8,6 +8,7 @@ namespace Delfi.Glo.Entities.Dto
 {
     public class AlertsDto:DtoBaseEntity
     {
+        public int WellId { get; set; }
         public string WellName { get;  set; }
         public string AlertLevel { get;  set; }
         public DateTime ?TimeandDate { get;  set; }

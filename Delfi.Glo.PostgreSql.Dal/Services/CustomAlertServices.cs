@@ -34,6 +34,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             alertCustomList.Add(new CustomAlertDto()
             {
                 Id = alertCustomList[alertCustomList.Count - 1].Id + 1,
+                WellId = alertCustom.WellId,
                 WellName = alertCustom.WellName,
                 CustomAlertName = alertCustom.CustomAlertName,
                 Category = alertCustom.Category,
@@ -47,6 +48,28 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             });
             var filePath = JsonFiles.customAlert;
             bool data = UtilityService.Write<CustomAlertDto>(alertCustomList, filePath);
+
+           
+            ///Add Custome alert in the event list 
+            //var eventList = UtilityService.Read<List<EventDto>>
+            //                     (JsonFiles.events).ToList();
+            //int eventId = eventList.Max(u => u.Id);
+            //int Event_ID = eventId + 1;
+
+            //List<EventDto> event_List = eventList;
+            //event_List.Add(new EventDto()
+            //{
+            //    Id = Event_ID,
+            //    WellName = alertCustom.WellName,
+            //    EventType = "",
+            //    EventStatus = "",
+            //    EventDescription = alertCustom.CustomAlertName +"-"+  + alertCustom.Value,
+            //    UpdatedBy = "001",
+            //    Priority = alertCustom.Priority,
+            //});
+            //var filePathEvent = JsonFiles.events;
+            //UtilityService.Write<EventDto>(event_List, filePathEvent);
+
             return data;
         }
 

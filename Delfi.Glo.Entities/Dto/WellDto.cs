@@ -27,6 +27,10 @@ namespace Delfi.Glo.Entities.Dto
         public string ApprovalStatus { get; set; }    
         public string UserId { get; set; }
         public int NoOfAlerts { get; set; }
-
+        public decimal GasLiftInjectionRate { get; set; }
+        public decimal DeltaPressure { get; set; }
+        public decimal TubingHeadPressure { get; set; }
+        public decimal FlowLinePressure { get; set; }
+        public decimal CasingHeadPressure { get; set; }
     }
 }
