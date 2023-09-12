@@ -20,26 +20,23 @@ namespace Delfi.Glo.Api.Test.Controllers
         [Fact()]
         public async void GetTestEqual()
         {
-            var mockService = new Mock<ICrudService<WellGeneralInfoDto>>();
+            var mockService = new Mock<IGeneralInfoService<WellGeneralInfoDto>>();
             var wellGeneralInfoDTO1 = new WellGeneralInfoDto();
             wellGeneralInfoDTO1 = null;
             var wellGeneralInfoDTO = new WellGeneralInfoDto()
             {
                 Id = 1,
-                Qo = 0,
-                Ql = 0,
+                QOil = 0,
+                QLiq = 0,
                 Qw = 0,
                 Qg = 0,
                 Wc = 0,
-                GlInjectionSetPoint = 901,
+                GLISetPoint = 901,
                 CompressorUpTime = 100,
+                ProductionUpTime = 100,
                 DeviceUpTime = 100,
-                ProcessorState = "Rate Calculation",
-                ApprovalMode = "Auto",
-                WellViewComment1 = "test",
-                WellViewComment2 = "test",
-                WellViewComment3 = "test",
-                WellViewComment4 = "test"
+                CurrentCycleStatus = "Rate Calculation",
+                ApprovalMode = "Auto"
             };
             mockService.Setup(p => p.GetAsync(1)).ReturnsAsync(wellGeneralInfoDTO1);
             _controller = new WellGeneralInfoController(_mockLogger, mockService.Object);
@@ -51,26 +48,23 @@ namespace Delfi.Glo.Api.Test.Controllers
         [Fact]
         public async void GetTestPositive()
         {
-            var mockService = new Mock<ICrudService<WellGeneralInfoDto>>();
+            var mockService = new Mock<IGeneralInfoService<WellGeneralInfoDto>>();
             var wellGeneralInfoDTO1 = new WellGeneralInfoDto();
             wellGeneralInfoDTO1 = null;
             var wellGeneralInfoDTO = new WellGeneralInfoDto()
             {
                 Id = 1,
-                Qo = 0,
-                Ql = 0,
+                QOil = 0,
+                QLiq = 0,
                 Qw = 0,
                 Qg = 0,
                 Wc = 0,
-                GlInjectionSetPoint = 901,
+                GLISetPoint = 901,
                 CompressorUpTime = 100,
+                ProductionUpTime = 100,
                 DeviceUpTime = 100,
-                ProcessorState = "Rate Calculation",
-                ApprovalMode = "Auto",
-                WellViewComment1 = "test",
-                WellViewComment2 = "test",
-                WellViewComment3 = "test",
-                WellViewComment4 = "test"
+                CurrentCycleStatus = "Rate Calculation",
+                ApprovalMode = "Auto"
             };
             mockService.Setup(p => p.GetAsync(1)).ReturnsAsync(wellGeneralInfoDTO1);
             _controller = new WellGeneralInfoController(_mockLogger, mockService.Object);
@@ -81,7 +75,7 @@ namespace Delfi.Glo.Api.Test.Controllers
         [Fact]
         public async void GetTestNegative()
         {
-            var mockService = new Mock<ICrudService<WellGeneralInfoDto>>();
+            var mockService = new Mock<IGeneralInfoService<WellGeneralInfoDto>>();
             var wellGeneralInfoDTO1 = new WellGeneralInfoDto();
             wellGeneralInfoDTO1 = null;
             

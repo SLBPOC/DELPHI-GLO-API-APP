@@ -8,22 +8,22 @@ using Microsoft.AspNetCore.Mvc;
 namespace Delfi.Glo.Api.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
+    [Route("[controller]")]
     public class WellGeneralInfoController : ControllerBase
     {
         private readonly ILogger<WellGeneralInfoController> _logger;
-        private readonly ICrudService<WellGeneralInfoDto> _wellGeneralInfoService;
+        private readonly IGeneralInfoService<WellGeneralInfoDto> _wellGeneralInfoService;
 
-        public WellGeneralInfoController(ILogger<WellGeneralInfoController> logger, ICrudService<WellGeneralInfoDto> wellGeneralInfoService)
+        public WellGeneralInfoController(ILogger<WellGeneralInfoController> logger, IGeneralInfoService<WellGeneralInfoDto> wellGeneralInfoService)
         {
             _logger = logger;
             _wellGeneralInfoService = wellGeneralInfoService;
         }
 
-        [HttpGet()]
-        public async Task<ActionResult<WellGeneralInfoDto>> Get(int id)
+        [HttpGet("GetById")]
+        public async Task<ActionResult<WellGeneralInfoDto>> Get(int Id)
         {
-            return await _wellGeneralInfoService.GetAsync(id);
+            return await _wellGeneralInfoService.GetAsync(Id);
         }
     }
 }

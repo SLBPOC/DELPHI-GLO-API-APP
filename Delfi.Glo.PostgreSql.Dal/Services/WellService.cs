@@ -225,5 +225,14 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
            
             return Item;
         }
+
+        public async Task<IEnumerable<WellDto>> GetWellDetailsInfoById(int WellId)
+        {
+            var wellsListJson = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
+            var wellDetailsInfoSpecification = new WellDetailInfoSpecification(WellId);
+            var well  = wellsListJson.Where(wellDetailsInfoSpecification.ToExpression());
+            return well;
+
+        }
     }
 }
