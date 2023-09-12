@@ -20,10 +20,10 @@ namespace Delfi.Glo.Api.Test.Controllers
         [Fact()]
         public async void GetTestEqual()
         {
-            var mockService = new Mock<IGeneralInfoService<WellDto>>();
-            var wellGeneralInfoDTO1 = new WellDto();
+            var mockService = new Mock<IGeneralInfoService<WellGeneralInfoDto>>();
+            var wellGeneralInfoDTO1 = new WellGeneralInfoDto();
             wellGeneralInfoDTO1 = null;
-            var wellGeneralInfoDTO = new WellDto()
+            var wellGeneralInfoDTO = new WellGeneralInfoDto()
             {
                 Id = 1,
                 QOil = 0,
@@ -48,10 +48,10 @@ namespace Delfi.Glo.Api.Test.Controllers
         [Fact]
         public async void GetTestPositive()
         {
-            var mockService = new Mock<IGeneralInfoService<WellDto>>();
-            var wellGeneralInfoDTO1 = new WellDto();
+            var mockService = new Mock<IGeneralInfoService<WellGeneralInfoDto>>();
+            var wellGeneralInfoDTO1 = new WellGeneralInfoDto();
             wellGeneralInfoDTO1 = null;
-            var wellGeneralInfoDTO = new WellDto()
+            var wellGeneralInfoDTO = new WellGeneralInfoDto()
             {
                 Id = 1,
                 QOil = 0,
@@ -75,8 +75,8 @@ namespace Delfi.Glo.Api.Test.Controllers
         [Fact]
         public async void GetTestNegative()
         {
-            var mockService = new Mock<IGeneralInfoService<WellDto>>();
-            var wellGeneralInfoDTO1 = new WellDto();
+            var mockService = new Mock<IGeneralInfoService<WellGeneralInfoDto>>();
+            var wellGeneralInfoDTO1 = new WellGeneralInfoDto();
             wellGeneralInfoDTO1 = null;
             
             mockService.Setup(p => p.GetAsync(1)).ReturnsAsync(wellGeneralInfoDTO1);

@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
-    public class WellGeneralInfoService : IGeneralInfoService<WellDto>
+    public class WellGeneralInfoService : IGeneralInfoService<WellGeneralInfoDto>
 
     {
         private readonly DbUnitWork _dbUnit;
@@ -54,29 +54,14 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
         //}
 
-        public async Task<WellDto> GetAsync(int id)
+        public async Task<WellGeneralInfoDto> GetAsync(int id)
         {
-            var eventInJson = UtilityService.Read<List<WellDto>>
+            var eventInJson = UtilityService.Read<List<WellGeneralInfoDto>>
                                                     (JsonFiles.Wells).AsQueryable();
-            List<WellDto> alertCustomList = eventInJson.ToList();
+            List<WellGeneralInfoDto> alertCustomList = eventInJson.ToList();
             var spec = new GeneralInfoSpecification(id);
             var obj = eventInJson.FirstOrDefault(spec.ToExpression());
 
-            // var detail = new WellDto();
-
-            //detail.Id = obj.Id;
-            //detail.QOil = obj.QOil;
-            //detail.QLiq = obj.QLiq;
-            //detail.Qw = obj.Qw;
-            //detail.Qg = obj.Qg;
-            //detail.Wc = obj.Wc;
-            //detail.GLISetPoint = obj.GLISetPoint;
-            //detail.CompressorUpTime = obj.CompressorUpTime;
-            //detail.DeviceUpTime = obj.DeviceUpTime;
-            //detail.CurrentCycleStatus = obj.CurrentCycleStatus;
-            //detail.ApprovalMode = obj.ApprovalMode;
-
-            //return detail;
             if (obj == null)
             {
                 return null;
