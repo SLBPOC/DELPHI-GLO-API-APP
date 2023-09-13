@@ -75,7 +75,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
          async Task<Tuple<bool, IEnumerable<EventDto>, int>> IEventService<EventDto>.GetEvents(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate, string? eventType, string? eventStatus)
         {
-            var eventInJson = UtilityService.Read<List<EventDto>> (JsonFiles.events).AsQueryable();
+            var eventInJson = UtilityService.Read<List<EventDto>> (JsonFiles.Events).AsQueryable();
 
             ///get only last 7 days data
             DateTime lastDate = DateTime.Now;

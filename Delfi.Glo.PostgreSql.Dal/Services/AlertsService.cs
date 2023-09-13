@@ -69,7 +69,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             var alertsDto = new List<AlertsDto>();
             int Count = 0;
             var alertInJson = UtilityService.Read<List<AlertsDto>>
-                                              (JsonFiles.alerts).AsQueryable();
+                                              (JsonFiles.Alerts).AsQueryable();
             Count = alertInJson.Count();
             foreach (var alert in alertInJson.Where(a => a.SnoozeFlag == true))
             {
@@ -140,9 +140,9 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
         private static void AddCustomAlertsInAlerts()
         {
-            string fileName = JsonFiles.customAlert;
+            string fileName = JsonFiles.CustomAlerts;
             ///Get the custom alerts to show in alert screen with date condition
-            var CustomAlert_json = UtilityService.Read<List<CustomAlertDto>>(JsonFiles.customAlert).AsQueryable();
+            var CustomAlert_json = UtilityService.Read<List<CustomAlertDto>>(JsonFiles.CustomAlerts).AsQueryable();
             var CustomeAlerts = CustomAlert_json.Where(x => DateTime.Parse(x.StartDate, null, DateTimeStyles.RoundtripKind) <= DateTime.Now && DateTime.Now <= DateTime.Parse(x.EndDate, null, DateTimeStyles.RoundtripKind) && x.IsShownInAlerts == false).ToList();
 
             ///Check Category conditions on custom alert
@@ -169,7 +169,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
             ///Add Custom alert in the Alert list 
             var AlertList = UtilityService.Read<List<AlertsDto>>
-                                 (JsonFiles.alerts).ToList();
+                                 (JsonFiles.Alerts).ToList();
             int AlertId = AlertList.Max(u => u.Id);
 
 
@@ -199,7 +199,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 var jsonData = JsonConvert.SerializeObject(CustomAlert_json, Formatting.Indented);
                 System.IO.File.WriteAllText(fileName, jsonData);
             }
-            var filePathAlert = JsonFiles.alerts;
+            var filePathAlert = JsonFiles.Alerts;
             UtilityService.Write<AlertsDto>(alert_List, filePathAlert);
         }
 
@@ -211,12 +211,12 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             int Low = 0;
             int Cleared = 0;
         
-            string fileName = JsonFiles.alerts;
+            string fileName = JsonFiles.Alerts;
             string currentDirectory = Directory.GetCurrentDirectory();
             string[] fullFilePath = Directory.GetFiles(currentDirectory, fileName, SearchOption.AllDirectories);
 
             var alertsList = UtilityService.Read<List<AlertsDto>>
-                                         (JsonFiles.alerts).AsQueryable();
+                                         (JsonFiles.Alerts).AsQueryable();
             alertsList.First(a => a.Id == alertId).SnoozeFlag = true;
             alertsList.First(a => a.Id == alertId).SnoozeDateTime = DateTime.Now.ToString();
             alertsList.First(a => a.Id == alertId).SnoozeInterval = snoozeBy;
@@ -238,12 +238,12 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
         public async Task<bool> SetClearAlert(int alertId, string comment)
         {
-            string fileName = JsonFiles.alerts;
+            string fileName = JsonFiles.Alerts;
             string currentDirectory = Directory.GetCurrentDirectory();
             string[] fullFilePath = Directory.GetFiles(currentDirectory, fileName, SearchOption.AllDirectories);
 
             var alertsList = UtilityService.Read<List<AlertsDto>>
-                                          (JsonFiles.alerts).AsQueryable();
+                                          (JsonFiles.Alerts).AsQueryable();
             alertsList.First(a => a.Id == alertId).Comment = comment;
             alertsList.First(a => a.Id == alertId).AlertLevel = "Cleared";
             alertsList.First(a => a.Id == alertId).AlertStatus = "Cleared";
@@ -259,7 +259,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             //Add clear alert in the event list 
             var alerts = alertsList.First(a => a.Id == alertId);
             var eventList = UtilityService.Read<List<EventDto>>
-                                 (JsonFiles.events).ToList();
+                                 (JsonFiles.Events).ToList();
             int eventId = eventList.Max(u => u.Id);
             int Event_ID = eventId + 1;
             var alertDescription = alertsList.First(a => a.Id == alertId).AlertDescription;
@@ -276,7 +276,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             Priority = "High",
             UpdatedBy = "001",
             });
-            var filePath = JsonFiles.events;
+            var filePath = JsonFiles.Events;
             bool data = UtilityService.Write<EventDto>(event_List, filePath);
 
             return true;
