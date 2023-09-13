@@ -22,7 +22,7 @@ using static Delfi.Glo.PostgreSql.Dal.Specifications.WellDetailSpecification;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
-    public class WellService : ICrudService<WellDto>, IFilterService<WellDto>, IWellService<WellDetailsDto>
+    public class WellService : ICrudService<WellDto>, IFilterService<WellDto>, IWellService<WellDetailsDto>, IWellDetailsInfoService<SwimLaneGraphDetails>
     {
         private readonly DbUnitWork _dbUnit;
 
@@ -252,11 +252,28 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             wellDetailsDto.wellSetPointDetails = Getlast7DaysSetPointDetails(WellId);
             return wellDetailsDto;
         }
+      public async  Task<SwimLaneGraphDetails> GetSwimLaneDetailsByDate(int WellId, DateTime StartDate, DateTime EndDate)
+        {
+            SwimLaneGraphDetails swimLaneGraphDetails = new SwimLaneGraphDetails();
+            swimLaneGraphDetails.currentCycle = GetCurrentCycleByDate(WellId, StartDate, EndDate);
+            swimLaneGraphDetails.Last48HoursCycle = GetLast48HoursCycleByDate(WellId, StartDate, EndDate);
+            swimLaneGraphDetails.Previous48HoursCycle = GetPrevious48HourssByDate(WellId, StartDate, EndDate);
+            swimLaneGraphDetails.LastCycle = GetLastCycleByDate(WellId, StartDate, EndDate);
 
-        public static List<WellDto> GetWellSpec(int WellId)
+            return swimLaneGraphDetails;
+        }
+            public static List<WellDto> GetWellSpec(int WellId)
         {
             var wellsListJson = UtilityService.Read<List<WellDto>>(JsonFiles.WelldetailsInfo)?.AsQueryable();
             var wellDetailsInfoSpecification = new WellDetailSpecification(WellId);
+            var well = wellsListJson.Where(wellDetailsInfoSpecification.ToExpression());
+
+            return well.ToList();
+        }
+        public static List<WellDto> GetWellSpecByDate(int WellId, DateTime StartDate, DateTime EndDate)
+        {
+            var wellsListJson = UtilityService.Read<List<WellDto>>(JsonFiles.WelldetailsInfo)?.AsQueryable();
+            var wellDetailsInfoSpecification = new WellDetailSpecificationByDate(WellId,StartDate,EndDate);
             var well = wellsListJson.Where(wellDetailsInfoSpecification.ToExpression());
 
             return well.ToList();
@@ -298,11 +315,33 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 currentCycle.CompressorUpTime = CUT;
                 currentCycle.ProductionUpTime = PUT;
                 currentCycle.TotalUpTime = (CUT >= 90) && CUT >= 90 ? "Up" : "Down";
+               
+            }
+            return currentCycle;
+        }
+        public static CurrentCycle GetCurrentCycleByDate(int WellId, DateTime? StarDate, DateTime? EndDate)
+        {
+            CurrentCycle currentCycle = new CurrentCycle();
+
+            var well = GetWellSpec(WellId);
+
+            var recentWell = well.Where(c => c.TimeStamp.Value.Year >= EndDate.Value.Year
+                                          && c.TimeStamp.Value.Month >= EndDate.Value.Month
+                                          && c.TimeStamp.Value.Day >= EndDate.Value.Day);
+            if (recentWell.Count() > 0)
+            {
+
+                double CUT = (double)recentWell.Select(c => c.CompressorUpTime).First();
+                double PUT = (double)recentWell.Select(c => c.ProductionUpTime).First();
+
+
+                currentCycle.CompressorUpTime = CUT;
+                currentCycle.ProductionUpTime = PUT;
+                currentCycle.TotalUpTime = (CUT >= 90) && CUT >= 90 ? "Up" : "Down";
 
             }
             return currentCycle;
         }
-
         public static Last48HoursCycle GetLast48HoursCycle(int WellId)
         {
             Last48HoursCycle last48HoursCycle = new Last48HoursCycle();
@@ -326,7 +365,35 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 last48HoursCycle.CompressorUpTime = Compressor;
                 last48HoursCycle.ProductionUpTime = Production;
                 last48HoursCycle.TotalUpTime = (Compressor >= 90) && Production >= 90 ? "Up" : "Down";
-   
+                last48HoursCycle.StartDate = DayBeforeyesterday;
+                last48HoursCycle.EndDate = yesterday;
+            }
+            return last48HoursCycle;
+        }
+        public static Last48HoursCycle GetLast48HoursCycleByDate(int WellId,DateTime StartDate,DateTime EndDate)
+        {
+            Last48HoursCycle last48HoursCycle = new Last48HoursCycle();
+            DateTime yesterday = EndDate.Date.AddDays(-1);
+            DateTime DayBeforeyesterday = EndDate.Date.AddDays(-2);
+
+            var well = GetWellSpecByDate(WellId,StartDate,EndDate);
+            var Last48Hourss = well.Where(c => c.TimeStamp.Value.Year >= DayBeforeyesterday.Year
+                                           && c.TimeStamp.Value.Month >= DayBeforeyesterday.Month
+                                           && c.TimeStamp.Value.Day >= DayBeforeyesterday.Day
+
+                 && c.TimeStamp.Value.Year <= yesterday.Year
+                                           && c.TimeStamp.Value.Month <= yesterday.Month
+                                           && c.TimeStamp.Value.Day <= yesterday.Day);
+            if (Last48Hourss.Count() > 0)
+            {
+                var CUT = Last48Hourss.Select(c => c.CompressorUpTime).ToList();
+                var PUT = Last48Hourss.Select(c => c.ProductionUpTime).ToList();
+                double Compressor = (double)CUT.Average();
+                double Production = (double)PUT.Average();
+                last48HoursCycle.CompressorUpTime = Compressor;
+                last48HoursCycle.ProductionUpTime = Production;
+                last48HoursCycle.TotalUpTime = (Compressor >= 90) && Production >= 90 ? "Up" : "Down";
+               
             }
             return last48HoursCycle;
         }
@@ -353,8 +420,34 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 previous48HoursCycle.CompressorUpTime = Compressor;
                 previous48HoursCycle.ProductionUpTime = Production;
                 previous48HoursCycle.TotalUpTime = (Compressor >= 90) && Production >= 90 ? "Up" : "Down";
+                previous48HoursCycle.StartDate = DayBeforeyesterdayBeforeDay;
+                previous48HoursCycle.EndDate = Previousdaybeore;
+            }
+            return previous48HoursCycle;
+        }
+        public static Previous48HoursCycle GetPrevious48HourssByDate(int WellId,DateTime StartDate,DateTime EndDate)
+        {
+            Previous48HoursCycle previous48HoursCycle = new Previous48HoursCycle();
+            DateTime Previousdaybeore = EndDate.Date.AddDays(-3);
+            DateTime DayBeforeyesterdayBeforeDay = EndDate.Date.AddDays(-4);
+            var well = GetWellSpecByDate(WellId,StartDate,EndDate);
+            var Previous48Hourss = well.Where(c => c.TimeStamp.Value.Year >= DayBeforeyesterdayBeforeDay.Year
+                                           && c.TimeStamp.Value.Month >= DayBeforeyesterdayBeforeDay.Month
+                                           && c.TimeStamp.Value.Day >= DayBeforeyesterdayBeforeDay.Day
 
+                 && c.TimeStamp.Value.Year <= Previousdaybeore.Year
+                                           && c.TimeStamp.Value.Month <= Previousdaybeore.Month
+                                           && c.TimeStamp.Value.Day <= Previousdaybeore.Day);
+            if (Previous48Hourss.Count() > 0)
+            {
+                var CUT = Previous48Hourss.Select(c => c.CompressorUpTime).ToList();
+                var PUT = Previous48Hourss.Select(c => c.ProductionUpTime).ToList();
 
+                double Compressor = (double)CUT.Average();
+                double Production = (double)PUT.Average();
+                previous48HoursCycle.CompressorUpTime = Compressor;
+                previous48HoursCycle.ProductionUpTime = Production;
+                previous48HoursCycle.TotalUpTime = (Compressor >= 90) && Production >= 90 ? "Up" : "Down";
             }
             return previous48HoursCycle;
         }
@@ -381,12 +474,39 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 lastCycle.CompressorUpTime = Compressor;
                 lastCycle.ProductionUpTime = Production;
                 lastCycle.TotalUpTime = (Compressor >= 90) && Production >= 90 ? "Up" : "Down";
+                lastCycle.StartDate = LastCyclebefore7Day;
+                lastCycle.EndDate = LastCycle6day;
+            }
+            return lastCycle;
+        }
+        public static LastCycle GetLastCycleByDate(int WellId, DateTime StartDate, DateTime EndDate)
+        {
+            LastCycle lastCycle = new LastCycle();
+            DateTime LastCycle6day = EndDate.Date.AddDays(-5);
+            DateTime LastCyclebefore7Day = EndDate.Date.AddDays(-6);
+            var well = GetWellSpecByDate(WellId,StartDate,EndDate);
+            var LastCycle48Hourss = well.Where(c => c.TimeStamp.Value.Year >= LastCyclebefore7Day.Year
+                                           && c.TimeStamp.Value.Month >= LastCyclebefore7Day.Month
+                                           && c.TimeStamp.Value.Day >= LastCyclebefore7Day.Day
+
+                 && c.TimeStamp.Value.Year <= LastCycle6day.Year
+                                           && c.TimeStamp.Value.Month <= LastCycle6day.Month
+                                           && c.TimeStamp.Value.Day <= LastCycle6day.Day);
+            if (LastCycle48Hourss.Count() > 0)
+            {
+                var CUT = LastCycle48Hourss.Select(c => c.CompressorUpTime).ToList();
+                var PUT = LastCycle48Hourss.Select(c => c.ProductionUpTime).ToList();
+
+                double Compressor = (double)CUT.Average();
+                double Production = (double)PUT.Average();
+                lastCycle.CompressorUpTime = Compressor;
+                lastCycle.ProductionUpTime = Production;
+                lastCycle.TotalUpTime = (Compressor >= 90) && Production >= 90 ? "Up" : "Down";
 
             }
             return lastCycle;
         }
-
-            public static List<WellInfoByRangeDto> GetWellInfoByRangeDtos(int WellId)
+        public static List<WellInfoByRangeDto> GetWellInfoByRangeDtos(int WellId)
         {
             List<WellInfoByRangeDto> wellInfoByRangeDtos = new List<WellInfoByRangeDto>();
             var WelldetailsInfoJson = UtilityService.Read<List<WellInfoByRangeDto>>(JsonFiles.WelldetailsInfo)?.AsQueryable();
