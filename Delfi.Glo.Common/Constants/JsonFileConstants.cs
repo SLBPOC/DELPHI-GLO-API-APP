@@ -13,5 +13,8 @@ namespace Delfi.Glo.Common.Constants
         public const string events = "JSON/Event.json";
         public const string Wells = "JSON/Well.json";
         public const string customAlert = "JSON/AlertCustom.json";
+       // public const string WelldetailsInfo = "JSON/WellInfoByRange.json";
+        public const string WelldetailsInfo = "JSON/WellDetailsInfo.json";
+
     }      
 }
