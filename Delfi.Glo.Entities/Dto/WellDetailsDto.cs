@@ -27,6 +27,7 @@ namespace Delfi.Glo.Entities.Dto
         public double CompressorUpTime { get; set; }
         public double ProductionUpTime { get; set; }
         public string TotalUpTime { get; set; }
+    
 
     }
     public class Last48HoursCycle
@@ -34,21 +35,24 @@ namespace Delfi.Glo.Entities.Dto
         public double CompressorUpTime { get; set; }
         public double ProductionUpTime { get; set; }
         public string TotalUpTime { get; set; }
-
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
     public class Previous48HoursCycle
     {
         public double CompressorUpTime { get; set; }
         public double ProductionUpTime { get; set; }
         public string TotalUpTime { get; set; }
-
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
     public class LastCycle
     {
         public double CompressorUpTime { get; set; }
         public double ProductionUpTime { get; set; }
         public string TotalUpTime { get; set; }
-
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
     public class WellSetPointDetails
     {

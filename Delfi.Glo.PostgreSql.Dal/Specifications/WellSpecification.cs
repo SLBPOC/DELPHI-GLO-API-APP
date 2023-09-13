@@ -1,6 +1,7 @@
 ﻿using Delfi.Glo.Common.Services;
 using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
+using Delfi.Glo.PostgreSql.Dal.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,5 +50,25 @@ namespace Delfi.Glo.PostgreSql.Dal.Specifications
             return well => well.Id == wellId;
         }
     
+    }
+    public class WellDetailSpecificationByDate : Specification<WellDto>
+    {
+        private readonly int wellId;
+        private readonly DateTime startDate;
+        private readonly DateTime endDate;
+        public WellDetailSpecificationByDate(int wellId, DateTime StartDate,DateTime EndDate)
+        {
+            this.wellId = wellId;
+            this.startDate = StartDate;
+            this.endDate = EndDate;
+        }
+
+        public override Expression<Func<WellDto, bool>> ToExpression()
+        {
+            return a => a.Id == wellId &&(startDate != null && endDate != null ) ? (Convert.ToDateTime(a.TimeStamp) >= Convert.ToDateTime(startDate)
+                                             && Convert.ToDateTime(a.TimeStamp) <= Convert.ToDateTime(endDate)) : true;
+  
+        }
+
     }
 }
