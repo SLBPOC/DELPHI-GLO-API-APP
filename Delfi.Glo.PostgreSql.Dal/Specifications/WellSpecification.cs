@@ -36,17 +36,18 @@ namespace Delfi.Glo.PostgreSql.Dal.Specifications
                             || wells.ApprovalStatus.ToLower().Contains(searchstring);
         }
     }
-    public class WellDetailInfoSpecification : Specification<WellDto>
+    public class WellDetailSpecification : Specification<WellDto>
     {
         private readonly int wellId;
-        public WellDetailInfoSpecification(int wellId)
+        public WellDetailSpecification(int wellId)
         {
-          this.wellId= wellId;
+            this.wellId = wellId;
         }
 
         public override Expression<Func<WellDto, bool>> ToExpression()
         {
             return well => well.Id == wellId;
         }
+    
     }
 }

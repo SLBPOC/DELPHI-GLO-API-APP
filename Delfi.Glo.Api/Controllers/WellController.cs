@@ -26,12 +26,14 @@ namespace Delfi.Glo.Api.Controllers
         private readonly ILogger<WellController> _logger;
         private readonly ICrudService<WellDto> _wellService;
         private readonly IFilterService<WellDto> _filterService;
+        private readonly IWellService<WellDetailsDto> _wellDetailsService;
 
-        public WellController(ILogger<WellController> logger, ICrudService<WellDto> wellService, IFilterService<WellDto> filterService)
+        public WellController(ILogger<WellController> logger, ICrudService<WellDto> wellService, IFilterService<WellDto> filterService,IWellService<WellDetailsDto> wellDetailsService)
         {
             _logger = logger;
             _wellService = wellService;
             _filterService = filterService;
+            _wellDetailsService= wellDetailsService;
         }
 
         [HttpGet("GetWellName")]
@@ -51,8 +53,8 @@ namespace Delfi.Glo.Api.Controllers
         [HttpGet("Id")]
         public async Task<ActionResult<WellDto>> Get(int id)
         {
-            var result = await _filterService.GetWellDetailsInfoById(id);
-            if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result }));
+            var result = await _wellDetailsService.GetWellDetailsInfoById(id);
+            if (result != null) return Ok(JsonConvert.SerializeObject(new { success = true, data = result }));
             else return NotFound($"No Well found with id {id}");
         }
         [HttpPost("GetWellList")]
