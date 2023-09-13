@@ -86,7 +86,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                         var wellsList = wells.Where(spec.ToExpression());
 
                         if (ApprovalStatus != null && ApprovalMode != null)
-                        //    if (ApprovalStatus != null)
                         {
                             wellsList = wells.Where(c => c.ApprovalStatus.ToLower() == ApprovalStatus.ToLower() && c.ApprovalMode.ToLower() == ApprovalMode.ToLower());
                         }
@@ -109,7 +108,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     var wellsList = wells;
                     if (ApprovalStatus != null && ApprovalMode != null)
-                    //    if (ApprovalStatus != null)
                     {
                         wellsList = wells.Where(c => c.ApprovalStatus.ToLower() == ApprovalStatus.ToLower() && c.ApprovalMode.ToLower() == ApprovalMode.ToLower());
                     }

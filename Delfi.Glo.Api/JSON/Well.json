@@ -19,7 +19,12 @@
     "ApprovalMode": "Manual",
     "ApprovalStatus": "Approve",
     "UserId": "U001",
-    "NoOfAlerts": 1
+    "NoOfAlerts": 1,
+    "GasLiftInjectionRate": 80,
+    "DeltaPressure": 90,
+    "TubingHeadPressure": 70,
+    "FlowLinePressure": 75,
+    "CasingHeadPressure": 90
   },
 
   {
@@ -42,7 +47,12 @@
     "ApprovalMode": "Manual",
     "ApprovalStatus": "Approve",
     "UserId": "U001",
-    "NoOfAlerts": 2
+    "NoOfAlerts": 2,
+    "GasLiftInjectionRate": 80,
+    "DeltaPressure": 90,
+    "TubingHeadPressure": 70,
+    "FlowLinePressure": 75,
+    "CasingHeadPressure": 90
   },
   {
     "Id": 3,
@@ -64,7 +74,12 @@
     "ApprovalMode": "Auto",
     "ApprovalStatus": "Override",
     "UserId": "U001",
-    "NoOfAlerts": 3
+    "NoOfAlerts": 3,
+    "GasLiftInjectionRate": 80,
+    "DeltaPressure": 90,
+    "TubingHeadPressure": 70,
+    "FlowLinePressure": 75,
+    "CasingHeadPressure": 90
   },
   {
     "Id": 4,
@@ -86,7 +101,12 @@
     "ApprovalMode": "Auto",
     "ApprovalStatus": "Approve",
     "UserId": "U001",
-    "NoOfAlerts": 4
+    "NoOfAlerts": 4,
+    "GasLiftInjectionRate": 80,
+    "DeltaPressure": 90,
+    "TubingHeadPressure": 70,
+    "FlowLinePressure": 75,
+    "CasingHeadPressure": 90
   },
   {
     "Id": 5,
@@ -108,7 +128,12 @@
     "ApprovalMode": "Auto",
     "ApprovalStatus": "Override",
     "UserId": "U001",
-    "NoOfAlerts": 5
+    "NoOfAlerts": 5,
+    "GasLiftInjectionRate": 80,
+    "DeltaPressure": 90,
+    "TubingHeadPressure": 70,
+    "FlowLinePressure": 75,
+    "CasingHeadPressure": 90
   },
 
   {
@@ -131,7 +156,12 @@
     "ApprovalMode": "Auto",
     "ApprovalStatus": "Discard",
     "UserId": "U001",
-    "NoOfAlerts": 6
+    "NoOfAlerts": 6,
+    "GasLiftInjectionRate": 80,
+    "DeltaPressure": 90,
+    "TubingHeadPressure": 70,
+    "FlowLinePressure": 75,
+    "CasingHeadPressure": 90
   },
   {
     "Id": 7,
@@ -153,6 +183,11 @@
     "ApprovalMode": "Auto",
     "ApprovalStatus": "Discard",
     "UserId": "U001",
-    "NoOfAlerts": 7
+    "NoOfAlerts": 7,
+    "GasLiftInjectionRate": 80,
+    "DeltaPressure": 90,
+    "TubingHeadPressure": 70,
+    "FlowLinePressure": 75,
+    "CasingHeadPressure": 90
   }
 ]

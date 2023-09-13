@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -143,6 +144,29 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             ///Get the custom alerts to show in alert screen with date condition
             var CustomAlert_json = UtilityService.Read<List<CustomAlertDto>>(JsonFiles.customAlert).AsQueryable();
             var CustomeAlerts = CustomAlert_json.Where(x => DateTime.Parse(x.StartDate, null, DateTimeStyles.RoundtripKind) <= DateTime.Now && DateTime.Now <= DateTime.Parse(x.EndDate, null, DateTimeStyles.RoundtripKind) && x.IsShownInAlerts == false).ToList();
+
+            ///Check Category conditions on custom alert
+            var Well_json = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
+            foreach (var ca in CustomeAlerts)
+            {
+                //var Singlewell = Well_json.Where(x => x.Id == ca.WellId);
+                var isFulfillAllConditions = true;
+                string dynmaicExpresion = "";
+                if (ca.Category == "GLIR")
+                {
+                   // dynmaicExpresion =$""
+                   //isFulfillAllConditions = Well_json.All(x => x.Id == ca.WellId && x.GasLiftInjectionRate  ca.Operator ca.Value);
+                }
+               
+            }
+            ////////////////////////////////////////////////////////////////
+
+          
+
+            /////////////////////////////////////////////////////////////////
+
+
+
             ///Add Custom alert in the Alert list 
             var AlertList = UtilityService.Read<List<AlertsDto>>
                                  (JsonFiles.alerts).ToList();
