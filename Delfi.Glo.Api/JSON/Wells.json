@@ -20,11 +20,11 @@
     "ApprovalStatus": "Approve",
     "UserId": "U001",
     "NoOfAlerts": 1,
-    "GasLiftInjectionRate": 80,
-    "DeltaPressure": 90,
-    "TubingHeadPressure": 70,
-    "FlowLinePressure": 75,
-    "CasingHeadPressure": 90
+    "GLIR": 80,
+    "DP": 90,
+    "THP": 70,
+    "FLP": 75,
+    "CHP": 90
   },
 
   {
@@ -48,11 +48,11 @@
     "ApprovalStatus": "Approve",
     "UserId": "U001",
     "NoOfAlerts": 2,
-    "GasLiftInjectionRate": 80,
-    "DeltaPressure": 90,
-    "TubingHeadPressure": 70,
-    "FlowLinePressure": 75,
-    "CasingHeadPressure": 90
+    "GLIR": 80,
+    "DP": 90,
+    "THP": 70,
+    "FLP": 75,
+    "CHP": 90
   },
   {
     "Id": 3,
@@ -75,11 +75,12 @@
     "ApprovalStatus": "Override",
     "UserId": "U001",
     "NoOfAlerts": 3,
-    "GasLiftInjectionRate": 80,
-    "DeltaPressure": 90,
-    "TubingHeadPressure": 70,
-    "FlowLinePressure": 75,
-    "CasingHeadPressure": 90
+    "GOR": 10,
+    "GLIR": 80,
+    "DP": 90,
+    "THP": 70,
+    "FLP": 75,
+    "CHP": 90
   },
   {
     "Id": 4,
@@ -102,11 +103,12 @@
     "ApprovalStatus": "Approve",
     "UserId": "U001",
     "NoOfAlerts": 4,
-    "GasLiftInjectionRate": 80,
-    "DeltaPressure": 90,
-    "TubingHeadPressure": 70,
-    "FlowLinePressure": 75,
-    "CasingHeadPressure": 90
+    "GOR": 10,
+    "GLIR": 80,
+    "DP": 90,
+    "THP": 70,
+    "FLP": 75,
+    "CHP": 90
   },
   {
     "Id": 5,
@@ -129,11 +131,12 @@
     "ApprovalStatus": "Override",
     "UserId": "U001",
     "NoOfAlerts": 5,
-    "GasLiftInjectionRate": 80,
-    "DeltaPressure": 90,
-    "TubingHeadPressure": 70,
-    "FlowLinePressure": 75,
-    "CasingHeadPressure": 90
+    "GOR": 10,
+    "GLIR": 80,
+    "DP": 90,
+    "THP": 70,
+    "FLP": 75,
+    "CHP": 90
   },
 
   {
@@ -157,11 +160,12 @@
     "ApprovalStatus": "Discard",
     "UserId": "U001",
     "NoOfAlerts": 6,
-    "GasLiftInjectionRate": 80,
-    "DeltaPressure": 90,
-    "TubingHeadPressure": 70,
-    "FlowLinePressure": 75,
-    "CasingHeadPressure": 90
+    "GOR": 10,
+    "GLIR": 80,
+    "DP": 90,
+    "THP": 70,
+    "FLP": 75,
+    "CHP": 90
   },
   {
     "Id": 7,
@@ -184,10 +188,11 @@
     "ApprovalStatus": "Discard",
     "UserId": "U001",
     "NoOfAlerts": 7,
-    "GasLiftInjectionRate": 80,
-    "DeltaPressure": 90,
-    "TubingHeadPressure": 70,
-    "FlowLinePressure": 75,
-    "CasingHeadPressure": 90
+    "GOR": 10,
+    "GLIR": 80,
+    "DP": 90,
+    "THP": 70,
+    "FLP": 75,
+    "CHP": 90
   }
 ]

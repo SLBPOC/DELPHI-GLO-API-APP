@@ -30,38 +30,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         {
             _dbUnit = dbUnit;
         }
-        //public Task<AlertsDto> CreateAsync(AlertsDto item)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<AlertsDto> CreateAsyncAlertCustom(AlertsDto item)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<bool> DeleteAsync(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<bool> DeleteAsyncAlertCustom(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<bool> ExistsAsync(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Task<AlertsDto> GetAlertCustomByAlertId(int id)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-
-        //public async Task<IEnumerable<AlertsDto>> GetAlerts(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate)
         public async Task<Tuple<IEnumerable<AlertsDto>, int>> GetAlerts(int pageIndex, int pageSize, string? searchString, List<SortExpression> sortExpression, DateTime? startDate, DateTime? endDate)
         {
             AddCustomAlertsInAlerts();
@@ -144,20 +112,163 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             ///Get the custom alerts to show in alert screen with date condition
             var CustomAlert_json = UtilityService.Read<List<CustomAlertDto>>(JsonFiles.CustomAlerts).AsQueryable();
             var CustomeAlerts = CustomAlert_json.Where(x => DateTime.Parse(x.StartDate, null, DateTimeStyles.RoundtripKind) <= DateTime.Now && DateTime.Now <= DateTime.Parse(x.EndDate, null, DateTimeStyles.RoundtripKind) && x.IsShownInAlerts == false).ToList();
-
+            var CustomeAlert_1 = CustomeAlerts.ToList();
             ///Check Category conditions on custom alert
             var Well_json = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
-            foreach (var ca in CustomeAlerts)
+            foreach (var ca in CustomeAlert_1)
             {
-                //var Singlewell = Well_json.Where(x => x.Id == ca.WellId);
+                //var Singlewell = Well_json.FirstOrDefault(x => x.Id == ca.WellId);
                 var isFulfillAllConditions = true;
-                string dynmaicExpresion = "";
-                if (ca.Category == "GLIR")
+                 if (ca.Category == "GLIR")
                 {
                    // dynmaicExpresion =$""
-                   //isFulfillAllConditions = Well_json.All(x => x.Id == ca.WellId && x.GasLiftInjectionRate  ca.Operator ca.Value);
+                   //
+                    if(ca.Operator == "=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.GLIR  == ca.Value);
+                    }
+                    else if (ca.Operator == "<>")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.GLIR != ca.Value);
+                    }
+                    else if (ca.Operator == ">")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.GLIR > ca.Value);
+                    }
+                    else if (ca.Operator == "<")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.GLIR < ca.Value);
+                    }
+                    else if (ca.Operator == ">=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.GLIR >= ca.Value);
+                    }
+                    else if (ca.Operator == "<=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.GLIR <= ca.Value);
+                    }
                 }
-               
+                else if (ca.Category == "DP")
+                {
+                    // dynmaicExpresion =$""
+                    //
+                    if (ca.Operator == "=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.DP == ca.Value);
+                    }
+                    else if (ca.Operator == "<>")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.DP != ca.Value);
+                    }
+                    else if (ca.Operator == ">")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.DP > ca.Value);
+                    }
+                    else if (ca.Operator == "<")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.DP < ca.Value);
+                    }
+                    else if (ca.Operator == ">=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.DP >= ca.Value);
+                    }
+                    else if (ca.Operator == "<=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.DP <= ca.Value);
+                    }
+                }
+                else if (ca.Category == "THP")
+                {
+                    // dynmaicExpresion =$""
+                    //
+                    if (ca.Operator == "=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.THP == ca.Value);
+                    }
+                    else if (ca.Operator == "<>")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.THP != ca.Value);
+                    }
+                    else if (ca.Operator == ">")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.THP > ca.Value);
+                    }
+                    else if (ca.Operator == "<")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.THP < ca.Value);
+                    }
+                    else if (ca.Operator == ">=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.THP >= ca.Value);
+                    }
+                    else if (ca.Operator == "<=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.THP <= ca.Value);
+                    }
+                }
+                else if (ca.Category == "FLP")
+                {
+                    // dynmaicExpresion =$""
+                    //
+                    if (ca.Operator == "=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.FLP == ca.Value);
+                    }
+                    else if (ca.Operator == "<>")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.FLP != ca.Value);
+                    }
+                    else if (ca.Operator == ">")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.FLP > ca.Value);
+                    }
+                    else if (ca.Operator == "<")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.FLP < ca.Value);
+                    }
+                    else if (ca.Operator == ">=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.FLP >= ca.Value);
+                    }
+                    else if (ca.Operator == "<=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.FLP <= ca.Value);
+                    }
+                }
+                else if (ca.Category == "CHP")
+                {
+                    // dynmaicExpresion =$""
+                    //
+                    if (ca.Operator == "=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.CHP == ca.Value);
+                    }
+                    else if (ca.Operator == "<>")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.CHP != ca.Value);
+                    }
+                    else if (ca.Operator == ">")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.CHP > ca.Value);
+                    }
+                    else if (ca.Operator == "<")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.CHP < ca.Value);
+                    }
+                    else if (ca.Operator == ">=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.CHP >= ca.Value);
+                    }
+                    else if (ca.Operator == "<=")
+                    {
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.CHP <= ca.Value);
+                    }
+                }
+
+                if(!isFulfillAllConditions)
+                {
+                    CustomeAlerts.Remove(ca);
+                }
             }
             ////////////////////////////////////////////////////////////////
 
