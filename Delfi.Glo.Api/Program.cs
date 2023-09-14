@@ -44,9 +44,6 @@ builder.Services.ConfigureRepositoryWrapper();
 // TODO: add custom services to container
 builder.Services.AddCoreServices(builder.Configuration);
 
-
-builder.Services.AddScoped<ICustomAlertService<CustomAlertDto>, CustomAlertServices>();
-builder.Services.AddScoped<IFilterService<WellDto>, WellService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder => builder

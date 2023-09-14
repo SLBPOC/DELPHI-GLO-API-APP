@@ -11,15 +11,20 @@ namespace Delfi.Glo.Api.Extensions
     {
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
         {
-            services.AddScoped<DbUnitWork>();
-
-            services.AddScoped<ICrudService<CrewDto>, CrewService>();
-            services.AddScoped<IGeneralInfoService<WellGeneralInfoDto>, WellGeneralInfoService>();
-
-            //builder.Services.AddScoped<IWellService<GeneralInfoDto>, WellService>();
-         //   services.AddScoped<ICrudService<EventDto>, EventService>();
+            services.AddScoped<IAlertService<AlertsDto>, AlertsService>();
+            services.AddScoped<IEventService<EventDto>, EventService>();
+            
+            services.AddScoped<IFilterService<WellDto>, WellService>();
             services.AddScoped<ICrudService<WellDto>, WellService>();
+
+            services.AddScoped<IGeneralInfoService<WellGeneralInfoDto>, WellGeneralInfoService>();
+            services.AddScoped<IWellService<WellDetailsDto>, WellService>();
+            services.AddScoped<IWellDetailsInfoService<SwimLaneGraphDetails>, WellService>();
             services.AddScoped<ICustomAlertService<CustomAlertDto>, CustomAlertServices>();
+            services.AddScoped<ICrudService<CrewDto>, CrewService>();
+            services.AddScoped<IUniversityService<UniversitiesDto>, UniversityService>();
+
+
         }
     }
 }
