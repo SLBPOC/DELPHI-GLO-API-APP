@@ -15,6 +15,6 @@ namespace Delfi.Glo.Common.Constants
         public const string CustomAlerts = "JSON/CustomAlerts.json";
         public const string UserWellMapping = "JSON/UserWellsMapping.json";
         public const string WelldetailsInfo = "JSON/WellDetailsInfo.json";
-
+        public const string SM38L_firstChartDto = "JSON/SM38L_firstChart.json";
     }      
 }

@@ -69,6 +69,5 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             return obj;
         }
 
-        
     }
 }

@@ -117,12 +117,9 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             var Well_json = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
             foreach (var ca in CustomeAlert_1)
             {
-                //var Singlewell = Well_json.FirstOrDefault(x => x.Id == ca.WellId);
                 var isFulfillAllConditions = true;
                  if (ca.Category == "GLIR")
                 {
-                   // dynmaicExpresion =$""
-                   //
                     if(ca.Operator == "=")
                     {
                         isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.GLIR  == ca.Value);
@@ -150,8 +147,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 }
                 else if (ca.Category == "DP")
                 {
-                    // dynmaicExpresion =$""
-                    //
                     if (ca.Operator == "=")
                     {
                         isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.DP == ca.Value);
@@ -179,8 +174,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 }
                 else if (ca.Category == "THP")
                 {
-                    // dynmaicExpresion =$""
-                    //
                     if (ca.Operator == "=")
                     {
                         isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.THP == ca.Value);
@@ -208,8 +201,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 }
                 else if (ca.Category == "FLP")
                 {
-                    // dynmaicExpresion =$""
-                    //
                     if (ca.Operator == "=")
                     {
                         isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.FLP == ca.Value);
@@ -236,9 +227,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     }
                 }
                 else if (ca.Category == "CHP")
-                {
-                    // dynmaicExpresion =$""
-                    //
+                { 
                     if (ca.Operator == "=")
                     {
                         isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.CHP == ca.Value);
@@ -270,17 +259,11 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     CustomeAlerts.Remove(ca);
                 }
             }
-            ////////////////////////////////////////////////////////////////
-
-          
-
-            /////////////////////////////////////////////////////////////////
 
 
 
             ///Add Custom alert in the Alert list 
-            var AlertList = UtilityService.Read<List<AlertsDto>>
-                                 (JsonFiles.Alerts).ToList();
+            var AlertList = UtilityService.Read<List<AlertsDto>>(JsonFiles.Alerts).ToList();
             int AlertId = AlertList.Max(u => u.Id);
 
 
