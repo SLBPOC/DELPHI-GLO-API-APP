@@ -21,19 +21,20 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         public async Task<IEnumerable<CustomAlertDto>> GetCustomAlert()
         { 
             var eventInJson = UtilityService.Read<List<CustomAlertDto>>
-                                                    (JsonFiles.customAlert).AsQueryable();   
+                                                    (JsonFiles.CustomAlerts).AsQueryable();   
             
             return eventInJson;
         }       
         public async Task<bool> CreateCustomAlert(CustomAlertDto alertCustom)
         {
             var eventInJson = UtilityService.Read<List<CustomAlertDto>>
-                                                    (JsonFiles.customAlert).ToList();
+                                                    (JsonFiles.CustomAlerts).ToList();
             
             List<CustomAlertDto> alertCustomList = eventInJson; 
             alertCustomList.Add(new CustomAlertDto()
             {
                 Id = alertCustomList[alertCustomList.Count - 1].Id + 1,
+                WellId = alertCustom.WellId,
                 WellName = alertCustom.WellName,
                 CustomAlertName = alertCustom.CustomAlertName,
                 Category = alertCustom.Category,
@@ -45,15 +46,37 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 StartDate = alertCustom.StartDate,
                 EndDate = alertCustom.EndDate
             });
-            var filePath = JsonFiles.customAlert;
+            var filePath = JsonFiles.CustomAlerts;
             bool data = UtilityService.Write<CustomAlertDto>(alertCustomList, filePath);
+
+           
+            ///Add Custome alert in the event list 
+            //var eventList = UtilityService.Read<List<EventDto>>
+            //                     (JsonFiles.events).ToList();
+            //int eventId = eventList.Max(u => u.Id);
+            //int Event_ID = eventId + 1;
+
+            //List<EventDto> event_List = eventList;
+            //event_List.Add(new EventDto()
+            //{
+            //    Id = Event_ID,
+            //    WellName = alertCustom.WellName,
+            //    EventType = "",
+            //    EventStatus = "",
+            //    EventDescription = alertCustom.CustomAlertName +"-"+  + alertCustom.Value,
+            //    UpdatedBy = "001",
+            //    Priority = alertCustom.Priority,
+            //});
+            //var filePathEvent = JsonFiles.events;
+            //UtilityService.Write<EventDto>(event_List, filePathEvent);
+
             return data;
         }
 
         public async Task<bool> DeleteCustomAlert(int id)
         {
             var eventInJson = UtilityService.Read<List<CustomAlertDto>>
-                                                    (JsonFiles.customAlert).AsQueryable();
+                                                    (JsonFiles.CustomAlerts).AsQueryable();
             List<CustomAlertDto> alertCustomList = eventInJson.ToList();
             var spec = new CustomAlertSpecification(id);
             var obj = eventInJson.FirstOrDefault(spec.ToExpression());
@@ -62,7 +85,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 return false;
             }
             alertCustomList.Remove(obj);
-            var filePath = JsonFiles.customAlert;
+            var filePath = JsonFiles.CustomAlerts;
             bool data = UtilityService.Write<CustomAlertDto>(alertCustomList, filePath);
             return data;
         }
@@ -70,7 +93,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         public async Task<bool> UpdateToggle(int id, bool check)
         {            
             var eventInJson = UtilityService.Read<List<CustomAlertDto>>
-                                                   (JsonFiles.customAlert).AsQueryable();
+                                                   (JsonFiles.CustomAlerts).AsQueryable();
             List<CustomAlertDto> alertCustomList = eventInJson.ToList();
             var spec = new CustomAlertSpecification(id);
             var obj = eventInJson.FirstOrDefault(spec.ToExpression());
@@ -79,7 +102,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 return false;
             }
             obj.IsActive = check;
-            var filePath = JsonFiles.customAlert;
+            var filePath = JsonFiles.CustomAlerts;
             bool data = UtilityService.Write<CustomAlertDto>(alertCustomList, filePath);            
             return true;
         }
@@ -87,7 +110,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         public async Task<CustomAlertDto> GetCustomAlertByAlertId(int id)
         {
             var eventInJson = UtilityService.Read<List<CustomAlertDto>>
-                                                    (JsonFiles.customAlert).AsQueryable();
+                                                    (JsonFiles.CustomAlerts).AsQueryable();
             List<CustomAlertDto> alertCustomList = eventInJson.ToList();
             var spec = new CustomAlertSpecification(id);
             var obj = eventInJson.FirstOrDefault(spec.ToExpression());

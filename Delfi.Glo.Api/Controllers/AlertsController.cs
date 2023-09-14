@@ -155,7 +155,7 @@ namespace Delfi.Glo.Api.Controllers
             Guard.Against.InvalidPageSize(pageSize);
 
             var alertInJson = UtilityService.Read<List<AlertsDto>>
-                                              (JsonFiles.alerts).AsQueryable();
+                                              (JsonFiles.Alerts).AsQueryable();
             Tuple<IEnumerable<AlertsDto>, int> values = await _alertsService.GetAlerts(pageIndex, pageSize, searchString, sortExpression, startDate, endDate);
 
              if (values.Item1 != null && values.Item1?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = values.Item1, totalCount = values.Item2 }));
@@ -171,7 +171,7 @@ namespace Delfi.Glo.Api.Controllers
             int Low = 0;
             int Cleared = 0;
             var alertsList = UtilityService.Read<List<AlertsDto>>
-                                      (JsonFiles.alerts).AsQueryable();
+                                      (JsonFiles.Alerts).AsQueryable();
             var result = await _alertsService.GetSnoozeByAlert(alertId, snoozeBy);
             if(result!=null && result?.Count() > 0) {
                 Count = alertsList.Count();

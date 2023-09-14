@@ -90,7 +90,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                         var wellsList = wells.Where(spec.ToExpression());
 
                         if (ApprovalStatus != null && ApprovalMode != null)
-                        //    if (ApprovalStatus != null)
                         {
                             wellsList = wells.Where(c => c.ApprovalStatus.ToLower() == ApprovalStatus.ToLower() && c.ApprovalMode.ToLower() == ApprovalMode.ToLower());
                         }
@@ -113,7 +112,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                 {
                     var wellsList = wells;
                     if (ApprovalStatus != null && ApprovalMode != null)
-                    //    if (ApprovalStatus != null)
                     {
                         wellsList = wells.Where(c => c.ApprovalStatus.ToLower() == ApprovalStatus.ToLower() && c.ApprovalMode.ToLower() == ApprovalMode.ToLower());
                     }
@@ -130,7 +128,11 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     wellsDto = wellsList.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
                 }
-
+               
+                foreach (var well in wellsDto)
+                {
+                    well.ApprovalStatus = well.ApprovalMode == "Auto" ? "Approve": well.ApprovalStatus;
+                 }
             }
             return new Tuple<bool, IEnumerable<WellDto>, int, int, int, int>(true, wellsDto, Count, WellPriorityHigh, WellPriorityMedium, WellPriorityLow);
         }
@@ -214,19 +216,15 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
         public async Task<IEnumerable<WellDto>> GetWells()
         {
-            var wellsInJson = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
-            List<WellDto> alertCustomList = wellsInJson.ToList();
-            //var spec = new WellNameSpecification();
-            //var obj = wellsInJson.Select(spec.ToExpression());
-            //var items = alertCustomList.Select(m => new { m.Id, m.WellName });
-            List<WellDto> Item = alertCustomList.Select(m => new WellDto
+            var wellsInJson =  UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
+            List<WellDto> alertCustomList =  wellsInJson.ToList();
+          
+            List<WellDto> Item =  alertCustomList.Select(m => new WellDto
             {
                 Id = m.Id,
                 WellName = m.WellName
             }).Distinct().ToList();
-            //var Item = alertCustomList.Select(m => new { m.Id, m.WellName }).ToList();
-            //var spec = new CustomAlertSpecification();
-            //var obj = eventInJson.FirstOrDefault(spec.ToExpression());
+           
             return Item;
         }
 

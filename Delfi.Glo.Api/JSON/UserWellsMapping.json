@@ -1,0 +1,22 @@
+[
+  {
+    "UserId": "U001",
+    "WellId": 1
+  },
+  {
+    "UserId": "U002",
+    "WellId": 2
+  },
+  {
+    "UserId": "U003",
+    "WellId": 3
+  },
+  {
+    "UserId": "U004",
+    "WellId": 4
+  },
+  {
+    "UserId": "U005",
+    "WellId": 5
+  }
+]
