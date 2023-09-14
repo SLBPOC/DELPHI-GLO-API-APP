@@ -1,10 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Delfi.Glo.Entities.Db;
+﻿using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
-using Delfi.Glo.Entities.Enums;
-using Delfi.Glo.Entities;
 using Delfi.Glo.Repository;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services

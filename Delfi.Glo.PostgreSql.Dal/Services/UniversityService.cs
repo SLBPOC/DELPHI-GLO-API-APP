@@ -1,17 +1,7 @@
-﻿
-using Delfi.Glo.Entities.Dto;
+﻿using Delfi.Glo.Entities.Dto;
 using Delfi.Glo.Repository;
-using Delfi.Glo.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Delfi.Glo.Common.Services;
 using Delfi.Glo.Common.Constants;
-using Microsoft.AspNetCore.Http;
-using NinjaNye.SearchExtensions;
-using Delfi.Glo.Entities.Dto;
 using Delfi.Glo.Common.Services.Interfaces;
 using Delfi.Glo.PostgreSql.Dal.Specifications;
 

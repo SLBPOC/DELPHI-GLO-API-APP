@@ -1,14 +1,8 @@
 ﻿using Delfi.Glo.Common.Constants;
 using Delfi.Glo.Common.Services;
-using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
-using Delfi.Glo.PostgreSql.Dal.Migrations;
 using Delfi.Glo.PostgreSql.Dal.Specifications;
 using Delfi.Glo.Repository;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System.Globalization;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {

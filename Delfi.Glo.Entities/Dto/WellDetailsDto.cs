@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Delfi.Glo.Entities.Dto
+﻿namespace Delfi.Glo.Entities.Dto
 {
     public class WellDetailsDto
     {

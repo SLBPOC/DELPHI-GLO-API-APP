@@ -1,24 +1,10 @@
 ﻿using Delfi.Glo.Common.Constants;
 using Delfi.Glo.Common.Services;
-using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
-using Delfi.Glo.PostgreSql.Dal.Migrations;
 using Delfi.Glo.PostgreSql.Dal.Specifications;
 using Delfi.Glo.Repository;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {

@@ -3,7 +3,6 @@ using Delfi.Glo.Common.Services;
 using Delfi.Glo.Entities.Dto;
 using Delfi.Glo.PostgreSql.Dal.Specifications;
 using Delfi.Glo.Repository;
-using System.Collections.Immutable;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {

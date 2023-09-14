@@ -1,24 +1,9 @@
-﻿using Delfi.Glo.Common;
-using Delfi.Glo.Common.Constants;
-using Delfi.Glo.Common.Helpers;
+﻿using Delfi.Glo.Common.Constants;
 using Delfi.Glo.Common.Services;
-using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
-using Delfi.Glo.PostgreSql.Dal.Migrations;
 using Delfi.Glo.PostgreSql.Dal.Specifications;
 using Delfi.Glo.Repository;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
-using System.Threading.Tasks;
-using static Delfi.Glo.PostgreSql.Dal.Specifications.WellDetailSpecification;
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
@@ -507,7 +492,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         public static List<WellInfoByRangeDto> GetWellInfoByRangeDtos(int WellId)
         {
             List<WellInfoByRangeDto> wellInfoByRangeDtos = new List<WellInfoByRangeDto>();
-            var WelldetailsInfoJson = UtilityService.Read<List<WellInfoByRangeDto>>(JsonFiles.WelldetailsInfo)?.AsQueryable();
+            var WelldetailsInfoJson = UtilityService.Read<List<WellInfoByRangeDto>>(JsonFiles.WellInfoByRange)?.AsQueryable();
             var wellDetailsInfoSpecification = new WellDetailsInfoSpecfication(WellId);
 
             var well = WelldetailsInfoJson.Where(wellDetailsInfoSpecification.ToExpression());
