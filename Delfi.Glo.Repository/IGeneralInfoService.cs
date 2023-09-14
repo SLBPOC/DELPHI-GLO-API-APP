@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Delfi.Glo.Entities.Dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,6 @@ namespace Delfi.Glo.Repository
     {
         Task<T> GetAsync(int id);
         //Task<IEnumerable<T>> GetAllAsync();
-       
+      
     }
 }
