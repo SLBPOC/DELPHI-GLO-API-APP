@@ -15,36 +15,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         {
             _dbUnit = dbUnit;
         }
-
-        public Task<WellDto> CreateAsync(WellDto item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<WellDto> CreateAsyncAlertCustom(WellDto item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteAsyncAlertCustom(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> ExistsAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<WellDto> GetAlertCustomByAlertId(int id)
-        {
-            throw new NotImplementedException();
-        }
         public async Task<IEnumerable<WellDto>> GetFromJsonFile()
         {
             var wellsInJson = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
@@ -122,7 +92,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             return new Tuple<bool, IEnumerable<WellDto>, int, int, int, int>(true, wellsDto, Count, WellPriorityHigh, WellPriorityMedium, WellPriorityLow);
         }
 
-
         public async Task<IEnumerable<WellDto>> GetAllAsync()
         {
             var wells = await GetFromJsonFile();
@@ -188,17 +157,10 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         {
             throw new NotImplementedException();
         }
-
-        public Task<bool> UpdateAsyncAlertCustom(int id, bool check)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<IEnumerable<WellDto>> GetAllListByJson()
         {
             throw new NotImplementedException();
         }
-
         public async Task<IEnumerable<WellDto>> GetWells()
         {
             var wellsInJson =  UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
@@ -212,7 +174,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
            
             return Item;
         }
-
         public async Task<WellDetailsDto> GetWellDetailsInfoById(int WellId)
         {
             WellDetailsDto wellDetailsDto = new WellDetailsDto();
@@ -235,7 +196,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             wellDetailsDto.wellSetPointDetails = Getlast7DaysSetPointDetails(WellId);
             return wellDetailsDto;
         }
-      public async  Task<SwimLaneGraphDetails> GetSwimLaneDetailsByDate(int WellId, DateTime StartDate, DateTime EndDate)
+        public async  Task<SwimLaneGraphDetails> GetSwimLaneDetailsByDate(int WellId, DateTime StartDate, DateTime EndDate)
         {
             SwimLaneGraphDetails swimLaneGraphDetails = new SwimLaneGraphDetails();
             swimLaneGraphDetails.currentCycle = GetCurrentCycleByDate(WellId, StartDate, EndDate);
@@ -245,7 +206,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
             return swimLaneGraphDetails;
         }
-            public static List<WellDto> GetWellSpec(int WellId)
+        public static List<WellDto> GetWellSpec(int WellId)
         {
             var wellsListJson = UtilityService.Read<List<WellDto>>(JsonFiles.WelldetailsInfo)?.AsQueryable();
             var wellDetailsInfoSpecification = new WellDetailSpecification(WellId);
@@ -500,6 +461,17 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             wellInfoByRangeDtos = well.ToList();
             return wellInfoByRangeDtos;
         }
-
+        public Task<WellDto> CreateAsync(WellDto item)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<bool> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+        public Task<bool> ExistsAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
