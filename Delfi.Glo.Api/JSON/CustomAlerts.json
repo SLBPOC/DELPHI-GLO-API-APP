@@ -43,5 +43,35 @@
     "StartDate": "2023-09-11T17:31:28.834Z",
     "EndDate": "2023-09-14T17:31:28.834Z",
     "Id": 50
+  },
+  {
+    "WellId": 3,
+    "WellName": "Apache 22 FED 11",
+    "CustomAlertName": "Custom alert 1",
+    "NotificationType": "Email",
+    "Priority": "Medium",
+    "Category": "GLIR",
+    "Operator": ">=",
+    "Value": 60,
+    "IsActive": true,
+    "IsShownInAlerts": true,
+    "StartDate": "2023-09-13T13:50:22.850Z",
+    "EndDate": "2023-09-16T13:50:22.850Z",
+    "Id": 51
+  },
+  {
+    "WellId": 6,
+    "WellName": "Apache 19 FED 11",
+    "CustomAlertName": "Custom alert 6",
+    "NotificationType": "Email",
+    "Priority": "Medium",
+    "Category": "GLIR",
+    "Operator": "<>",
+    "Value": 60,
+    "IsActive": true,
+    "IsShownInAlerts": false,
+    "StartDate": "2023-09-19T16:43:20.477Z",
+    "EndDate": "2023-09-23T16:43:20.477Z",
+    "Id": 52
   }
 ]

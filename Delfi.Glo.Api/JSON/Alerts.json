@@ -73,5 +73,20 @@
     "Comment": "Custom Alert Custom alert5",
     "UserId": "001",
     "Id": 6
+  },
+  {
+    "WellId": 3,
+    "WellName": "Apache 22 FED 11",
+    "AlertLevel": "Medium",
+    "TimeandDate": "2023-09-14T13:51:24.080394+05:30",
+    "AlertDescription": "Custom Alert Custom alert 1",
+    "AlertType": "Custom",
+    "AlertStatus": "Created",
+    "SnoozeFlag": false,
+    "SnoozeDateTime": "",
+    "SnoozeInterval": 0,
+    "Comment": "Custom Alert Custom alert 1",
+    "UserId": "001",
+    "Id": 7
   }
 ]
