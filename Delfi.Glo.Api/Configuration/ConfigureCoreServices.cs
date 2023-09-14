@@ -25,6 +25,8 @@ namespace Delfi.Glo.Api.Configuration
             services.AddScoped<ICrudService<WellDto>, WellService>();
             services.AddScoped<ICustomAlertService<CustomAlertDto>, CustomAlertServices>();
             services.AddScoped<IUniversityService<UniversitiesDto>, UniversityService>();
+            services.AddScoped<IWellService<WellDetailsDto>, WellService>();
+            services.AddScoped<IWellDetailsInfoService<SwimLaneGraphDetails>, WellService>();
             services.AddScoped(typeof(IHttpService<>), typeof(HttpService<>));
             services.AddTransient<ExceptionMiddleware>();
             services.AddScoped<HttpClient>(s => new HttpClient());

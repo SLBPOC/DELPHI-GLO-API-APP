@@ -26,13 +26,19 @@ namespace Delfi.Glo.Api.Controllers
         private readonly ILogger<WellController> _logger;
         private readonly ICrudService<WellDto> _wellService;
         private readonly IFilterService<WellDto> _filterService;
+        private readonly IWellService<WellDetailsDto> _wellDetailsService;
+        private readonly IWellDetailsInfoService<SwimLaneGraphDetails> _swimLaneService;
+  
 
-        public WellController(ILogger<WellController> logger, ICrudService<WellDto> wellService, IFilterService<WellDto> filterService)
+        public WellController(ILogger<WellController> logger, ICrudService<WellDto> wellService, IFilterService<WellDto> filterService,IWellService<WellDetailsDto> wellDetailsService,IWellDetailsInfoService<SwimLaneGraphDetails> swimLaneGraphDetails)
         {
             _logger = logger;
             _wellService = wellService;
             _filterService = filterService;
+            _wellDetailsService= wellDetailsService;
+            _swimLaneService = swimLaneGraphDetails;
         }
+
 
         [HttpGet("GetWellName")]
         public async Task<IEnumerable<WellDto>> GetWellName()
@@ -51,8 +57,16 @@ namespace Delfi.Glo.Api.Controllers
         [HttpGet("Id")]
         public async Task<ActionResult<WellDto>> Get(int id)
         {
-            var result = await _filterService.GetWellDetailsInfoById(id);
-            if (result != null && result?.Count() > 0) return Ok(JsonConvert.SerializeObject(new { success = true, data = result }));
+            var result = await _wellDetailsService.GetWellDetailsInfoById(id);
+            if (result != null) return Ok(JsonConvert.SerializeObject(new { success = true, data = result }));
+            else return NotFound($"No Well found with id {id}");
+        }
+
+        [HttpGet("SwimLaneGraph")]
+        public async Task<ActionResult<WellDto>> Get(int id, DateTime StartDate, DateTime EndDate)
+        {
+            var result = await _swimLaneService.GetSwimLaneDetailsByDate(id,StartDate,EndDate);
+            if (result != null) return Ok(JsonConvert.SerializeObject(new { success = true, data = result }));
             else return NotFound($"No Well found with id {id}");
         }
         [HttpPost("GetWellList")]

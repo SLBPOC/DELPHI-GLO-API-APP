@@ -7,11 +7,14 @@ namespace Delfi.Glo.Common.Services
     // add common services here in this folder
     public static class UtilityService 
     {
-        public static T Read<T>(string filePath)
+        public static T? Read<T>(string filePath)
         {
             string text = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<T>(text);
+            var result = JsonConvert.DeserializeObject<T>(text);
+            return result;
         }
+    
 
         public static bool Write<T>(List<T> list, string filePath)
         {
