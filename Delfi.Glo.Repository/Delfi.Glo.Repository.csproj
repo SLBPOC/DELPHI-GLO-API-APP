@@ -10,10 +10,6 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\Delfi.Glo.Entities\Delfi.Glo.Entities.csproj" />
-	</ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Delfi.Glo.Common\Delfi.Glo.Common.csproj" />
     <ProjectReference Include="..\Delfi.Glo.Entities\Delfi.Glo.Entities.csproj" />
@@ -21,10 +17,6 @@
 
   <ItemGroup>
     <EditorConfigFiles Remove="C:\Users\velmuruganm\source\repos\SLBPOC\DELPHI-GLO-API-APP\Delfi.Glo.Repository\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="C:\Users\velmuruganm\source\repos\SLBPOC\DELPHI-GLO-API-APP\Delfi.Glo.Repository\.editorconfig" />
   </ItemGroup>
 
 </Project>
