@@ -28,5 +28,20 @@
     "StartDate": "2023-09-12T16:12:41.206Z",
     "EndDate": "2023-09-14T16:12:41.206Z",
     "Id": 49
+  },
+  {
+    "WellId": 7,
+    "WellName": "Apache 18 FED 11",
+    "CustomAlertName": "Custom alert5",
+    "NotificationType": "Email",
+    "Priority": "Medium",
+    "Category": "GLIR",
+    "Operator": ">=",
+    "Value": 60,
+    "IsActive": true,
+    "IsShownInAlerts": true,
+    "StartDate": "2023-09-11T17:31:28.834Z",
+    "EndDate": "2023-09-14T17:31:28.834Z",
+    "Id": 50
   }
 ]
