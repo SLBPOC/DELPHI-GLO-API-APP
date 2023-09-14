@@ -247,7 +247,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
 
 
-
             ///Add Custom alert in the Alert list 
             var AlertList = UtilityService.Read<List<AlertsDto>>(JsonFiles.Alerts).ToList();
             int AlertId = AlertList.Max(u => u.Id);
@@ -263,7 +262,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     Id = AlertId,
                     WellId = c.WellId,
                     WellName = c.WellName,
-                    AlertLevel = "Medium",
+                    AlertLevel = c.Priority,
                     TimeandDate = DateTime.Now,
                     AlertDescription = "Custom Alert " + c.CustomAlertName,
                     AlertType = "Custom",
@@ -272,7 +271,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     SnoozeDateTime = "",
                     SnoozeInterval = 0,
                     Comment = "Custom Alert " + c.CustomAlertName,
-                    UserId = "001",
+                    UserId = "U001",
 
                 });
                 CustomAlert_json.First(a => a.Id == c.Id).IsShownInAlerts = true;
@@ -361,62 +360,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
             return true;
         }
-
-
-        //        public async Task<IEnumerable<AlertsDto>> GetAllAsync()
-        //        {
-        //            var alerts = _dbUnit.alertss.GetAll().ToList();
-        //            var alertsDto = new List<AlertsDto>();
-        //            foreach (var item in alerts)
-        //            {
-        //                var alertDto = new AlertsDto();
-        //                alertDto.Id = item.Id;
-        //                alertDto.WellName = item.WellName;
-        //                alertDto.AlertLevel = item.AlertLevel;
-        //                alertDto.AlertStatus = item.AlertStatus;
-        //                alertDto.AlertType = item.AlertType;
-        //                alertDto.AlertDescription = item.AlertDescription;
-        //                alertDto.TimeandDate = item.TimeandDate;
-
-        //                alertsDto.Add(alertDto);
-        //            }
-        //            return alertsDto;
-        //}
-
-        //        public Task<IEnumerable<AlertsDto>> GetAllListByJson()
-        //        {
-        //            throw new NotImplementedException();
-        //        }
-
-        //        //public async Task<AlertsDto> GetAsync(int id)
-        //        //{
-        //        //    Alerts alert = _dbUnit.alertss.FirstOrDefault(x => x.Id == id);
-        //        //    if (alert == null) return null;
-        //        //    var alertDto = new AlertsDto();
-        //        //    alertDto.Id = alert.Id;
-        //        //    alertDto.WellName = alert.WellName;
-        //        //    alertDto.AlertLevel = alert.AlertLevel;
-        //        //    alertDto.AlertStatus = alert.AlertStatus;
-        //        //    alertDto.AlertDescription = alert.AlertDescription;
-        //        //    alertDto.TimeandDate= alert.TimeandDate;
-        //        //    return alertDto;
-        //        //}
-
-        //        public Task<IEnumerable<AlertsDto>> GetFromJsonFile()
-        //        {
-        //            throw new NotImplementedException();
-        //        }
-
-        //        public Task<AlertsDto> UpdateAsync(int id, AlertsDto item)
-        //        {
-        //            throw new NotImplementedException();
-        //        }
-
-        //        public Task<bool> UpdateAsyncAlertCustom(int id, bool check)
-        //        {
-        //            throw new NotImplementedException();
-        //        }
-
 
     }
 }
