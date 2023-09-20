@@ -8,7 +8,6 @@ using System.Linq.Dynamic.Core;
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
     public class WellService : IWellService<WellDto>
-    //public class WellService : ICrudService<WellDto>, IFilterService<WellDto>, IWellDetailsInfoService<WellDetailsDto>
     {
         private readonly DbUnitWork _dbUnit;
 

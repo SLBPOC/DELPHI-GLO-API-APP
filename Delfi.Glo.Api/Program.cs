@@ -40,7 +40,7 @@ GlobalDiagnosticsContext.Set("connectionString", builder.Configuration.GetConnec
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
 
-builder.Services.ConfigureRepositoryWrapper();
+//builder.Services.ConfigureRepositoryWrapper();
 // TODO: add custom services to container
 builder.Services.AddCoreServices(builder.Configuration);
 

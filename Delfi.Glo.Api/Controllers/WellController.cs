@@ -26,7 +26,7 @@ namespace Delfi.Glo.Api.Controllers
         private readonly ILogger<WellController> _logger;
         private readonly IWellService<WellDto> _wellService;
         private readonly IWellDetailsInfoService<WellDetailsDto> _wellDetailsService;
-        public WellController(ILogger<WellController> logger, IWellService<WellDto> wellService, IFilterService<WellDto> filterService, IWellDetailsInfoService<WellDetailsDto> wellDetailsService)
+        public WellController(ILogger<WellController> logger, IWellService<WellDto> wellService, IWellDetailsInfoService<WellDetailsDto> wellDetailsService)
         {
             _logger = logger;
             _wellService = wellService;

@@ -17,6 +17,15 @@ namespace Delfi.Glo.Api.Configuration
             services.AddScoped<HttpClient>(s => new HttpClient());
             services.AddScoped(typeof(IHttpService<>), typeof(HttpService<>));
             services.AddSingleton(configuration.GetSection("BaseUrls").Get<BaseUrls>());
+            
+            services.AddScoped<IAlertService<AlertsDto>, AlertsService>();
+            services.AddScoped<ICustomAlertService<CustomAlertDto>, CustomAlertServices>();
+            services.AddScoped<IEventService<EventDto>, EventService>();
+            services.AddScoped<IWellService<WellDto>, WellService>();
+            services.AddScoped<IGeneralInfoService<WellGeneralInfoDto>, WellGeneralInfoService>();
+            services.AddScoped<IWellDetailsInfoService<WellDetailsDto>, WellDetailsInfoService>();
+            services.AddScoped<ICrudService<CrewDto>, CrewService>();
+            services.AddScoped<IUniversityService<UniversitiesDto>, UniversityService>();
             return services;
         }
     }

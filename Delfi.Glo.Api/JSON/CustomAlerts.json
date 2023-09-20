@@ -69,7 +69,7 @@
     "Operator": "<>",
     "Value": 60,
     "IsActive": true,
-    "IsShownInAlerts": false,
+    "IsShownInAlerts": true,
     "StartDate": "2023-09-19T16:43:20.477Z",
     "EndDate": "2023-09-23T16:43:20.477Z",
     "Id": 52
