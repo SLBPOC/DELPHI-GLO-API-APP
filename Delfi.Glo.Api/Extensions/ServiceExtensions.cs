@@ -14,12 +14,11 @@ namespace Delfi.Glo.Api.Extensions
             services.AddScoped<IAlertService<AlertsDto>, AlertsService>();
             services.AddScoped<IEventService<EventDto>, EventService>();
             
-            services.AddScoped<IFilterService<WellDto>, WellService>();
-            services.AddScoped<ICrudService<WellDto>, WellService>();
+            services.AddScoped<IWellService<WellDto>, WellService>();
 
             services.AddScoped<IGeneralInfoService<WellGeneralInfoDto>, WellGeneralInfoService>();
-            services.AddScoped<IWellService<WellDetailsDto>, WellService>();
-            services.AddScoped<IWellDetailsInfoService<SwimLaneGraphDetails>, WellService>();
+            services.AddScoped<IWellDetailsInfoService<WellDetailsDto>, WellDetailsInfoService>();
+            //services.AddScoped<IWellDetailsInfoService<SwimLaneGraphDetails>, WellService>();
             services.AddScoped<ICustomAlertService<CustomAlertDto>, CustomAlertServices>();
             services.AddScoped<ICrudService<CrewDto>, CrewService>();
             services.AddScoped<IUniversityService<UniversitiesDto>, UniversityService>();
