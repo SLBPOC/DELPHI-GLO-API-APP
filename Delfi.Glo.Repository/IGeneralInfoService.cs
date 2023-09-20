@@ -2,7 +2,7 @@
 {
     public interface IGeneralInfoService<T> where T : class
     {
-        Task<T> GetAsync(int id);
+        Task<T> GetWellGeneralInfoAsync(int id);
         //Task<IEnumerable<T>> GetAllAsync();
       
     }

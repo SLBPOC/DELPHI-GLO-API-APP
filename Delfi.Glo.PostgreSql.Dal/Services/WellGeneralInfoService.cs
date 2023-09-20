@@ -53,13 +53,13 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
         //}
 
-        public async Task<WellGeneralInfoDto> GetAsync(int id)
+        public async Task<WellGeneralInfoDto> GetWellGeneralInfoAsync(int id)
         {
-            var eventInJson = UtilityService.Read<List<WellGeneralInfoDto>>
-                                                    (JsonFiles.Wells).AsQueryable();
-            List<WellGeneralInfoDto> alertCustomList = eventInJson.ToList();
+            var wellGeneralInfoJson = UtilityService.Read<List<WellGeneralInfoDto>>
+                                                    (JsonFiles.WellGeneralInfo).AsQueryable();
+            List<WellGeneralInfoDto> wellGeneralInfoList = wellGeneralInfoJson.ToList();
             var spec = new GeneralInfoSpecification(id);
-            var obj = eventInJson.FirstOrDefault(spec.ToExpression());
+            var obj = wellGeneralInfoJson.FirstOrDefault(spec.ToExpression());
 
             if (obj == null)
             {

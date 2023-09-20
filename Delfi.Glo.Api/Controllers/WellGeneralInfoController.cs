@@ -24,7 +24,7 @@ namespace Delfi.Glo.Api.Controllers
         [HttpGet("GetById")]
         public async Task<ActionResult<WellGeneralInfoDto>> Get(int Id)
         {
-            return await _wellGeneralInfoService.GetAsync(Id);
+            return await _wellGeneralInfoService.GetWellGeneralInfoAsync(Id);
         }
 
         [HttpGet("GetSM38LfirstChartData")]
