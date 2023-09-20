@@ -8,8 +8,8 @@
         Task<T> UpdateAsync(int id, T item);
         Task<bool> DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);    
-        Task<IEnumerable<T>> GetAllListByJson();
-        Task<IEnumerable<T>> GetFromJsonFile();
+        //Task<IEnumerable<T>> GetAllListByJson();
+        //Task<IEnumerable<T>> GetFromJsonFile();
         Task<IEnumerable<T>> GetWells();
 
     }

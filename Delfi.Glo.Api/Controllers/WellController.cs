@@ -28,8 +28,6 @@ namespace Delfi.Glo.Api.Controllers
         private readonly IFilterService<WellDto> _filterService;
         private readonly IWellService<WellDetailsDto> _wellDetailsService;
         private readonly IWellDetailsInfoService<SwimLaneGraphDetails> _swimLaneService;
-  
-
         public WellController(ILogger<WellController> logger, ICrudService<WellDto> wellService, IFilterService<WellDto> filterService,IWellService<WellDetailsDto> wellDetailsService,IWellDetailsInfoService<SwimLaneGraphDetails> swimLaneGraphDetails)
         {
             _logger = logger;
@@ -75,7 +73,7 @@ namespace Delfi.Glo.Api.Controllers
             //List<SortExpression> sortExpressions1 = JsonConvert.DeserializeObject<List<SortExpression>>(sortExpression);
             Guard.Against.InvalidPageIndex(pageIndex);
             Guard.Against.InvalidPageSize(pageSize);
-            Tuple<bool, IEnumerable<WellDto>, int, int, int, int> values = await _filterService.GetListByFilter(pageIndex, pageSize, searchString, ApprovalStatus, ApprovalMode, sortExpression);
+            Tuple<bool, IEnumerable<WellDto>, int, int, int, int> values = await _filterService.GetWellListByFilter(pageIndex, pageSize, searchString, ApprovalStatus, ApprovalMode, sortExpression);
             return Ok(JsonConvert.SerializeObject(new { success = values.Item1, data = values.Item2, totalCount = values.Item3, totalWellPriorityHigh = values.Item4, totalWellPriorityMedium = values.Item5, totalWellPriorityLow = values.Item6 }));
         }
     }

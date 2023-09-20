@@ -15,12 +15,53 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         {
             _dbUnit = dbUnit;
         }
-        public async Task<IEnumerable<WellDto>> GetFromJsonFile()
+        public async Task<IEnumerable<WellDto>> GetWells()
         {
             var wellsInJson = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
-            return wellsInJson;
+            List<WellDto> alertCustomList = wellsInJson.ToList();
+
+            List<WellDto> Item = alertCustomList.Select(m => new WellDto
+            {
+                Id = m.Id,
+                WellName = m.WellName
+            }).Distinct().ToList();
+
+            return Item;
         }
-        public async Task<Tuple<bool, IEnumerable<WellDto>, int, int, int, int>> GetListByFilter(int page, int pageSize, string? searchString, string? ApprovalStatus, string? ApprovalMode, List<SortExpression> sortExpression)
+        public async Task<IEnumerable<WellDto>> GetAllAsync()
+        {
+            var wells = await GetFromJsonFile();
+            //var wells =  _dbUnit.wells.GetAll().ToList();
+            var wellsDto = new List<WellDto>();
+            if (wells == null) return null;
+            foreach (var well in wells)
+            {
+                var wellDto = new WellDto();
+                wellDto.Id = well.Id;
+                wellDto.WellName = well.WellName;
+                wellDto.WellPriority = well.WellPriority;
+                wellDto.GLISetPoint = well.GLISetPoint;
+                wellDto.QOil = well.QOil;
+                wellDto.QLiq = well.QLiq;
+                wellDto.Qg = well.Qg;
+                wellDto.Qw = well.Qw;
+                wellDto.Wc = well.Wc;
+                wellDto.CompressorUpTime = well.CompressorUpTime;
+                wellDto.ProductionUpTime = well.ProductionUpTime;
+                wellDto.DeviceUpTime = well.DeviceUpTime;
+                wellDto.LastCycleStatus = well.LastCycleStatus;
+                wellDto.TimeStamp = well.TimeStamp;
+                wellDto.CurrentGLISetpoint = well.CurrentGLISetpoint;
+                wellDto.CurrentCycleStatus = well.CurrentCycleStatus;
+                wellDto.ApprovalMode = well.ApprovalMode;
+                wellDto.ApprovalStatus = well.ApprovalStatus;
+                wellDto.UserId = well.UserId;
+                wellDto.NoOfAlerts = well.NoOfAlerts;
+                wellsDto.Add(wellDto);
+            }
+            return wellsDto;
+        }
+        public async Task<Tuple<bool, IEnumerable<WellDto>, int, int, int, int>> GetWellListByFilter(int page, int pageSize, string? searchString, string? ApprovalStatus, string? ApprovalMode, List<SortExpression> sortExpression)
         {
             var wellsDto = new List<WellDto>();
             int Count = 0;
@@ -91,40 +132,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
             return new Tuple<bool, IEnumerable<WellDto>, int, int, int, int>(true, wellsDto, Count, WellPriorityHigh, WellPriorityMedium, WellPriorityLow);
         }
-
-        public async Task<IEnumerable<WellDto>> GetAllAsync()
-        {
-            var wells = await GetFromJsonFile();
-            //var wells =  _dbUnit.wells.GetAll().ToList();
-            var wellsDto = new List<WellDto>();
-            if (wells == null) return null;
-            foreach (var well in wells)
-            {
-                var wellDto = new WellDto();
-                wellDto.Id = well.Id;
-                wellDto.WellName = well.WellName;
-                wellDto.WellPriority = well.WellPriority;
-                wellDto.GLISetPoint = well.GLISetPoint;
-                wellDto.QOil = well.QOil;
-                wellDto.QLiq = well.QLiq;
-                wellDto.Qg = well.Qg;
-                wellDto.Qw = well.Qw;
-                wellDto.Wc = well.Wc;
-                wellDto.CompressorUpTime = well.CompressorUpTime;
-                wellDto.ProductionUpTime = well.ProductionUpTime;
-                wellDto.DeviceUpTime = well.DeviceUpTime;
-                wellDto.LastCycleStatus = well.LastCycleStatus;
-                wellDto.TimeStamp = well.TimeStamp;
-                wellDto.CurrentGLISetpoint = well.CurrentGLISetpoint;
-                wellDto.CurrentCycleStatus = well.CurrentCycleStatus;
-                wellDto.ApprovalMode = well.ApprovalMode;
-                wellDto.ApprovalStatus = well.ApprovalStatus;
-                wellDto.UserId = well.UserId;
-                wellDto.NoOfAlerts = well.NoOfAlerts;
-                wellsDto.Add(wellDto);
-            }
-            return wellsDto;
-        }
+        
         public async Task<WellDto> GetAsync(int id)
         {
             var wells = await GetFromJsonFile();
@@ -153,27 +161,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             wellDto.NoOfAlerts = well.NoOfAlerts;
             return wellDto;
         }
-        public Task<WellDto> UpdateAsync(int id, WellDto item)
-        {
-            throw new NotImplementedException();
-        }
-        public Task<IEnumerable<WellDto>> GetAllListByJson()
-        {
-            throw new NotImplementedException();
-        }
-        public async Task<IEnumerable<WellDto>> GetWells()
-        {
-            var wellsInJson =  UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
-            List<WellDto> alertCustomList =  wellsInJson.ToList();
-          
-            List<WellDto> Item =  alertCustomList.Select(m => new WellDto
-            {
-                Id = m.Id,
-                WellName = m.WellName
-            }).Distinct().ToList();
-           
-            return Item;
-        }
+        
         public async Task<WellDetailsDto> GetWellDetailsInfoById(int WellId)
         {
             WellDetailsDto wellDetailsDto = new WellDetailsDto();
@@ -206,7 +194,8 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
             return swimLaneGraphDetails;
         }
-        public static List<WellDto> GetWellSpec(int WellId)
+       
+        private static List<WellDto> GetWellSpec(int WellId)
         {
             var wellsListJson = UtilityService.Read<List<WellDto>>(JsonFiles.WelldetailsInfo)?.AsQueryable();
             var wellDetailsInfoSpecification = new WellDetailSpecification(WellId);
@@ -214,7 +203,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
             return well.ToList();
         }
-        public static List<WellDto> GetWellSpecByDate(int WellId, DateTime StartDate, DateTime EndDate)
+        private static List<WellDto> GetWellSpecByDate(int WellId, DateTime StartDate, DateTime EndDate)
         {
             var wellsListJson = UtilityService.Read<List<WellDto>>(JsonFiles.WelldetailsInfo)?.AsQueryable();
             var wellDetailsInfoSpecification = new WellDetailSpecificationByDate(WellId,StartDate,EndDate);
@@ -222,7 +211,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
             return well.ToList();
         }
-        public static List<WellSetPointDetails> Getlast7DaysSetPointDetails(int WellId)
+        private static List<WellSetPointDetails> Getlast7DaysSetPointDetails(int WellId)
         {  List<WellSetPointDetails> wellSetPointDetails = new List<WellSetPointDetails>();
             var well = GetWellSpec(WellId);
 
@@ -240,7 +229,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
         
             return wellSetPointDetails;
         }
-        public static CurrentCycle GetCurrentCycle(int WellId)
+        private static CurrentCycle GetCurrentCycle(int WellId)
         {
             CurrentCycle currentCycle = new CurrentCycle();
 
@@ -263,7 +252,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
             return currentCycle;
         }
-        public static CurrentCycle GetCurrentCycleByDate(int WellId, DateTime? StarDate, DateTime? EndDate)
+        private static CurrentCycle GetCurrentCycleByDate(int WellId, DateTime? StarDate, DateTime? EndDate)
         {
             CurrentCycle currentCycle = new CurrentCycle();
 
@@ -286,7 +275,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
             return currentCycle;
         }
-        public static Last48HoursCycle GetLast48HoursCycle(int WellId)
+        private static Last48HoursCycle GetLast48HoursCycle(int WellId)
         {
             Last48HoursCycle last48HoursCycle = new Last48HoursCycle();
             DateTime yesterday = DateTime.Today.AddDays(-1);
@@ -314,7 +303,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
             return last48HoursCycle;
         }
-        public static Last48HoursCycle GetLast48HoursCycleByDate(int WellId,DateTime StartDate,DateTime EndDate)
+        private static Last48HoursCycle GetLast48HoursCycleByDate(int WellId,DateTime StartDate,DateTime EndDate)
         {
             Last48HoursCycle last48HoursCycle = new Last48HoursCycle();
             DateTime yesterday = EndDate.Date.AddDays(-1);
@@ -341,7 +330,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
             return last48HoursCycle;
         }
-        public static Previous48HoursCycle GetPrevious48Hourss(int WellId)
+        private static Previous48HoursCycle GetPrevious48Hourss(int WellId)
         {
             Previous48HoursCycle previous48HoursCycle = new Previous48HoursCycle();
             DateTime Previousdaybeore = DateTime.Today.AddDays(-3);
@@ -369,7 +358,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
             return previous48HoursCycle;
         }
-        public static Previous48HoursCycle GetPrevious48HourssByDate(int WellId,DateTime StartDate,DateTime EndDate)
+        private static Previous48HoursCycle GetPrevious48HourssByDate(int WellId,DateTime StartDate,DateTime EndDate)
         {
             Previous48HoursCycle previous48HoursCycle = new Previous48HoursCycle();
             DateTime Previousdaybeore = EndDate.Date.AddDays(-3);
@@ -395,7 +384,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
             return previous48HoursCycle;
         }
-        public static LastCycle GetLastCycle(int WellId)
+        private static LastCycle GetLastCycle(int WellId)
         {
             LastCycle lastCycle = new LastCycle();
             DateTime LastCycle6day = DateTime.Today.AddDays(-5);
@@ -423,7 +412,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
             return lastCycle;
         }
-        public static LastCycle GetLastCycleByDate(int WellId, DateTime StartDate, DateTime EndDate)
+        private static LastCycle GetLastCycleByDate(int WellId, DateTime StartDate, DateTime EndDate)
         {
             LastCycle lastCycle = new LastCycle();
             DateTime LastCycle6day = EndDate.Date.AddDays(-5);
@@ -450,7 +439,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
             return lastCycle;
         }
-        public static List<WellInfoByRangeDto> GetWellInfoByRangeDtos(int WellId)
+        private static List<WellInfoByRangeDto> GetWellInfoByRangeDtos(int WellId)
         {
             List<WellInfoByRangeDto> wellInfoByRangeDtos = new List<WellInfoByRangeDto>();
             var WelldetailsInfoJson = UtilityService.Read<List<WellInfoByRangeDto>>(JsonFiles.WellInfoByRange)?.AsQueryable();
@@ -460,6 +449,19 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
 
             wellInfoByRangeDtos = well.ToList();
             return wellInfoByRangeDtos;
+        }
+        private async Task<IEnumerable<WellDto>> GetFromJsonFile()
+        {
+            var wellsInJson = UtilityService.Read<List<WellDto>>(JsonFiles.Wells).AsQueryable();
+            return wellsInJson;
+        }
+        public Task<WellDto> UpdateAsync(int id, WellDto item)
+        {
+            throw new NotImplementedException();
+        }
+        private Task<IEnumerable<WellDto>> GetAllListByJson()
+        {
+            throw new NotImplementedException();
         }
         public Task<WellDto> CreateAsync(WellDto item)
         {
