@@ -54,39 +54,5 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<CrewDto>> GetFromJsonFile()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<CrewDto> CreateAsyncAlertCustom(CrewDto item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteAsyncAlertCustom(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateAsyncAlertCustom(int id, bool check)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<CrewDto> GetAlertCustomByAlertId(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<CrewDto>> GetAllListByJson()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<CrewDto>> GetWells()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
