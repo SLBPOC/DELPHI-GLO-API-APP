@@ -38,7 +38,7 @@ namespace Delfi.Glo.Api.Test.Controllers
                 CurrentCycleStatus = "Rate Calculation",
                 ApprovalMode = "Auto"
             };
-            mockService.Setup(p => p.GetAsync(1)).ReturnsAsync(wellGeneralInfoDTO1);
+            mockService.Setup(p => p.GetWellGeneralInfoAsync(1)).ReturnsAsync(wellGeneralInfoDTO1);
             _controller = new WellGeneralInfoController(_mockLogger, mockService.Object);
             var result = await _controller.Get(1);
             Assert.Equal(result.Value, wellGeneralInfoDTO);
@@ -66,7 +66,7 @@ namespace Delfi.Glo.Api.Test.Controllers
                 CurrentCycleStatus = "Rate Calculation",
                 ApprovalMode = "Auto"
             };
-            mockService.Setup(p => p.GetAsync(1)).ReturnsAsync(wellGeneralInfoDTO1);
+            mockService.Setup(p => p.GetWellGeneralInfoAsync(1)).ReturnsAsync(wellGeneralInfoDTO1);
             _controller = new WellGeneralInfoController(_mockLogger, mockService.Object);
             var result = await _controller.Get(1);
             Assert.NotNull(result.Value);
@@ -79,7 +79,7 @@ namespace Delfi.Glo.Api.Test.Controllers
             var wellGeneralInfoDTO1 = new WellGeneralInfoDto();
             wellGeneralInfoDTO1 = null;
             
-            mockService.Setup(p => p.GetAsync(1)).ReturnsAsync(wellGeneralInfoDTO1);
+            mockService.Setup(p => p.GetWellGeneralInfoAsync(1)).ReturnsAsync(wellGeneralInfoDTO1);
             _controller = new WellGeneralInfoController(_mockLogger, mockService.Object);
             var result = await _controller.Get(1);
             Assert.NotNull(result.Value);

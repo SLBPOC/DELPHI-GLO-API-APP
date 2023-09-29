@@ -24,21 +24,24 @@ namespace Delfi.Glo.Api.Controllers
     public class WellController : ControllerBase
     {
         private readonly ILogger<WellController> _logger;
-        private readonly ICrudService<WellDto> _wellService;
-        private readonly IFilterService<WellDto> _filterService;
-        private readonly IWellService<WellDetailsDto> _wellDetailsService;
-        private readonly IWellDetailsInfoService<SwimLaneGraphDetails> _swimLaneService;
-  
-
-        public WellController(ILogger<WellController> logger, ICrudService<WellDto> wellService, IFilterService<WellDto> filterService,IWellService<WellDetailsDto> wellDetailsService,IWellDetailsInfoService<SwimLaneGraphDetails> swimLaneGraphDetails)
+        private readonly IWellService<WellDto> _wellService;
+        private readonly IWellDetailsInfoService<WellDetailsDto> _wellDetailsService;
+        public WellController(ILogger<WellController> logger, IWellService<WellDto> wellService, IWellDetailsInfoService<WellDetailsDto> wellDetailsService)
         {
             _logger = logger;
             _wellService = wellService;
-            _filterService = filterService;
             _wellDetailsService= wellDetailsService;
-            _swimLaneService = swimLaneGraphDetails;
+            
         }
-
+        [HttpPost("GetWellList")]
+        public async Task<ActionResult> GetWellList(int pageIndex, int pageSize, string? searchString, string? ApprovalStatus, string? ApprovalMode, List<SortExpression> sortExpression)
+        {
+            //List<SortExpression> sortExpressions1 = JsonConvert.DeserializeObject<List<SortExpression>>(sortExpression);
+            Guard.Against.InvalidPageIndex(pageIndex);
+            Guard.Against.InvalidPageSize(pageSize);
+            Tuple<bool, IEnumerable<WellDto>, int, int, int, int> values = await _wellService.GetWellListByFilter(pageIndex, pageSize, searchString, ApprovalStatus, ApprovalMode, sortExpression);
+            return Ok(JsonConvert.SerializeObject(new { success = values.Item1, data = values.Item2, totalCount = values.Item3, totalWellPriorityHigh = values.Item4, totalWellPriorityMedium = values.Item5, totalWellPriorityLow = values.Item6 }));
+        }
 
         [HttpGet("GetWellName")]
         public async Task<IEnumerable<WellDto>> GetWellName()
@@ -65,18 +68,10 @@ namespace Delfi.Glo.Api.Controllers
         [HttpGet("SwimLaneGraph")]
         public async Task<ActionResult<WellDto>> Get(int id, DateTime StartDate, DateTime EndDate)
         {
-            var result = await _swimLaneService.GetSwimLaneDetailsByDate(id,StartDate,EndDate);
+            var result = await _wellDetailsService.GetSwimLaneDetailsByDate(id, StartDate, EndDate);
             if (result != null) return Ok(JsonConvert.SerializeObject(new { success = true, data = result }));
             else return NotFound($"No Well found with id {id}");
         }
-        [HttpPost("GetWellList")]
-        public async Task<ActionResult> GetWellList(int pageIndex, int pageSize, string? searchString, string? ApprovalStatus, string? ApprovalMode, List<SortExpression> sortExpression)
-        {
-            //List<SortExpression> sortExpressions1 = JsonConvert.DeserializeObject<List<SortExpression>>(sortExpression);
-            Guard.Against.InvalidPageIndex(pageIndex);
-            Guard.Against.InvalidPageSize(pageSize);
-            Tuple<bool, IEnumerable<WellDto>, int, int, int, int> values = await _filterService.GetListByFilter(pageIndex, pageSize, searchString, ApprovalStatus, ApprovalMode, sortExpression);
-            return Ok(JsonConvert.SerializeObject(new { success = values.Item1, data = values.Item2, totalCount = values.Item3, totalWellPriorityHigh = values.Item4, totalWellPriorityMedium = values.Item5, totalWellPriorityLow = values.Item6 }));
-        }
+
     }
 }

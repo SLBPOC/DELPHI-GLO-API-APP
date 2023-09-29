@@ -1,24 +1,10 @@
 ﻿using Delfi.Glo.Common.Constants;
 using Delfi.Glo.Common.Services;
-using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
-using Delfi.Glo.PostgreSql.Dal.Migrations;
 using Delfi.Glo.PostgreSql.Dal.Specifications;
 using Delfi.Glo.Repository;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-
 
 namespace Delfi.Glo.PostgreSql.Dal.Services
 {
@@ -105,7 +91,83 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             }
             return new Tuple<IEnumerable<AlertsDto>, int>(alertsDto, Count);
         }
+        public async Task<IEnumerable<AlertsDto>> GetSnoozeByAlert(int alertId, int snoozeBy)
+        {
+            int Count = 0;
+            int High = 0;
+            int Medium = 0;
+            int Low = 0;
+            int Cleared = 0;
+        
+            string fileName = JsonFiles.Alerts;
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string[] fullFilePath = Directory.GetFiles(currentDirectory, fileName, SearchOption.AllDirectories);
 
+            var alertsList = UtilityService.Read<List<AlertsDto>>
+                                         (JsonFiles.Alerts).AsQueryable();
+            alertsList.First(a => a.Id == alertId).SnoozeFlag = true;
+            alertsList.First(a => a.Id == alertId).SnoozeDateTime = DateTime.Now.ToString();
+            alertsList.First(a => a.Id == alertId).SnoozeInterval = snoozeBy;
+            alertsList.First(a => a.Id == alertId).Comment = "";
+            var jsonData = JsonConvert.SerializeObject(alertsList, Formatting.Indented);
+            System.IO.File.WriteAllText(fullFilePath[0], jsonData);
+            if (alertsList != null)
+            {
+                Count = alertsList.Count();
+                High = alertsList.Where(a => a.AlertLevel == "High").Count();
+                Medium = alertsList.Where(a => a.AlertLevel == "Medium").Count();
+                Low = alertsList.Where(a => a.AlertLevel == "Low").Count();
+                Cleared = alertsList.Where(a => a.AlertLevel == "Cleared").Count();
+              
+            }
+            return alertsList;
+
+        }
+        public async Task<bool> SetClearAlert(int alertId, string comment)
+        {
+            string fileName = JsonFiles.Alerts;
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string[] fullFilePath = Directory.GetFiles(currentDirectory, fileName, SearchOption.AllDirectories);
+
+            var alertsList = UtilityService.Read<List<AlertsDto>>
+                                          (JsonFiles.Alerts).AsQueryable();
+            alertsList.First(a => a.Id == alertId).Comment = comment;
+            alertsList.First(a => a.Id == alertId).AlertLevel = "Cleared";
+            alertsList.First(a => a.Id == alertId).AlertStatus = "Cleared";
+            alertsList.First(a => a.Id == alertId).SnoozeFlag = false;
+
+            alertsList.First(a => a.Id == alertId).SnoozeDateTime = "";
+            alertsList.First(a => a.Id == alertId).SnoozeInterval = 0;
+          
+            var jsonData = JsonConvert.SerializeObject(alertsList, Formatting.Indented);
+            System.IO.File.WriteAllText(fullFilePath[0], jsonData);
+
+
+            //Add clear alert in the event list 
+            var alerts = alertsList.First(a => a.Id == alertId);
+            var eventList = UtilityService.Read<List<EventDto>>
+                                 (JsonFiles.Events).ToList();
+            int eventId = eventList.Max(u => u.Id);
+            int Event_ID = eventId + 1;
+            var alertDescription = alertsList.First(a => a.Id == alertId).AlertDescription;
+            List<EventDto> event_List = eventList;
+            event_List.Add(new EventDto()
+            {
+            Id = Event_ID,
+            WellId = alerts.WellId,
+            WellName = alerts.WellName,
+            EventType = "Alert",
+            EventStatus = "Cleared",
+            EventDescription = alertDescription +" - "+comment,
+            CreationDateTime = DateTime.Now,
+            Priority = "High",
+            UpdatedBy = "001",
+            });
+            var filePath = JsonFiles.Events;
+            bool data = UtilityService.Write<EventDto>(event_List, filePath);
+
+            return true;
+        }
         private static void AddCustomAlertsInAlerts()
         {
             string fileName = JsonFiles.CustomAlerts;
@@ -118,11 +180,11 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             foreach (var ca in CustomeAlert_1)
             {
                 var isFulfillAllConditions = true;
-                 if (ca.Category == "GLIR")
+                if (ca.Category == "GLIR")
                 {
-                    if(ca.Operator == "=")
+                    if (ca.Operator == "=")
                     {
-                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.GLIR  == ca.Value);
+                        isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.GLIR == ca.Value);
                     }
                     else if (ca.Operator == "<>")
                     {
@@ -227,7 +289,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     }
                 }
                 else if (ca.Category == "CHP")
-                { 
+                {
                     if (ca.Operator == "=")
                     {
                         isFulfillAllConditions = Well_json.Any(x => x.Id == ca.WellId && x.CHP == ca.Value);
@@ -254,12 +316,11 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     }
                 }
 
-                if(!isFulfillAllConditions)
+                if (!isFulfillAllConditions)
                 {
                     CustomeAlerts.Remove(ca);
                 }
             }
-
 
 
             ///Add Custom alert in the Alert list 
@@ -277,7 +338,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     Id = AlertId,
                     WellId = c.WellId,
                     WellName = c.WellName,
-                    AlertLevel = "Medium",
+                    AlertLevel = c.Priority,
                     TimeandDate = DateTime.Now,
                     AlertDescription = "Custom Alert " + c.CustomAlertName,
                     AlertType = "Custom",
@@ -286,7 +347,7 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
                     SnoozeDateTime = "",
                     SnoozeInterval = 0,
                     Comment = "Custom Alert " + c.CustomAlertName,
-                    UserId = "001",
+                    UserId = "U001",
 
                 });
                 CustomAlert_json.First(a => a.Id == c.Id).IsShownInAlerts = true;
@@ -296,141 +357,6 @@ namespace Delfi.Glo.PostgreSql.Dal.Services
             var filePathAlert = JsonFiles.Alerts;
             UtilityService.Write<AlertsDto>(alert_List, filePathAlert);
         }
-
-        public async Task<IEnumerable<AlertsDto>> GetSnoozeByAlert(int alertId, int snoozeBy)
-        {
-            int Count = 0;
-            int High = 0;
-            int Medium = 0;
-            int Low = 0;
-            int Cleared = 0;
-        
-            string fileName = JsonFiles.Alerts;
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string[] fullFilePath = Directory.GetFiles(currentDirectory, fileName, SearchOption.AllDirectories);
-
-            var alertsList = UtilityService.Read<List<AlertsDto>>
-                                         (JsonFiles.Alerts).AsQueryable();
-            alertsList.First(a => a.Id == alertId).SnoozeFlag = true;
-            alertsList.First(a => a.Id == alertId).SnoozeDateTime = DateTime.Now.ToString();
-            alertsList.First(a => a.Id == alertId).SnoozeInterval = snoozeBy;
-            alertsList.First(a => a.Id == alertId).Comment = "";
-            var jsonData = JsonConvert.SerializeObject(alertsList, Formatting.Indented);
-            System.IO.File.WriteAllText(fullFilePath[0], jsonData);
-            if (alertsList != null)
-            {
-                Count = alertsList.Count();
-                High = alertsList.Where(a => a.AlertLevel == "High").Count();
-                Medium = alertsList.Where(a => a.AlertLevel == "Medium").Count();
-                Low = alertsList.Where(a => a.AlertLevel == "Low").Count();
-                Cleared = alertsList.Where(a => a.AlertLevel == "Cleared").Count();
-              
-            }
-            return alertsList;
-
-        }
-
-        public async Task<bool> SetClearAlert(int alertId, string comment)
-        {
-            string fileName = JsonFiles.Alerts;
-            string currentDirectory = Directory.GetCurrentDirectory();
-            string[] fullFilePath = Directory.GetFiles(currentDirectory, fileName, SearchOption.AllDirectories);
-
-            var alertsList = UtilityService.Read<List<AlertsDto>>
-                                          (JsonFiles.Alerts).AsQueryable();
-            alertsList.First(a => a.Id == alertId).Comment = comment;
-            alertsList.First(a => a.Id == alertId).AlertLevel = "Cleared";
-            alertsList.First(a => a.Id == alertId).AlertStatus = "Cleared";
-            alertsList.First(a => a.Id == alertId).SnoozeFlag = false;
-
-            alertsList.First(a => a.Id == alertId).SnoozeDateTime = "";
-            alertsList.First(a => a.Id == alertId).SnoozeInterval = 0;
-          
-            var jsonData = JsonConvert.SerializeObject(alertsList, Formatting.Indented);
-            System.IO.File.WriteAllText(fullFilePath[0], jsonData);
-
-
-            //Add clear alert in the event list 
-            var alerts = alertsList.First(a => a.Id == alertId);
-            var eventList = UtilityService.Read<List<EventDto>>
-                                 (JsonFiles.Events).ToList();
-            int eventId = eventList.Max(u => u.Id);
-            int Event_ID = eventId + 1;
-            var alertDescription = alertsList.First(a => a.Id == alertId).AlertDescription;
-            List<EventDto> event_List = eventList;
-            event_List.Add(new EventDto()
-            {
-            Id = Event_ID,
-            WellId = alerts.WellId,
-            WellName = alerts.WellName,
-            EventType = "Alert",
-            EventStatus = "Cleared",
-            EventDescription = alertDescription +" - "+comment,
-            CreationDateTime = DateTime.Now,
-            Priority = "High",
-            UpdatedBy = "001",
-            });
-            var filePath = JsonFiles.Events;
-            bool data = UtilityService.Write<EventDto>(event_List, filePath);
-
-            return true;
-        }
-
-
-        //        public async Task<IEnumerable<AlertsDto>> GetAllAsync()
-        //        {
-        //            var alerts = _dbUnit.alertss.GetAll().ToList();
-        //            var alertsDto = new List<AlertsDto>();
-        //            foreach (var item in alerts)
-        //            {
-        //                var alertDto = new AlertsDto();
-        //                alertDto.Id = item.Id;
-        //                alertDto.WellName = item.WellName;
-        //                alertDto.AlertLevel = item.AlertLevel;
-        //                alertDto.AlertStatus = item.AlertStatus;
-        //                alertDto.AlertType = item.AlertType;
-        //                alertDto.AlertDescription = item.AlertDescription;
-        //                alertDto.TimeandDate = item.TimeandDate;
-
-        //                alertsDto.Add(alertDto);
-        //            }
-        //            return alertsDto;
-        //}
-
-        //        public Task<IEnumerable<AlertsDto>> GetAllListByJson()
-        //        {
-        //            throw new NotImplementedException();
-        //        }
-
-        //        //public async Task<AlertsDto> GetAsync(int id)
-        //        //{
-        //        //    Alerts alert = _dbUnit.alertss.FirstOrDefault(x => x.Id == id);
-        //        //    if (alert == null) return null;
-        //        //    var alertDto = new AlertsDto();
-        //        //    alertDto.Id = alert.Id;
-        //        //    alertDto.WellName = alert.WellName;
-        //        //    alertDto.AlertLevel = alert.AlertLevel;
-        //        //    alertDto.AlertStatus = alert.AlertStatus;
-        //        //    alertDto.AlertDescription = alert.AlertDescription;
-        //        //    alertDto.TimeandDate= alert.TimeandDate;
-        //        //    return alertDto;
-        //        //}
-
-        //        public Task<IEnumerable<AlertsDto>> GetFromJsonFile()
-        //        {
-        //            throw new NotImplementedException();
-        //        }
-
-        //        public Task<AlertsDto> UpdateAsync(int id, AlertsDto item)
-        //        {
-        //            throw new NotImplementedException();
-        //        }
-
-        //        public Task<bool> UpdateAsyncAlertCustom(int id, bool check)
-        //        {
-        //            throw new NotImplementedException();
-        //        }
-
 
     }
 }

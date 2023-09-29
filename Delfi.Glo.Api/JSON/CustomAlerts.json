@@ -60,18 +60,18 @@
     "Id": 51
   },
   {
-    "WellId": 6,
-    "WellName": "Apache 19 FED 11",
-    "CustomAlertName": "Custom alert 6",
-    "NotificationType": "Email",
-    "Priority": "Medium",
-    "Category": "GLIR",
-    "Operator": "<>",
-    "Value": 60,
+    "WellId": 1,
+    "WellName": "Apache 24 FED 11",
+    "CustomAlertName": "dd",
+    "NotificationType": "Text",
+    "Priority": "High",
+    "Category": "DP",
+    "Operator": "=",
+    "Value": 10,
     "IsActive": true,
     "IsShownInAlerts": false,
-    "StartDate": "2023-09-19T16:43:20.477Z",
-    "EndDate": "2023-09-23T16:43:20.477Z",
-    "Id": 52
+    "StartDate": "2023-09-28T14:36:59.882Z",
+    "EndDate": "2023-09-30T14:36:59.882Z",
+    "Id": 53
   }
 ]

@@ -12,12 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Drawing.Printing;
 
-
 namespace Delfi.Glo.Api.Controllers
 {
-
-    [Route("api/[controller]")]
+    
     [ApiController]
+    [Route("api/[controller]")]
     public class AlertsController : Controller
     {
         private readonly ILogger<AlertsController> _logger;

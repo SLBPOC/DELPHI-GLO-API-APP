@@ -1,13 +1,6 @@
 ﻿using Delfi.Glo.Common.Services;
-using Delfi.Glo.Entities.Db;
 using Delfi.Glo.Entities.Dto;
-using Delfi.Glo.PostgreSql.Dal.Migrations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Delfi.Glo.PostgreSql.Dal.Specifications
 {

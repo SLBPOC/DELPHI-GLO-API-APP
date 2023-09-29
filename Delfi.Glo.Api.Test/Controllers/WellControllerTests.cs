@@ -39,8 +39,8 @@ namespace Delfi.Glo.Api.Test.Controllers
                 CurrentCycleStatus = "Good",
                 ApprovalStatus = "Approved"
             };
-            var mockFilterService = new Mock<IFilterService<WellDto>>();
-            var mockWellService = new Mock<IWellService<SwimLaneGraphDetails>>();
+            var mockWellService = new Mock<IWellService<WellDto>>();
+            var mockWellDetailService = new Mock<IWellDetailsInfoService<SwimLaneGraphDetails>>();
             var mockService = new Mock<ICrudService<WellDto>>();
             mockService.Setup(p => p.GetAsync(1)).ReturnsAsync(wellDto);
             //var controller = new WellController(_mockLogger, mockService.Object, mockFilterService.Object, (IWellService<WellDetailsDto>)mockWellService.Object);
@@ -56,9 +56,9 @@ namespace Delfi.Glo.Api.Test.Controllers
         [Fact()]
         public void GetTest()
         {
-            var mockService = new Mock<ICrudService<WellDto>>();
-            var mockFilterService = new Mock<IFilterService<WellDto>>();
-            var mockWellService = new Mock<IWellService<SwimLaneGraphDetails>>();
+            var mockService = new Mock<IWellService<WellDto>>();
+            //var mockFilterService = new Mock<IWellService<WellDto>>();
+            var mockWellDetailService = new Mock<IWellDetailsInfoService<SwimLaneGraphDetails>>();
             //var controller = new WellController(_mockLogger, mockService.Object, mockFilterService.Object,(IWellService<WellDetailsDto>)mockWellService.Object);
             //var actionResult = controller.Get();
 

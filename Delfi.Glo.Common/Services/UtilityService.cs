@@ -11,8 +11,6 @@ namespace Delfi.Glo.Common.Services
         {
             string text = File.ReadAllText(filePath);
             return JsonConvert.DeserializeObject<T>(text);
-            var result = JsonConvert.DeserializeObject<T>(text);
-            return result;
         }
     
 

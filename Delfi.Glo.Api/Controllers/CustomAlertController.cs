@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Delfi.Glo.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class CustomAlertController : ControllerBase
     {
         private readonly ILogger<CustomAlertController> _logger;
@@ -18,9 +18,8 @@ namespace Delfi.Glo.Api.Controllers
         {
             _logger = logger;
             _customalertService = customalertService;
-
         }
-        
+
         [HttpGet("Get")]
         public async Task<IEnumerable<CustomAlertDto>> Get()
         {
